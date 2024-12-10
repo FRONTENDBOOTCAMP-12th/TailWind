@@ -62,9 +62,17 @@ class AddCart extends LitElement {
                             <span class="item-price">${this.productPrice.toLocaleString()}원</span>
                             <span class="amount-container">
                                 <!--만약 제품 수량이 1 미만이라면 - 버튼 비활성화-->
-                                <button class="minus-button" @click=${this.handleDecreaseItem} ?disabled=${this.itemQuantity < 1}>-</button>
+                                <button
+                                    class="minus-button"
+                                    @click=${this.handleDecreaseItem}
+                                    ?disabled=${this.itemQuantity < 1}
+                                    aria-label="제품 수량 감소 버튼"
+                                >
+                                    -
+                                </button>
+                                <span class="sr-only">제품 수량</span>
                                 <span class="item-amount">${this.itemQuantity}</span>
-                                <button class="plus-button" @click=${this.handleIncreaseItem}>+</button>
+                                <button class="plus-button" @click=${this.handleIncreaseItem} aria-label="제품 수량 증가 버튼">+</button>
                             </span>
                         </div>
                     </section>
@@ -80,8 +88,8 @@ class AddCart extends LitElement {
                         </div>
                     </section>
                     <div class="add-confirm-container">
-                        <button class="add-cancel" @click=${this.handleCancel}>취소</button>
-                        <button class="add-confirm" @click=${this.handleConfirm}>장바구니 담기</button>
+                        <button class="add-cancel" @click=${this.handleCancel} aria-label="취소 버튼">취소</button>
+                        <button class="add-confirm" @click=${this.handleConfirm} aria-label="제품 추가 버튼">장바구니 담기</button>
                     </div>
                 </div>
             </div>
