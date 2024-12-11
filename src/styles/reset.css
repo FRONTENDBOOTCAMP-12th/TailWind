@@ -1,10 +1,8 @@
-/*
-*  html5resetcss
-*/
 html,
 body,
 div,
 span,
+applet,
 object,
 iframe,
 h1,
@@ -16,8 +14,11 @@ h6,
 p,
 blockquote,
 pre,
+a,
 abbr,
+acronym,
 address,
+big,
 cite,
 code,
 del,
@@ -27,14 +28,19 @@ img,
 ins,
 kbd,
 q,
+s,
 samp,
 small,
+strike,
 strong,
 sub,
 sup,
+tt,
 var,
 b,
+u,
 i,
+center,
 dl,
 dt,
 dd,
@@ -45,42 +51,56 @@ fieldset,
 form,
 label,
 legend,
-table,
 caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
 article,
 aside,
 canvas,
 details,
-figcaption,
+embed,
 figure,
+figcaption,
 footer,
 header,
 hgroup,
 menu,
 nav,
+output,
+ruby,
 section,
 summary,
 time,
 mark,
 audio,
-video {
+video,
+button,
+[type='button'],
+[type='file'],
+[type='image'],
+[type='password'],
+[type='reset'],
+[type='submit'],
+[type='text'],
+[type='date'],
+[type='datetime-local'],
+[type='email'],
+[type='month'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='week'] {
     margin: 0;
     padding: 0;
     border: 0;
-    outline: 0;
     font-size: 100%;
-    vertical-align: baseline;
     background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    vertical-align: baseline;
 }
-body {
-    line-height: 1;
-}
+
 article,
 aside,
 details,
@@ -94,58 +114,83 @@ nav,
 section {
     display: block;
 }
-nav ul {
+
+html {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    /* Prevents screen from shifting when content overflows the height of the screen */
+    overflow-y: scroll;
+    /* Enable antialiasing */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+ol,
+ul {
     list-style: none;
 }
+
 blockquote,
 q {
     quotes: none;
 }
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+    content: '';
     content: none;
 }
-a {
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    vertical-align: baseline;
-    background: transparent;
+
+acronym,
+applet,
+basefont,
+big,
+center,
+dir,
+font,
+frame,
+frameset,
+isindex,
+noframes,
+s,
+strike,
+tt,
+u,
+[type='datetime'] {
+    /* Deprecated tags */
+    display: none;
 }
-ins {
-    background-color: #ff9;
-    color: #000;
-    text-decoration: none;
+
+*,
+*::before,
+*::after {
+    /* Intuitive layout defaults */
+    box-sizing: border-box;
+    outline-offset: 0;
 }
-mark {
-    background-color: #ff9;
-    color: #000;
-    font-style: italic;
-    font-weight: bold;
+
+textarea {
+    resize: vertical;
+    /* Remove the default vertical scrollbar in IE 11 */
+    overflow: auto;
 }
-del {
-    text-decoration: line-through;
+
+/* 숨김 클래스 */
+.hidden {
+    display: none !important;
 }
-abbr[title],
-dfn[title] {
-    border-bottom: 1px dotted;
-    cursor: help;
-}
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-hr {
-    display: block;
+
+/* ARIA 속성을 위한 유틸리티 클래스 */
+.sr-only {
+    position: absolute;
+    width: 1px;
     height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
+    margin: -1px;
     padding: 0;
-}
-input,
-select {
-    vertical-align: middle;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    overflow: hidden;
+    white-space: nowrap;
 }
