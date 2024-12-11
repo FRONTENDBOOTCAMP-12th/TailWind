@@ -1,6 +1,7 @@
 // lit을 이용한 공통 모달 컴포넌트
 import { html, LitElement } from 'lit';
 import { modalStyles } from './modalCss';
+import resetStyles from '@/styles/reset.js';
 
 class Modal extends LitElement {
     static properties = {
@@ -11,7 +12,7 @@ class Modal extends LitElement {
         isQuestion: { type: Boolean, attribute: true },
     };
 
-    static styles = modalStyles;
+    static styles = [resetStyles, modalStyles];
 
     constructor() {
         super();
