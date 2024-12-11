@@ -47,7 +47,9 @@ class Modal extends LitElement {
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>${this.modalTitle}</h2>
-                    <button class="close-btn" @click=${this.closeModal}>X</button>
+                    <button class="close-btn" @click=${this.closeModal}>
+                        <img src="/assets/icon/x-btn.svg" alt="닫기" />
+                    </button>
                 </div>
                 <div class="product-wrapper">
                     <img src=${this.productImage} />

@@ -34,6 +34,8 @@ export const modalStyles = css`
                 padding-bottom: 1.25rem;
 
                 h2 {
+                    font-size: 1.75rem;
+                    font-weight: 700;
                     margin: 0;
                 }
 
@@ -42,6 +44,9 @@ export const modalStyles = css`
                     border: none;
                     cursor: pointer;
                     color: #cccccc;
+                    text-align: center;
+                    width: 30px;
+                    height: 30px;
                 }
             }
 
@@ -51,6 +56,8 @@ export const modalStyles = css`
                 gap: 10px;
                 padding: 16px 0;
                 border-top: 1px solid #e1e1e1;
+                font-size: 1rem;
+                font-weight: 600;
 
                 img {
                     width: 72px;
@@ -94,7 +101,7 @@ export const modalStyles = css`
                     }
 
                     textarea {
-                        height: calc(100% - 20px);
+                        height: 100%;
                         resize: none;
                     }
                 }
@@ -139,6 +146,7 @@ export const modalStyles = css`
                     font-size: 1rem;
                     font-weight: 600;
                     cursor: pointer;
+                    text-align: center;
 
                     &.cancel-btn {
                         border: 1px solid #c4c4c4;
