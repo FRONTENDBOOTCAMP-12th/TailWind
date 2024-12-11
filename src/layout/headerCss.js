@@ -188,9 +188,43 @@ export default css`
                 background-color: var(--white);
                 cursor: pointer;
             }
+            .category-menu:hover .category-list {
+                display: block;
+            }
 
             .category-list {
+                border-inline: 1px solid var(--gray--100);
+                position: absolute;
                 display: none;
+                z-index: 10;
+                background-color: var(--white);
+                & a {
+                    text-decoration: none;
+                    font-size: var(--label---medium);
+                    display: flex;
+                    align-items: center;
+                    width: 15.4375rem;
+                    height: 2.5rem;
+                    padding-block: 0.5rem;
+                    color: var(--content);
+                    font-weight: 600;
+
+                    & img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        margin-left: 0.75rem;
+                        margin-right: 0.5rem;
+                    }
+                }
+
+                & a:hover {
+                    background-color: var(--gray--100);
+                    color: var(--primary);
+
+                    & img {
+                        fill: var(--primary);
+                    }
+                }
             }
 
             .gnb-menu {

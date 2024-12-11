@@ -74,10 +74,10 @@ class Header extends LitElement {
                             <button type="button" class="btn-category">카테고리</button>
                             <ul class="category-list">
                                 <li>
-                                    <a href="">선물하기</a>
+                                    <a href=""> <img src="/assets/Gift.svg" alt="선물 박스 아이콘" />선물하기</a>
                                 </li>
                                 <li>
-                                    <a href="">채소</a>
+                                    <a href=""> <img src="/assets/Vegetable.svg" alt="선물 박스 아이콘" />선물하기</a>
                                 </li>
                             </ul>
                         </div>
