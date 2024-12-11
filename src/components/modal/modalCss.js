@@ -55,7 +55,7 @@ export const modalStyles = css`
                 align-items: center;
                 gap: 10px;
                 padding: 16px 0;
-                border-top: 1px solid #e1e1e1;
+                border-top: 1px solid var(--gray--100);
                 font-size: 1rem;
                 font-weight: 600;
 
@@ -71,7 +71,7 @@ export const modalStyles = css`
                 flex-direction: column;
                 gap: 10px;
                 padding: 16px 0;
-                border-top: 1px solid #e1e1e1;
+                border-top: 1px solid var(--gray--100);
 
                 .input-group {
                     display: flex;
@@ -95,7 +95,7 @@ export const modalStyles = css`
                     input[type='text'],
                     textarea {
                         flex: 1;
-                        border: 1px solid #e1e1e1;
+                        border: 1px solid var(--gray--100);
                         border-radius: 0.25rem;
                         padding: 10px;
                     }
@@ -136,7 +136,7 @@ export const modalStyles = css`
                 display: flex;
                 justify-content: center;
                 gap: 10px;
-                border-top: 1px solid #e1e1e1;
+                border-top: 1px solid var(--gray--100);
                 padding-top: 1.25rem;
 
                 button {
@@ -149,18 +149,18 @@ export const modalStyles = css`
                     text-align: center;
 
                     &.cancel-btn {
-                        border: 1px solid #c4c4c4;
+                        border: 1px solid var(--gray--200);
                         background-color: #fff;
-                        color: #333333;
+                        color: var(--content);
                     }
 
                     &.register-btn {
-                        border: 1px solid #e1e1e1;
-                        background-color: #e1e1e1;
+                        border: 1px solid var(--gray--100);
+                        background-color: var(--gray--100);
                         color: #fff;
 
-                        &.active {
-                            background-color: #333333;
+                        &:not(:disabled) {
+                            background-color: var(--primary);
                             color: #fff;
                         }
                     }
