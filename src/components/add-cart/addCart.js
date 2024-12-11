@@ -64,6 +64,7 @@ class AddCart extends LitElement {
                             <span class="amount-container">
                                 <!--만약 제품 수량이 1 미만이라면 - 버튼 비활성화-->
                                 <button
+                                    type="button"
                                     class="minus-button"
                                     @click=${this.handleDecreaseItem}
                                     ?disabled=${this.itemQuantity < 1}
@@ -75,9 +76,9 @@ class AddCart extends LitElement {
                                 </button>
                                 <span class="sr-only">제품 수량</span>
                                 <span class="item-amount">${this.itemQuantity}</span>
-                                <button class="plus-button" @click=${this.handleIncreaseItem} aria-label="제품 수량 증가 버튼">
+                                <button type="button" class="plus-button" @click=${this.handleIncreaseItem} aria-label="제품 수량 증가 버튼">
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 0V4H10V6H6V10H4V6H0V4H4V0H6Z" fill="#333333" />
+                                        <path d="M6 0V4H10V6H6V10H4V6H0V4H4V0H6Z" fill="currentColor" />
                                     </svg>
                                 </button>
                             </span>
@@ -95,8 +96,8 @@ class AddCart extends LitElement {
                         </div>
                     </section>
                     <div class="add-confirm-container">
-                        <button class="add-cancel" @click=${this.handleCancel} aria-label="취소 버튼">취소</button>
-                        <button class="add-confirm" @click=${this.handleConfirm} aria-label="제품 추가 버튼">장바구니 담기</button>
+                        <button type="button" class="add-cancel" @click=${this.handleCancel} aria-label="취소 버튼">취소</button>
+                        <button type="submit" class="add-confirm" @click=${this.handleConfirm} aria-label="제품 추가 버튼">장바구니 담기</button>
                     </div>
                 </div>
             </div>
