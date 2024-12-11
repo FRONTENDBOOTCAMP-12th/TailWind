@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import reset from '@/styles/reset.js';
 
 class ProductCard extends LitElement {
     static properties = {
@@ -10,8 +11,19 @@ class ProductCard extends LitElement {
         price: { type: Number },
         desc: { type: String },
     };
+
+    constructor() {
+        super();
+        this.src = '/assets/product01.png';
+        this.specialDesc = '제품 특별 설명';
+        this.productName = '제품 명';
+        this.discount = 15;
+        this.price = 21900;
+        this.desc = '제품 간단 설명';
+    }
     // 스타일 지정
     static styles = [
+        reset,
         css`
             /* 이미지와 버튼을 포함하는 스타일링 */
             body {

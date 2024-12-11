@@ -1,156 +1,6 @@
 import { css } from 'lit';
 
 export default css`
-    /* resetCss가 적용이 안돼서 임시적으로 export하도록 설정 */
-    html,
-    body,
-    div,
-    span,
-    object,
-    iframe,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    blockquote,
-    pre,
-    abbr,
-    address,
-    cite,
-    code,
-    del,
-    dfn,
-    em,
-    img,
-    ins,
-    kbd,
-    q,
-    samp,
-    small,
-    strong,
-    sub,
-    sup,
-    var,
-    b,
-    i,
-    dl,
-    dt,
-    dd,
-    ol,
-    ul,
-    li,
-    fieldset,
-    form,
-    label,
-    legend,
-    table,
-    caption,
-    tbody,
-    tfoot,
-    thead,
-    tr,
-    th,
-    td,
-    article,
-    aside,
-    canvas,
-    details,
-    figcaption,
-    figure,
-    footer,
-    header,
-    hgroup,
-    menu,
-    nav,
-    section,
-    summary,
-    time,
-    mark,
-    audio,
-    video {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        outline: 0;
-        font-size: 100%;
-        vertical-align: baseline;
-        background: transparent;
-    }
-    body {
-        line-height: 1;
-    }
-    article,
-    aside,
-    details,
-    figcaption,
-    figure,
-    footer,
-    header,
-    hgroup,
-    menu,
-    nav,
-    section {
-        display: block;
-    }
-    nav ul {
-        list-style: none;
-    }
-    blockquote,
-    q {
-        quotes: none;
-    }
-    blockquote:before,
-    blockquote:after,
-    q:before,
-    q:after {
-        content: none;
-    }
-    a {
-        margin: 0;
-        padding: 0;
-        font-size: 100%;
-        vertical-align: baseline;
-        background: transparent;
-    }
-    ins {
-        background-color: #ff9;
-        color: #000;
-        text-decoration: none;
-    }
-    mark {
-        background-color: #ff9;
-        color: #000;
-        font-style: italic;
-        font-weight: bold;
-    }
-    del {
-        text-decoration: line-through;
-    }
-    abbr[title],
-    dfn[title] {
-        border-bottom: 1px dotted;
-        cursor: help;
-    }
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-    hr {
-        display: block;
-        height: 1px;
-        border: 0;
-        border-top: 1px solid #ccc;
-        margin: 1em 0;
-        padding: 0;
-    }
-    input,
-    select {
-        vertical-align: middle;
-    }
-
     /* 상품 추가 모달 스타일링 */
 
     .add-cart {
@@ -160,6 +10,7 @@ export default css`
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 999;
         display: none;
 
         &.visible {
@@ -174,8 +25,8 @@ export default css`
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 21.75rem;
-        height: 15.25rem;
+        width: 24.75rem;
+        height: 18.25rem;
         border-radius: 1rem;
         padding: 1.5rem;
         display: flex;
@@ -185,6 +36,7 @@ export default css`
         /* 제품 정보 스타일링 */
         .item-title {
             font-size: var(--label---medium);
+            font-weight: bold;
             line-height: 150%;
             color: var(--content);
         }
@@ -204,25 +56,33 @@ export default css`
             .amount-container {
                 border: 1px solid var(--gray--200);
                 display: flex;
+                align-items: center;
                 width: 5.25rem;
                 height: 1.875rem;
                 flex-direction: row;
                 justify-content: space-between;
-                align-items: center;
-                gap: 0.1875rem;
-                font-size: var(--label---medium);
 
                 .plus-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 30px;
+                    height: 30px;
                     background-color: transparent;
                     border: none;
-                    font-size: 1.5rem;
-                    height: 1.875rem;
+                    display: inline-flex;
                 }
 
                 .minus-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 30px;
+                    height: 30px;
                     background-color: transparent;
                     border: none;
-                    font-size: 2rem;
+                    display: inline-flex;
+                    color: var(--content);
 
                     &:disabled {
                         color: var(--gray--300);
@@ -243,7 +103,8 @@ export default css`
                 right: 0;
                 font-size: var(--label---medium);
                 line-height: 150%;
-                color: #333;
+                color: var(--content);
+                font-weight: bold;
             }
 
             .total-price {
@@ -282,6 +143,8 @@ export default css`
             justify-content: center;
             gap: 0.5rem;
             font-size: var(--label---medium);
+            text-align: center;
+            font-weight: bold;
 
             .add-cancel {
                 width: 10.875rem;

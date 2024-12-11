@@ -1,9 +1,10 @@
-import { LitElement, html, css } from 'lit';
-import addCartStyle from '/src/components/add-cart/style.js';
+import { LitElement, html } from 'lit';
+import addCartStyle from '@/components/add-cart/addCartStyle.js';
+import reset from '@/styles/reset.js';
 
 class AddCart extends LitElement {
     // resetCss가 정상적으로 적용된다면 js파일 분리 안할 예정(이건 상황에 따라 유동적으로 결정)
-    static styles = [addCartStyle];
+    static styles = [reset, addCartStyle];
 
     // 모달 오픈 여부, 제품 수량, 제품 가격, 제품 설명 변수(TODO : 모달제외 모두 Get 통신 예정)
     static properties = {
@@ -68,11 +69,17 @@ class AddCart extends LitElement {
                                     ?disabled=${this.itemQuantity < 1}
                                     aria-label="제품 수량 감소 버튼"
                                 >
-                                    -
+                                    <svg width="10" height="2" viewBox="0 0 10 2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 0V2H0V0H10Z" fill="currentColor" />
+                                    </svg>
                                 </button>
                                 <span class="sr-only">제품 수량</span>
                                 <span class="item-amount">${this.itemQuantity}</span>
-                                <button class="plus-button" @click=${this.handleIncreaseItem} aria-label="제품 수량 증가 버튼">+</button>
+                                <button class="plus-button" @click=${this.handleIncreaseItem} aria-label="제품 수량 증가 버튼">
+                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 0V4H10V6H6V10H4V6H0V4H4V0H6Z" fill="#333333" />
+                                    </svg>
+                                </button>
                             </span>
                         </div>
                     </section>
