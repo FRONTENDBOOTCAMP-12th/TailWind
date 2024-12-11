@@ -10,6 +10,7 @@ class Modal extends LitElement {
         productName: { type: String, attribute: true },
         modalTitle: { type: String, attribute: true },
         isQuestion: { type: Boolean, attribute: true },
+        registerBtnDisabled: { type: Boolean, attribute: true },
     };
 
     static styles = [resetStyles, modalStyles];
@@ -18,6 +19,19 @@ class Modal extends LitElement {
         super();
         this.isOpen = false;
         this.isQuestion = true;
+        this.registerBtnDisabled = true;
+    }
+
+    get titleInput() {
+        return this.shadowRoot.querySelector('#modal-input');
+    }
+
+    get contentInput() {
+        return this.shadowRoot.querySelector('#modal-textarea');
+    }
+
+    get secretQuestionCheckbox() {
+        return this.shadowRoot.querySelector('#secret-question');
     }
 
     connectedCallback() {
@@ -40,6 +54,27 @@ class Modal extends LitElement {
 
     closeModal() {
         this.isOpen = false;
+        this.resetValues();
+    }
+
+    resetValues() {
+        this.titleInput.value = ''; // 제목 입력 필드 초기화
+        this.contentInput.value = ''; // 내용 입력 필드 초기화
+        this.secretQuestionCheckbox.checked = false; // 체크박스 초기화
+        this.registerBtnDisabled = true; // 버튼 비활성화
+    }
+
+    handleInput() {
+        const titleVal = this.titleInput.value;
+        const contentVal = this.contentInput.value;
+
+        console.log(titleVal !== '' && contentVal !== '');
+
+        if (titleVal !== '' && contentVal !== '') {
+            this.registerBtnDisabled = false;
+        } else {
+            this.registerBtnDisabled = true;
+        }
     }
 
     render() {
@@ -58,11 +93,11 @@ class Modal extends LitElement {
                 <div class="modal-body">
                     <div class="input-group title-group">
                         <label for="modal-input">제목</label>
-                        <input type="text" id="modal-input" placeholder="제목을 입력해주세요." />
+                        <input type="text" id="modal-input" placeholder="제목을 입력해주세요." @input=${this.handleInput} />
                     </div>
                     <div class="input-group content-group">
                         <label for="modal-textarea">내용</label>
-                        <textarea id="modal-textarea" placeholder="내용을 입력해주세요."></textarea>
+                        <textarea id="modal-textarea" placeholder="내용을 입력해주세요." @input=${this.handleInput}></textarea>
                     </div>
                     ${this.isQuestion
                         ? html`<div class="checkbox-group">
@@ -73,7 +108,7 @@ class Modal extends LitElement {
                 </div>
                 <div class="modal-footer">
                     <button class="cancel-btn" @click=${this.closeModal}>취소</button>
-                    <button class="register-btn" @click=${this.closeModal}>등록</button>
+                    <button class="register-btn" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</button>
                 </div>
             </div>
         </div>`;
