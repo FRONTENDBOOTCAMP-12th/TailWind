@@ -19,8 +19,10 @@ export const modalStyles = css`
         }
 
         .modal-content {
+            display: flex;
+            flex-direction: column;
             width: 70vw;
-            height: 80vh;
+            height: 80%;
             background-color: white;
             padding: 2rem;
             border-radius: 5px;
@@ -57,6 +59,7 @@ export const modalStyles = css`
             }
 
             .modal-body {
+                flex: 1;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
@@ -72,6 +75,7 @@ export const modalStyles = css`
                     }
 
                     &.content-group {
+                        height: 100%;
                         align-items: baseline;
                     }
 
@@ -90,7 +94,7 @@ export const modalStyles = css`
                     }
 
                     textarea {
-                        height: 198px;
+                        height: calc(100% - 20px);
                         resize: none;
                     }
                 }
