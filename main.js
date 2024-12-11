@@ -1,1 +1,1 @@
-import '@/layout/Header.js';
+import '@/layout/header.js';

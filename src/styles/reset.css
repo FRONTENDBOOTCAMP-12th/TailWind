@@ -149,8 +149,3 @@ input,
 select {
     vertical-align: middle;
 }
-
-:root {
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-}
