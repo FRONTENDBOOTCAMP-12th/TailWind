@@ -12,6 +12,10 @@ class Footer extends LitElement {
                     justify-content: center;
                     width: 1150px;
                     margin: 0 auto;
+                    color: var(--content);
+                    a {
+                        text-decoration: none;
+                    }
                 }
 
                 .footer-container {
@@ -33,9 +37,10 @@ class Footer extends LitElement {
                 }
 
                 .center-title {
-                    font-weight: bold;
-                    font-size: large;
+                    font-weight: Bold;
+                    font-size: var(--heading--large);
                     margin: 0;
+                    color: var(--content);
                 }
 
                 .contact-number {
@@ -46,6 +51,7 @@ class Footer extends LitElement {
                     gap: 0.5rem;
                     margin: 0;
                     margin-block: 1rem;
+
                     strong {
                         font-size: var(--heading---x-x-l);
                         font-weight: bold;
@@ -88,12 +94,12 @@ class Footer extends LitElement {
 
                 .guest-container {
                     .contact-guest {
-                        font-size: small;
+                        font-size: var(--paragraph---small);
                         margin: 0;
                         display: flex;
                         font-weight: regular;
                         margin: 0.35rem;
-                        p {
+                        a {
                             margin: 0;
                             color: var(--primary);
                             margin-left: 0.35rem;
@@ -188,7 +194,8 @@ class Footer extends LitElement {
     }
 
     render() {
-        return html` <div class="wrapper">
+        return html` <footer>
+            <div class="wrapper">
                 <div class="footer-container">
                     <address class="address-1">
                         <h3 class="center-title">고객행복센터</h3>
@@ -216,16 +223,16 @@ class Footer extends LitElement {
                                 </div>
                             </li>
                         </ul>
-                        <footer class="guest-container">
+                        <div class="guest-container">
                             <span class="contact-guest"
                                 >비회원 문의 :
-                                <p>asdf@naver.com</p></span
-                            >
+                                <a href="mailto:asdf@naver.com">asdf@naver.com</a>
+                            </span>
                             <span class="contact-guest"
                                 >비회원 대량주문 문의 :
-                                <p>adfs@naver.com</p></span
-                            >
-                        </footer>
+                                <a href="mailto:asdf@naver.com">asdf@naver.com</a>
+                            </span>
+                        </div>
                     </address>
 
                     <address class="address-2">
@@ -261,23 +268,33 @@ class Footer extends LitElement {
                                 |
                                 <p>제휴문의</p>
                                 :
-                                <p class="karly-color">business@karlycorp.com</p>
+                                <a href="mailto:business@karlycorp.com" class="karly-color">business@karlycorp.com</a>
                             </span>
                             <span>
                                 <p>채용문의</p>
                                 :
-                                <p class="karly-color">recruit@karlycorp.com</p>
+                                <a href="mailto:recruit@karlycorp.com" class="karly-color">recruit@karlycorp.com</a>
                             </span>
                             <span>
                                 <p>팩스 : 070 - 1111 - 2222</p>
                             </span>
                         </div>
                         <span class="sns-container">
-                            <img src="/assets/Blog.svg" alt="블로그 아이콘" />
-                            <img src="/assets/FaceBook.svg" alt="페이스북 아이콘" />
-                            <img src="/assets/Instagram.svg" alt="인스타그램 아이콘" />
-                            <img src="/assets/Naver.svg" alt="네이버 글쓰기 아이콘" />
-                            <img src="/assets/Youtube.svg" alt="유튜브 아이콘" />
+                            <a href="/" target="_blank" rel="noopener noreferrer">
+                                <img src="/assets/Blog.svg" alt="블로그 아이콘" />
+                            </a>
+                            <a href="/" target="_blank" rel="noopener noreferrer">
+                                <img src="/assets/FaceBook.svg" alt="페이스북 아이콘" />
+                            </a>
+                            <a href="/" target="_blank" rel="noopener noreferrer">
+                                <img src="/assets/Instagram.svg" alt="인스타그램 아이콘" />
+                            </a>
+                            <a href="/" target="_blank" rel="noopener noreferrer">
+                                <img src="/assets/Naver.svg" alt="네이버 글쓰기 아이콘" />
+                            </a>
+                            <a href="/" target="_blank" rel="noopener noreferrer">
+                                <img src="/assets/Youtube.svg" alt="유튜브 아이콘" />
+                            </a>
                         </span>
                     </address>
                 </div>
@@ -312,14 +329,15 @@ class Footer extends LitElement {
                 </span>
             </div>
 
-            <footer class="footer-style">
+            <div class="footer-style">
                 <p>
                     마켓컬리에서 판매되는 상품 중에는 마켓컬리에 입점한 개별 판매자가 판매하는 마켓플레이스(오픈마켓) 상품이 포함되어 있습니다. <br />
                     마켓플레이스(오픈마켓) 상품의 경우 컬리는 통신판매중개자로서 통신판매의 당사자가 아닙니다. 컬리는 해당 상품의 주문, 품질,
                     교환/환불 등 의무와 책임을 부담하지 않습니다.
                 </p>
                 <p>© KURLY CORP. ALL RIGHTS RESERVED</p>
-            </footer>`;
+            </div>
+        </footer>`;
     }
 }
 
