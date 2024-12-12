@@ -110,43 +110,42 @@ export const modalStyles = css`
                     position: relative;
                     padding-left: 90px;
 
-                    // input[type='checkbox'] {
-                    //     margin: 0;
-                    //     position: absolute;
-                    //     width: 24px;
-                    //     height: 24px;
-                    //     appearance: none;
-                    // }
+                    input[type='checkbox'] {
+                        margin: 0;
+                        position: absolute;
+                        width: 24px;
+                        height: 24px;
+                        appearance: none;
+                    }
 
                     label {
                         display: inline-block;
                         line-height: 24px;
-                        padding-left: 30px;
-                        // background-image: url('/assets/icon/checkbox-circle-unchecked.svg');
-                        // background-repeat: no-repeat;
+                        padding-left: 30px; // SVG 공간 확보
                     }
 
-                    input[type='checkbox'] {
-                        appearance: none;
-                        -webkit-appearance: none;
+                    svg {
+                        position: absolute;
                         width: 24px;
                         height: 24px;
-                        background: none;
-                        background-color: transparent;
-                        mask: url('/assets/icon/unchecked-icon.svg') no-repeat center;
-                        -webkit-mask: url('/assets/icon/checkbox-circle-unchecked.svg') no-repeat center;
-                        mask-size: contain;
-                        -webkit-mask-size: contain;
-                        color: var(--unchecked-color, #ddd); /* Default unchecked color */
-                        cursor: pointer;
-                        border: none;
-                        outline: none;
+
+                        circle {
+                            fill: #fff;
+                            stroke: #ddd;
+                        }
+
+                        path {
+                            fill: #ddd;
+                        }
                     }
 
-                    input[type='checkbox']:checked {
-                        mask: url('/assets/icon/checked-icon.svg') no-repeat center;
-                        -webkit-mask: url('/assets/icon/checkbox-circle-checked.svg') no-repeat center;
-                        color: var(--primary, #000); /* Default checked color */
+                    input[type='checkbox']:checked ~ svg circle {
+                        fill: var(--primary);
+                        stroke: none;
+                    }
+
+                    input[type='checkbox']:checked ~ svg path {
+                        fill: #fff;
                     }
                 }
             }

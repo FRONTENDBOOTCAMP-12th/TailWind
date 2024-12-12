@@ -100,8 +100,17 @@ class Modal extends LitElement {
                         <textarea id="modal-textarea" placeholder="내용을 입력해주세요." @input=${this.handleInput}></textarea>
                     </div>
                     ${this.isQuestion
-                        ? html`<div class="checkbox-group">
+                        ? html` <div class="checkbox-group">
                               <input type="checkbox" name="secret-question" id="secret-question" />
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                  <g fill="none" fill-rule="evenodd">
+                                      <circle cx="12" cy="12" r="12" />
+                                      <path
+                                          fill-rule="nonzero"
+                                          d="M17.474 7.966c.295-.291.77-.287 1.06.008.265.268.286.685.066.977l-.074.083-7.615 7.5c-.266.262-.677.286-.969.072l-.084-.072-3.384-3.333c-.295-.29-.299-.765-.008-1.06.264-.269.68-.296.976-.08l.084.071 2.858 2.815 7.09-6.981z"
+                                      />
+                                  </g>
+                              </svg>
                               <label for="secret-question">비밀글로 문의하기</label>
                           </div>`
                         : ''}
