@@ -1,2 +1,2 @@
 import '@/layout/header.js';
-import '@/components/modal/index.js';
+import '@/components/modal/modal.js';

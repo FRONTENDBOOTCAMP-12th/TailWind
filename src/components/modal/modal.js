@@ -1,6 +1,6 @@
 // lit을 이용한 공통 모달 컴포넌트
 import { html, LitElement } from 'lit';
-import { modalStyles } from './modalCss';
+import { modalStyles } from './modalStyle';
 import resetStyles from '@/styles/reset.js';
 
 class Modal extends LitElement {
