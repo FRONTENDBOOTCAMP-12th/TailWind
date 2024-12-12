@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import reset from '@/styles/reset.js';
-import incDecComponentStyle from './incDecComponentStyle.js';
+import incDecComponentStyle from '@/components/inc-dec-component/incDecComponentStyle.js';
 
 class IncDecBtn extends LitElement {
     static styles = [reset, incDecComponentStyle];
