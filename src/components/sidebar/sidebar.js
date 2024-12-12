@@ -1,43 +1,9 @@
-import { LitElement, html, css } from 'lit';
-import reset from '@/styles/reset.js';
+import { LitElement, html } from 'lit';
+import { SidebarStyles } from './popupStyle';
+import resetStyles from '@/styles/reset.js';
 
 class Sidebar extends LitElement {
-    static styles = [
-        reset,
-        css`
-            .sidebar {
-                width: 6.25rem;
-                height: 12.5rem;
-                border: 0.0625rem solid gray;
-                background-color: var(--white);
-                text-align: center;
-                overflow: hidden;
-
-                & p {
-                    font-size: 0.625rem;
-                    margin: 0.625rem;
-                }
-            }
-
-            .products {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                max-height: 8.125rem;
-                overflow-y: auto;
-            }
-
-            .products li {
-                margin: 0.25rem 0;
-            }
-
-            .products li img {
-                width: 2.5rem;
-                height: 3.2131rem;
-                object-fit: cover;
-            }
-        `,
-    ];
+    static styles = [resetStyles, SidebarStyles];
 
     render() {
         return html`
