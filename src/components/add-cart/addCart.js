@@ -43,11 +43,13 @@ class AddCart extends LitElement {
     }
 
     // + 버튼 클릭 시 제품 수량 증가
+    // TODO : 컴포넌트 분리와 함께 addCart에선 제거 될 예정
     handleIncreaseItem() {
         this.itemQuantity++;
     }
 
     // - 버튼 클릭 시 제품 수량 감소
+    // TOOD : 컴포넌트 분리와 함께 addCart에선 제거 될 예정
     handleDecreaseItem() {
         this.itemQuantity--;
     }
@@ -63,6 +65,7 @@ class AddCart extends LitElement {
                             <span class="item-price">${this.productPrice.toLocaleString()}원</span>
                             <span class="amount-container">
                                 <!--만약 제품 수량이 1 미만이라면 - 버튼 비활성화-->
+                                <!-- TODO : 컴포넌트 분리와 함께 사라질 예정(증감 컴포넌트) -->
                                 <button
                                     type="button"
                                     class="minus-button"
