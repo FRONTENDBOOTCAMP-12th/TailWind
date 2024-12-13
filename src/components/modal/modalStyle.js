@@ -152,10 +152,19 @@ export const modalStyles = css`
 
             .modal-footer {
                 display: flex;
+                width: 100%;
                 justify-content: center;
-                gap: 10px;
+
                 border-top: 1px solid var(--gray--100);
                 padding-top: 1.25rem;
+
+                .button-group {
+                    display: flex;
+                    width: 50%;
+                    height: 54px;
+                    justify-content: center;
+                    gap: 10px;
+                }
             }
         }
     }

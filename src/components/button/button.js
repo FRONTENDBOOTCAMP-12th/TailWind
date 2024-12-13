@@ -28,7 +28,7 @@ class Button extends LitElement {
     }
 
     render() {
-        return html`<button type=${this.type} class="${this.class}" ?disabled=${this.disabled} @click=${this.handleClick}>
+        return html`<button type=${this.type} class="c-button ${this.class}" ?disabled=${this.disabled} @click=${this.handleClick}>
             <slot></slot>
         </button>`;
     }

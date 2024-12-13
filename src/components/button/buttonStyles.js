@@ -1,9 +1,15 @@
 import { css } from 'lit';
 
 export const buttonStyles = css`
-    button {
-        width: auto;
-        height: auto;
+    :host {
+        width: 100%;
+        height: 100%;
+    }
+
+    .c-button {
+        width: 100%;
+        height: 100%;
+        min-width: 150px;
         border-radius: 0.25rem;
         font-size: 1rem;
         font-weight: 600;

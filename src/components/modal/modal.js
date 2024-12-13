@@ -117,8 +117,10 @@ class Modal extends LitElement {
                         : ''}
                 </div>
                 <div class="modal-footer">
-                    <c-button class="outline" @click=${this.closeModal}>취소</c-button>
-                    <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</c-button>
+                    <div class="button-group">
+                        <c-button class="outline" @click=${this.closeModal}>취소</c-button>
+                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</c-button>
+                    </div>
                 </div>
             </div>
         </div>`;
