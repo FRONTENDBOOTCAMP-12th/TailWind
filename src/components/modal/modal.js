@@ -2,7 +2,8 @@
 import { html, LitElement } from 'lit';
 import { modalStyles } from './modalStyle';
 import resetStyles from '@/styles/reset.js';
-import './../checkbox/checkbox.js';
+import '@/components/checkbox/checkbox.js';
+import '@/components/button/button.js';
 
 class Modal extends LitElement {
     static properties = {
@@ -108,8 +109,10 @@ class Modal extends LitElement {
                         : ''}
                 </div>
                 <div class="modal-footer">
-                    <button class="cancel-btn" @click=${this.closeModal}>취소</button>
-                    <button class="register-btn" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</button>
+                    <div class="button-group">
+                        <c-button class="outline" @click=${this.closeModal}>취소</c-button>
+                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</c-button>
+                    </div>
                 </div>
             </div>
         </div>`;
