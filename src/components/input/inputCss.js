@@ -11,6 +11,11 @@ export default css`
             border: 1px solid var(--gray--300);
             border-radius: 0.25rem;
         }
+
+        .input-st::placeholder {
+            font-size: (--paragraph---medium);
+        }
+
         .error-message {
             height: 1.5rem;
             display: flex;
