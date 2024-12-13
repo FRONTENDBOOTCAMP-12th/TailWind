@@ -156,33 +156,6 @@ export const modalStyles = css`
                 gap: 10px;
                 border-top: 1px solid var(--gray--100);
                 padding-top: 1.25rem;
-
-                button {
-                    width: 186px;
-                    height: 54px;
-                    border-radius: 0.25rem;
-                    font-size: 1rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    text-align: center;
-
-                    &.cancel-btn {
-                        border: 1px solid var(--gray--200);
-                        background-color: #fff;
-                        color: var(--content);
-                    }
-
-                    &.register-btn {
-                        border: 1px solid var(--gray--100);
-                        background-color: var(--gray--100);
-                        color: #fff;
-
-                        &:not(:disabled) {
-                            background-color: var(--primary);
-                            color: #fff;
-                        }
-                    }
-                }
             }
         }
     }
