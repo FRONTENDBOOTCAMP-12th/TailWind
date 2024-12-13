@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import resetCss from '@/styles/reset.js';
 import headerCss from './headerCss';
-
+import '@/components/header/categoryList.js';
 class Header extends LitElement {
     static get styles() {
         return [resetCss, headerCss];
@@ -73,14 +73,10 @@ class Header extends LitElement {
                         <div class="category-menu">
                             <button type="button" class="btn-category">카테고리</button>
                             <ul class="category-list">
-                                <li>
-                                    <a href="">선물하기</a>
-                                </li>
-                                <li>
-                                    <a href="">채소</a>
-                                </li>
+                                <c-category></c-category>
                             </ul>
                         </div>
+
                         <ul class="gnb-menu">
                             <li>
                                 <a href="">신상품</a>
