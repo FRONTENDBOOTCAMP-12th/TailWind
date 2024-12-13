@@ -109,79 +109,23 @@ export const modalStyles = css`
                 .checkbox-group {
                     position: relative;
                     padding-left: 90px;
-
-                    input[type='checkbox'] {
-                        margin: 0;
-                        position: absolute;
-                        width: 24px;
-                        height: 24px;
-                        appearance: none;
-                    }
-
-                    label {
-                        display: inline-block;
-                        line-height: 24px;
-                        padding-left: 30px; // SVG 공간 확보
-                    }
-
-                    svg {
-                        position: absolute;
-                        width: 24px;
-                        height: 24px;
-
-                        circle {
-                            fill: #fff;
-                            stroke: #ddd;
-                        }
-
-                        path {
-                            fill: #ddd;
-                        }
-                    }
-
-                    input[type='checkbox']:checked ~ svg circle {
-                        fill: var(--primary);
-                        stroke: none;
-                    }
-
-                    input[type='checkbox']:checked ~ svg path {
-                        fill: #fff;
-                    }
                 }
             }
 
             .modal-footer {
                 display: flex;
+                width: 100%;
                 justify-content: center;
-                gap: 10px;
+
                 border-top: 1px solid var(--gray--100);
                 padding-top: 1.25rem;
 
-                button {
-                    width: 186px;
+                .button-group {
+                    display: flex;
+                    width: 50%;
                     height: 54px;
-                    border-radius: 0.25rem;
-                    font-size: 1rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    text-align: center;
-
-                    &.cancel-btn {
-                        border: 1px solid var(--gray--200);
-                        background-color: #fff;
-                        color: var(--content);
-                    }
-
-                    &.register-btn {
-                        border: 1px solid var(--gray--100);
-                        background-color: var(--gray--100);
-                        color: #fff;
-
-                        &:not(:disabled) {
-                            background-color: var(--primary);
-                            color: #fff;
-                        }
-                    }
+                    justify-content: center;
+                    gap: 10px;
                 }
             }
         }
