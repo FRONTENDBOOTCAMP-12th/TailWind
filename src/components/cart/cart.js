@@ -12,6 +12,9 @@ class Cart extends LitElement {
         productChilled: { type: Array },
         productTemperature: { type: Array },
         user: { type: Object },
+        hideChilled: { type: Boolean },
+        hideFrozen: { type: Boolean },
+        hideTemperature: { type: Boolean },
     };
 
     constructor() {
@@ -42,6 +45,23 @@ class Cart extends LitElement {
         };
     }
 
+    deleteList(e) {
+        e.target.closest('div').style.display = 'none';
+        // TODO : api에서 삭제
+    }
+
+    handleShowHideTemperautre() {
+        this.hideTemperature = !this.hideTemperature;
+    }
+
+    handleShowHideFrozen() {
+        this.hideFrozen = !this.hideFrozen;
+    }
+
+    handleShowHideChilled() {
+        this.hideChilled = !this.hideChilled;
+    }
+
     render() {
         return html`
             <section class="cart-container">
@@ -59,53 +79,80 @@ class Cart extends LitElement {
                                 <img src="/assets/chilled.svg" />
                                 <span class="chilled">냉장 식품</span>
                             </div>
-                            <img src="/assets/dropdown-arrow.svg" />
+                            <button class="dropdown-btn" type="button">
+                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
+                            </button>
                         </li>
                         <!-- TODO : 라디오 컴포넌트 삽입 -->
-                        ${this.productChilled.map(
-                            (idx) =>
-                                html` <div class="cart-product">
-                                    <img class="cart-product-image" src="${idx.img}" />
-                                    <span class="cart-product-title">${idx.productName}</span>
-                                    <inc-dec-btn></inc-dec-btn>
-                                    <span class="cart-product-price">${idx.price.toLocaleString()}원</span>
-                                    <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                </div>`
-                        )}
+                        <div class=${this.hideChilled ? 'sr-only' : ''}>
+                            ${this.productChilled.map(
+                                (idx) =>
+                                    html` <div class="cart-product">
+                                        <img class="cart-product-image" src="${idx.img}" />
+                                        <span class="cart-product-title">${idx.productName}</span>
+                                        <inc-dec-btn></inc-dec-btn>
+                                        <span class="cart-product-price">
+                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                        >
+                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                        </button>
+                                    </div>`
+                            )}
+                        </div>
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/frozen.svg" />
                                 <span>냉동 식품</span>
                             </div>
-                            <img src="/assets/dropdown-arrow.svg" />
+                            <button class="dropdown-btn" type="button">
+                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
+                            </button>
                         </li>
-                        ${this.productFrozen.map(
-                            (idx) =>
-                                html` <div class="cart-product">
-                                    <img class="cart-product-image" src="${idx.img}" />
-                                    <span class="cart-product-title">${idx.productName}</span>
-                                    <inc-dec-btn></inc-dec-btn>
-                                    <span class="cart-product-price">${idx.price.toLocaleString()}원</span>
-                                    <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                </div>`
-                        )}
+                        <div class=${this.hideFrozen ? 'sr-only' : ''}>
+                            ${this.productFrozen.map(
+                                (idx) =>
+                                    html` <div class="cart-product">
+                                        <img class="cart-product-image" src="${idx.img}" />
+                                        <span class="cart-product-title">${idx.productName}</span>
+                                        <inc-dec-btn></inc-dec-btn>
+                                        <span class="cart-product-price">
+                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                        >
+                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                        </button>
+                                    </div>`
+                            )}
+                        </div>
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/temperature.svg" />
                                 <span>상온 식품</span>
                             </div>
-                            <img src="/assets/dropdown-arrow.svg" />
+                            <button class="dropdown-btn" type="button">
+                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
+                            </button>
                         </li>
-                        ${this.productFrozen.map(
-                            (idx) =>
-                                html` <div class="cart-product">
-                                    <img class="cart-product-image" src="${idx.img}" />
-                                    <span class="cart-product-title">${idx.productName}</span>
-                                    <inc-dec-btn></inc-dec-btn>
-                                    <span class="cart-product-price">${idx.price.toLocaleString()}원</span>
-                                    <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                </div>`
-                        )}
+                        <div class=${this.hideTemperature ? 'sr-only' : ''}>
+                            ${this.productTemperature.map(
+                                (idx) =>
+                                    html` <div class="cart-product">
+                                        <img class="cart-product-image" src="${idx.img}" />
+                                        <span class="cart-product-title">${idx.productName}</span>
+                                        <inc-dec-btn></inc-dec-btn>
+                                        <span class="cart-product-price">
+                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                        >
+                                        <button class="product-delete-btn" type="button">
+                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" @click=${this.deleteList} />
+                                        </button>
+                                    </div>`
+                            )}
+                        </div>
                         <li>
                             <div class="product-check-container">
                                 <img src="/assets/product-check.svg" />
@@ -121,7 +168,7 @@ class Cart extends LitElement {
                             </h1>
                             <p class="address-info">${this.user.address}</p>
                             <p class="delivery-text">샛별배송</p>
-                            <button class="delivery-btn">배송지 변경</button>
+                            <button class="delivery-btn" type="button">배송지 변경</button>
                         </section>
                         <div class="purchase-price">
                             <div class="purchase-price-detail">

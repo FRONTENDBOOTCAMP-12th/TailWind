@@ -45,6 +45,10 @@ export default css`
                     &:not(:last-child) {
                         border-bottom: 1px solid black;
                     }
+
+                    .dropdown-btn {
+                        cursor: pointer;
+                    }
                 }
             }
         }
@@ -86,6 +90,7 @@ export default css`
                 text-align: center;
                 color: var(--primary);
                 font-size: var(--label---medium);
+                cursor: pointer;
             }
         }
 
@@ -161,6 +166,7 @@ export default css`
             text-align: center;
             border-radius: 0.25rem;
             margin-top: 1rem;
+            cursor: pointer;
         }
 
         .purchase-detail {
@@ -193,6 +199,10 @@ export default css`
         .cart-product-delete {
             width: 1.875rem;
             height: 1.875rem;
+        }
+
+        .product-delete-btn {
+            cursor: pointer;
         }
     }
 `;
