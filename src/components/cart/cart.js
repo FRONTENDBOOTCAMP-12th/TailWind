@@ -19,30 +19,26 @@ class Cart extends LitElement {
 
     constructor() {
         super();
-        this.productList = [
-            {
-                img: '/assets/product01.png',
-                productName: '제품 이름1',
-                price: 4980,
-                priceNum: 3,
-                productTreat: 'frozen',
-            },
-            {
-                img: '/assets/product01.png',
-                productName: '제품 이름',
-                price: 4980,
-                priceNum: 3,
-                productTreat: 'temperature',
-            },
-        ];
-
-        this.productFrozen = this.productList.filter((index) => index.productTreat === 'frozen');
-        this.productChilled = this.productList.filter((index) => index.productTreat === 'chilled');
-        this.productTemperature = this.productList.filter((index) => index.productTreat === 'temperature');
-
         this.user = {
             address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
+            id: 'abc123',
         };
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        this.fetchData();
+    }
+
+    async fetchData() {
+        const response = fetch('통신경로');
+        const data = await response;
+
+        this.productList = (await data.json()).items;
+
+        this.productFrozen = this.productList.filter((index) => index.product_type === 'frozen');
+        this.productChilled = this.productList.filter((index) => index.product_type === 'chilled');
+        this.productTemperature = this.productList.filter((index) => index.product_type === 'temperature');
     }
 
     deleteList(e) {
@@ -88,12 +84,15 @@ class Cart extends LitElement {
                             ${this.productChilled.map(
                                 (idx) =>
                                     html` <div class="cart-product">
-                                        <img class="cart-product-image" src="${idx.img}" />
-                                        <span class="cart-product-title">${idx.productName}</span>
-                                        <inc-dec-btn></inc-dec-btn>
+                                        <img class="cart-product-image" src="" />
+                                        <span class="cart-product-title">${idx['product_desc']}</span>
+                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
-                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                            ${(
+                                                (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                Number(localStorage.getItem(idx['id']))
+                                            ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
                                             <img class="cart-product-delete" src="/assets/product-cancel.svg" />
@@ -114,12 +113,15 @@ class Cart extends LitElement {
                             ${this.productFrozen.map(
                                 (idx) =>
                                     html` <div class="cart-product">
-                                        <img class="cart-product-image" src="${idx.img}" />
-                                        <span class="cart-product-title">${idx.productName}</span>
-                                        <inc-dec-btn></inc-dec-btn>
+                                        <img class="cart-product-image" src="" />
+                                        <span class="cart-product-title">${idx['product_desc']}</span>
+                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
-                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                            ${(
+                                                (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                Number(localStorage.getItem(idx['id']))
+                                            ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
                                             <img class="cart-product-delete" src="/assets/product-cancel.svg" />
@@ -140,12 +142,15 @@ class Cart extends LitElement {
                             ${this.productTemperature.map(
                                 (idx) =>
                                     html` <div class="cart-product">
-                                        <img class="cart-product-image" src="${idx.img}" />
-                                        <span class="cart-product-title">${idx.productName}</span>
-                                        <inc-dec-btn></inc-dec-btn>
+                                        <img class="cart-product-image" src="" />
+                                        <span class="cart-product-title">${idx['product_desc']}</span>
+                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
-                                            ${(idx.price * +localStorage.getItem('itemQuantity')).toLocaleString()}원</span
+                                            ${(
+                                                (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                Number(localStorage.getItem(idx['id']))
+                                            ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button">
                                             <img class="cart-product-delete" src="/assets/product-cancel.svg" @click=${this.deleteList} />
