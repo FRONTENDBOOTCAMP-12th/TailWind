@@ -1,17 +1,17 @@
-import { LitElement, html } from 'lit';
-import reset from '@/styles/reset.js';
 import cartStyle from '@/components/cart/cartStyle.js';
 import '@/components/inc-dec-component/incDecComponent.js';
+import reset from '@/styles/reset.js';
+import { LitElement, html } from 'lit';
 
 class Cart extends LitElement {
     static styles = [reset, cartStyle];
 
     static properties = {
+        user: { type: Object },
         productList: { type: Array },
         productFrozen: { type: Array },
         productChilled: { type: Array },
         productTemperature: { type: Array },
-        user: { type: Object },
         hideChilled: { type: Boolean },
         hideFrozen: { type: Boolean },
         hideTemperature: { type: Boolean },
@@ -31,7 +31,7 @@ class Cart extends LitElement {
     }
 
     async fetchData() {
-        const response = fetch('통신경로');
+        const response = fetch('https://통신주소.pockethost.io/api/collections/product/records');
         const data = await response;
 
         this.productList = (await data.json()).items;
@@ -41,8 +41,13 @@ class Cart extends LitElement {
         this.productTemperature = this.productList.filter((index) => index.product_type === 'temperature');
     }
 
+    updateList() {
+        this.requestUpdate();
+    }
+
     deleteList(e) {
         e.target.closest('div').style.display = 'none';
+        this.requestUpdate();
         // TODO : api에서 삭제
     }
 
@@ -83,10 +88,13 @@ class Cart extends LitElement {
                         <div class=${this.hideChilled ? 'sr-only' : ''}>
                             ${this.productChilled.map(
                                 (idx) =>
-                                    html` <div class="cart-product">
-                                        <img class="cart-product-image" src="" />
+                                    html` <div class="cart-product" id=${idx['id']}>
+                                        <img
+                                            class="cart-product-image"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                        />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
@@ -113,9 +121,12 @@ class Cart extends LitElement {
                             ${this.productFrozen.map(
                                 (idx) =>
                                     html` <div class="cart-product">
-                                        <img class="cart-product-image" src="" />
+                                        <img
+                                            class="cart-product-image"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                        />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
@@ -142,9 +153,12 @@ class Cart extends LitElement {
                             ${this.productTemperature.map(
                                 (idx) =>
                                     html` <div class="cart-product">
-                                        <img class="cart-product-image" src="" />
+                                        <img
+                                            class="cart-product-image"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                        />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
