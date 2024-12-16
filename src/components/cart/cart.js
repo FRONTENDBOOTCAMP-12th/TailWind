@@ -245,7 +245,7 @@ class Cart extends LitElement {
                                     <span>적립</span>
                                     <span
                                         >최대
-                                        ${Math.ceil(
+                                        ${Math.round(
                                             this.productList.reduce(
                                                 (acc, cur) =>
                                                     (acc +=

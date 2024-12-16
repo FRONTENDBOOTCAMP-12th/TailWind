@@ -3,7 +3,6 @@ import { css } from 'lit';
 export default css`
     .cart-container {
         padding-top: 5rem;
-        height: 59.0625rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -71,6 +70,9 @@ export default css`
 
     .purchase-container {
         width: 17.75rem;
+        position: sticky;
+        height: fit-content;
+        top: 2rem;
 
         .purchase-address {
             padding: 1.25rem;
