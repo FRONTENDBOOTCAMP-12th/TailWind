@@ -7,19 +7,19 @@ export const buttonStyles = css`
     }
 
     .c-button {
-        width: 100%;
+        width: auto;
         height: 100%;
         min-width: 150px;
         border-radius: 0.25rem;
-        font-size: 1rem;
+        font-size: var(--label---medium);
         font-weight: 600;
         cursor: pointer;
         text-align: center;
 
         &.outline {
-            border: 1px solid var(--gray--200);
+            border: 1px solid var(--primary);
             background-color: #fff;
-            color: var(--content);
+            color: var(--primary);
         }
 
         &.fill {
@@ -31,6 +31,16 @@ export const buttonStyles = css`
                 background-color: var(--primary);
                 color: #fff;
             }
+        }
+
+        &.btn-sm {
+            height: 44px;
+            padding: 10px;
+        }
+
+        &.btn-md {
+            height: 54px;
+            padding: 15px;
         }
     }
 `;
