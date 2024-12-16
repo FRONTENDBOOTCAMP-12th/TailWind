@@ -15,6 +15,7 @@ class Cart extends LitElement {
         hideChilled: { type: Boolean },
         hideFrozen: { type: Boolean },
         hideTemperature: { type: Boolean },
+        cartItems: { type: Object },
     };
 
     constructor() {
@@ -23,6 +24,7 @@ class Cart extends LitElement {
             address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
             id: 'abc123',
         };
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
     }
 
     connectedCallback() {
@@ -35,6 +37,7 @@ class Cart extends LitElement {
         const data = await response;
 
         this.productList = (await data.json()).items;
+        console.log(this.productList);
 
         this.productFrozen = this.productList.filter((index) => index.product_type === 'frozen');
         this.productChilled = this.productList.filter((index) => index.product_type === 'chilled');
@@ -99,7 +102,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                Number(localStorage.getItem(idx['id']))
+                                                this.cartItems[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
@@ -111,7 +114,7 @@ class Cart extends LitElement {
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/frozen.svg" />
-                                <span>냉동 식품</span>
+                                <span class="frozen">냉동 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
@@ -131,7 +134,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                Number(localStorage.getItem(idx['id']))
+                                                this.cartItems[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
@@ -143,7 +146,7 @@ class Cart extends LitElement {
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/temperature.svg" />
-                                <span>상온 식품</span>
+                                <span class="temperature">상온 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
@@ -163,7 +166,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                Number(localStorage.getItem(idx['id']))
+                                                this.cartItems[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button">
@@ -193,11 +196,30 @@ class Cart extends LitElement {
                             <div class="purchase-price-detail">
                                 <div>
                                     <span>상품금액</span>
-                                    <span>40,680 <b>원</b></span>
+                                    <span
+                                        >${this.productList
+                                            .reduce(
+                                                (acc, cur) => (acc += cur['price'] * JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                0
+                                            )
+                                            .toLocaleString()} <b>원</b></span
+                                    >
                                 </div>
                                 <div>
                                     <span>상품할인금액</span>
-                                    <span>-4,651 <b>원</b></span>
+                                    <span
+                                        >-${this.productList
+                                            .reduce(
+                                                (acc, cur) =>
+                                                    (acc +=
+                                                        cur['price'] *
+                                                        cur['discount'] *
+                                                        0.01 *
+                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                0
+                                            )
+                                            .toLocaleString()} <b>원</b></span
+                                    >
                                 </div>
                                 <div>
                                     <span>배송비</span>
@@ -207,11 +229,35 @@ class Cart extends LitElement {
                             <div class="purchase-info">
                                 <div class="purchase-total-price">
                                     <span>결제예정금액</span>
-                                    <span><b>40,680</b>원</span>
+                                    <span
+                                        ><b
+                                            >${this.productList
+                                                .reduce(
+                                                    (acc, cur) =>
+                                                        (acc +=
+                                                            (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                            JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                    0
+                                                )
+                                                .toLocaleString()} </b
+                                        >원</span
+                                    >
                                 </div>
                                 <div class="purchase-saving">
                                     <span>적립</span>
-                                    <span>최대 36원 적립 일반 0.1%</span>
+                                    <span
+                                        >최대
+                                        ${Math.ceil(
+                                            this.productList.reduce(
+                                                (acc, cur) =>
+                                                    (acc +=
+                                                        (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                0
+                                            ) * 0.001
+                                        )}원
+                                        적립 일반 0.1%</span
+                                    >
                                 </div>
                             </div>
                         </div>
