@@ -12,14 +12,16 @@ class Button extends LitElement {
          * outline : 테두리만 있는 버튼
          * fill : 배경색이 채워져 있는 버튼
          */
-        class: { type: String, attribute: 'class', reflect: true },
+        classMode: { type: String, attribute: 'class', reflect: true },
+        size: { type: String, attribute: 'class', reflect: true },
         disabled: { type: Boolean, attribute: 'disabled', reflect: true },
     };
 
     constructor() {
         super();
         this.type = 'button';
-        this.class = '';
+        this.classMode = 'outline';
+        this.size = 'btn-sm';
         this.disabled = false;
     }
 
@@ -28,7 +30,7 @@ class Button extends LitElement {
     }
 
     render() {
-        return html`<button type=${this.type} class="c-button ${this.class}" ?disabled=${this.disabled} @click=${this.handleClick}>
+        return html`<button type=${this.type} class="c-button ${this.classMode} ${this.size}" ?disabled=${this.disabled} @click=${this.handleClick}>
             <slot></slot>
         </button>`;
     }
