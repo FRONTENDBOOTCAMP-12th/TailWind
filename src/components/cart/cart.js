@@ -15,7 +15,6 @@ class Cart extends LitElement {
         hideChilled: { type: Boolean },
         hideFrozen: { type: Boolean },
         hideTemperature: { type: Boolean },
-        cartItems: { type: Object },
     };
 
     constructor() {
@@ -24,7 +23,6 @@ class Cart extends LitElement {
             address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
             id: 'abc123',
         };
-        this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
     }
 
     connectedCallback() {
@@ -102,7 +100,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                this.cartItems[`${idx['id']}`]
+                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
@@ -134,7 +132,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                this.cartItems[`${idx['id']}`]
+                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button" @click=${this.deleteList}>
@@ -166,7 +164,7 @@ class Cart extends LitElement {
                                             <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                this.cartItems[`${idx['id']}`]
+                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
                                         <button class="product-delete-btn" type="button">
