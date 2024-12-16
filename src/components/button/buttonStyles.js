@@ -11,15 +11,15 @@ export const buttonStyles = css`
         height: 100%;
         min-width: 150px;
         border-radius: 0.25rem;
-        font-size: 1rem;
+        font-size: var(--label---medium);
         font-weight: 600;
         cursor: pointer;
         text-align: center;
 
         &.outline {
-            border: 1px solid var(--gray--200);
+            border: 1px solid var(--primary);
             background-color: #fff;
-            color: var(--content);
+            color: var(--primary);
         }
 
         &.fill {
@@ -31,6 +31,14 @@ export const buttonStyles = css`
                 background-color: var(--primary);
                 color: #fff;
             }
+        }
+
+        &.btn-sm {
+            width: 8.9375rem;
+            height: 2.75rem;
+        }
+
+        &.btn-md {
         }
     }
 `;
