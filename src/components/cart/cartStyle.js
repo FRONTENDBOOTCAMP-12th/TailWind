@@ -40,6 +40,21 @@ export default css`
                         display: flex;
                         gap: 0.75rem;
                         align-items: center;
+
+                        .chilled {
+                            font-weight: 600;
+                            font-size: var(--label---medium);
+                        }
+
+                        .frozen {
+                            font-weight: 600;
+                            font-size: var(--label---medium);
+                        }
+
+                        .temperature {
+                            font-weight: 600;
+                            font-size: var(--label---medium);
+                        }
                     }
 
                     &:not(:last-child) {
@@ -189,11 +204,15 @@ export default css`
 
         .cart-product-title {
             width: 21.5625rem;
+            font-weight: 600;
+            font-size: var(--label---medium);
         }
 
         .cart-product-price {
             width: 7.9375rem;
             text-align: right;
+            font-weight: 600;
+            font-size: var(--label---medium);
         }
 
         .cart-product-delete {
