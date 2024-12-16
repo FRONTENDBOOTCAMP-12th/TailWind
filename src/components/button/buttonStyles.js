@@ -7,7 +7,7 @@ export const buttonStyles = css`
     }
 
     .c-button {
-        width: 100%;
+        width: auto;
         height: 100%;
         min-width: 150px;
         border-radius: 0.25rem;
@@ -34,11 +34,13 @@ export const buttonStyles = css`
         }
 
         &.btn-sm {
-            width: 8.9375rem;
-            height: 2.75rem;
+            height: 44px;
+            padding: 10px;
         }
 
         &.btn-md {
+            height: 54px;
+            padding: 15px;
         }
     }
 `;
