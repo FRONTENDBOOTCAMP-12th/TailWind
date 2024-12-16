@@ -19,39 +19,47 @@ class Cart extends LitElement {
 
     constructor() {
         super();
+        // 임시 유저 설정
         this.user = {
             address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
             id: 'abc123',
         };
     }
 
+    // 카트 상품 페이지에 들어가게 되면 데이터를 불러와서 렌더링할 준비
     connectedCallback() {
         super.connectedCallback();
         this.fetchData();
     }
 
+    // 데이터를 불러오는 함수
     async fetchData() {
         const response = fetch('https://통신주소.pockethost.io/api/collections/product/records');
         const data = await response;
 
+        // 유저에 해당하는 모든 데이터를 불러와서 변수에 담기(배열)
         this.productList = (await data.json()).items;
         console.log(this.productList);
 
+        // 각각의 배송 타입에 따라 냉동,냉장,상온으로 분류(filter)
         this.productFrozen = this.productList.filter((index) => index.product_type === 'frozen');
         this.productChilled = this.productList.filter((index) => index.product_type === 'chilled');
         this.productTemperature = this.productList.filter((index) => index.product_type === 'temperature');
     }
 
+    // 값의 수량이 변할떄마다 렌더링되도록 유도
     updateList() {
         this.requestUpdate();
     }
 
+    // x버튼을 누르면 화면에서 사라지도록 설계(이는 이후 변동)
     deleteList(e) {
         e.target.closest('div').style.display = 'none';
         this.requestUpdate();
         // TODO : api에서 삭제
     }
 
+    // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
     handleShowHideTemperautre() {
         this.hideTemperature = !this.hideTemperature;
     }
@@ -66,12 +74,15 @@ class Cart extends LitElement {
 
     render() {
         return html`
+            <!--장바구니라는 타이틀이 있어 section으로 마크업-->
             <section class="cart-container">
                 <h1 class="title-text">장바구니</h1>
+                <!-- 모든 품목을 포함하는 container -->
                 <div class="li-purchase-container">
                     <ul class="li-container">
                         <li>
                             <div class="product-check-container">
+                                <!-- 이후 라디오 컴포넌트 결합을 통해 구현-->
                                 <img src="/assets/product-check.svg" />
                                 <span @click=${this.handleChilck}>전체선택</span>
                             </div>
@@ -86,18 +97,21 @@ class Cart extends LitElement {
                             </button>
                         </li>
                         <!-- TODO : 라디오 컴포넌트 삽입 -->
+                        <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
+                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideChilled ? 'sr-only' : ''}>
                             ${this.productChilled.map(
                                 (idx) =>
                                     html` <div class="cart-product" id=${idx['id']}>
+                                        <!-- 이미지는 다음과 같이 불러와야함-->
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
-                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
                                                 JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
@@ -118,18 +132,21 @@ class Cart extends LitElement {
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
                             </button>
                         </li>
+                        <!-- TODO : 라디오 컴포넌트 삽입 -->
+                        <!--분류해뒀던 냉동 타입 렌더링-->
+                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideFrozen ? 'sr-only' : ''}>
                             ${this.productFrozen.map(
                                 (idx) =>
                                     html` <div class="cart-product">
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
-                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
                                                 JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
@@ -150,18 +167,21 @@ class Cart extends LitElement {
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
                             </button>
                         </li>
+                        <!-- TODO : 라디오 컴포넌트 삽입 -->
+                        <!--분류해뒀던 상온 타입 렌더링-->
+                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideTemperature ? 'sr-only' : ''}>
                             ${this.productTemperature.map(
                                 (idx) =>
                                     html` <div class="cart-product">
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
                                         <span class="cart-product-price">
-                                            <!-- TODO : localStorage에서 수량을 공유하는데 이를 분리해야함 -->
+                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
                                                 (idx['price'] - idx['price'] * idx['discount'] * 0.01) *
                                                 JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
@@ -188,14 +208,16 @@ class Cart extends LitElement {
                             </h1>
                             <p class="address-info">${this.user.address}</p>
                             <p class="delivery-text">샛별배송</p>
+                            <!-- TODO:배송지변경 버튼 작동시키기 -->
                             <button class="delivery-btn" type="button">배송지 변경</button>
                         </section>
                         <div class="purchase-price">
                             <div class="purchase-price-detail">
                                 <div>
                                     <span>상품금액</span>
-                                    <span
-                                        >${this.productList
+                                    <span>
+                                        <!--localStroage와 api를 연동하여 가격 합산-->
+                                        ${this.productList
                                             .reduce(
                                                 (acc, cur) => (acc += cur['price'] * JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
                                                 0
@@ -205,8 +227,9 @@ class Cart extends LitElement {
                                 </div>
                                 <div>
                                     <span>상품할인금액</span>
-                                    <span
-                                        >-${this.productList
+                                    <span>
+                                        <!--localStroage와 api를 연동하여 할인하는 가격 합산-->
+                                        -${this.productList
                                             .reduce(
                                                 (acc, cur) =>
                                                     (acc +=
@@ -228,8 +251,9 @@ class Cart extends LitElement {
                                 <div class="purchase-total-price">
                                     <span>결제예정금액</span>
                                     <span
-                                        ><b
-                                            >${this.productList
+                                        ><b>
+                                            <!--localStroage와 api를 연동하여 총 가격 합산-->
+                                            ${this.productList
                                                 .reduce(
                                                     (acc, cur) =>
                                                         (acc +=
@@ -245,6 +269,7 @@ class Cart extends LitElement {
                                     <span>적립</span>
                                     <span
                                         >최대
+                                        <!--결제하는 가격에서 0.1%를 계산후 반올림-->
                                         ${Math.round(
                                             this.productList.reduce(
                                                 (acc, cur) =>
