@@ -4,8 +4,9 @@ import inputCss from './inputCss.js';
 
 class Input extends LitElement {
     static properties = {
-        text: { type: String },
+        inputType: { type: String },
         placeholder: { type: String },
+        classType: { type: String },
         errorMessage: { type: String },
         validation: { type: String },
     };
@@ -16,8 +17,9 @@ class Input extends LitElement {
 
     constructor() {
         super();
-        this.text = 'text';
+        this.inputType = 'text';
         this.placeholder = '입력';
+        this.classType = 'login';
         this.errorMessage = '에러메세지';
         this.validation = /^[A-Za-z]+$/;
     }
@@ -50,8 +52,8 @@ class Input extends LitElement {
                     @input="${(event) => {
                         this.handleInput(event);
                     }}"
-                    type="${this.type}"
-                    class="input-st"
+                    type="${this.inputType}"
+                    class="input-st ${this.classType}"
                     placeholder="${this.placeholder}"
                 />
                 <span class="error-message">${this.errorMessage}</span>
