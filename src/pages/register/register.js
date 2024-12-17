@@ -1,79 +1,17 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import resetCss from '@/styles/reset.js';
+import registerCss from '@/pages/register/registerCss.js';
 
 class Register extends LitElement {
     static get styles() {
-        return [
-            resetCss,
-            css`
-                .register-container {
-                    width: 100%;
-                    display: flex;
-                    flex-flow: column;
-                    padding-block: 5rem;
-                    justify-content: center;
-                    align-items: center;
-
-                    & .register-title {
-                        font-size: var(--label---large);
-                        font-weight: 600;
-                        margin-bottom: 2.75rem;
-                    }
-
-                    & .form-container {
-                        position: relative;
-                        width: 640px;
-                        & hr {
-                            border: 0;
-                            height: 3px;
-                            background-color: black;
-                        }
-                        & .required-text {
-                            position: absolute;
-                            right: 0;
-                            bottom: 100%;
-
-                            & b {
-                                color: var(--info---error);
-                            }
-                        }
-
-                        & .input-line {
-                            display: flex;
-                            align-items: center;
-                            padding: 1.25rem 0;
-
-                            & c-label {
-                                margin-right: 0.5rem;
-                            }
-
-                            & c-input {
-                                margin-right: 0.5rem;
-                            }
-
-                            & .address-container {
-                                display: flex;
-                                flex-flow: column;
-                                gap: 0.25rem;
-                                font-size: var(--paragraph---small);
-                            }
-
-                            & c-radio-group {
-                                width: 333px;
-                                display: flex;
-                            }
-                        }
-                    }
-                }
-            `,
-        ];
+        return [resetCss, registerCss];
     }
 
     render() {
         return html`<div class="register-container">
             <h2 class="register-title">회원가입</h2>
             <form action="" class="form-container">
-                <hr />
+                <hr class="top-line" />
                 <p class="required-text"><b>*</b>필수입력사항</p>
                 <span class="input-line">
                     <c-label required>아이디</c-label>
@@ -129,9 +67,40 @@ class Register extends LitElement {
                     </c-radio-group>
                 </span>
             </form>
-        </div>`;
+
+            <div class="terms-container">
+                <c-label required>이용약관동의</c-label>
+                <div class="check-container">
+                    <span class="all-check">
+                        <c-checkbox>
+                            <div>
+                                전체동의합니다
+                                <p>선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다</p>
+                            </div>
+                        </c-checkbox>
+                    </span>
+                    <span class="part-check">
+                        <c-checkbox>이용약관 동의(필수)</c-checkbox>
+                        <p>약관보기</p>
+                    </span>
+                    <span class="part-check"
+                        ><c-checkbox>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
+                        <p>약관보기</p></span
+                    >
+                    <span class="part-check"
+                        ><c-checkbox>무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)</c-checkbox>
+                        <p>약관보기</p></span
+                    >
+                    <span class="part-check"
+                        ><c-checkbox>본인은 만 14세 이상입니다. (필수)</c-checkbox>
+                        <p>약관보기</p></span
+                    >
+                </div>
+            </div>
+
+            <c-button type="submit" mode="fill" size="btn-md">가입하기</c-button>
+        </div> `;
     }
 }
 
 customElements.define('c-register', Register);
-console.log('하이');
