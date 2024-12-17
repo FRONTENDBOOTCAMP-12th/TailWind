@@ -9,6 +9,7 @@ class IncDecBtn extends LitElement {
     constructor() {
         super();
         localStorage.setItem('itemQuantity', 0);
+        this.changeEvent = new CustomEvent('change', { bubbles: true, composed: true });
     }
 
     // 매개변수로 add를 받았다면 localStorage에 itemQuantity를 1증가 혹은 감소 시키는 함수
@@ -17,6 +18,7 @@ class IncDecBtn extends LitElement {
     calcQuantity(calc) {
         const quantity = localStorage.getItem('itemQuantity');
         calc === 'add' ? localStorage.setItem('itemQuantity', Number(quantity) + 1) : localStorage.setItem('itemQuantity', Number(quantity) - 1);
+        this.dispatchEvent(this.changeEvent);
     }
 
     // 1증가 시키고 rerender시키는 함수
