@@ -7,7 +7,7 @@ export const buttonStyles = css`
     }
 
     .c-button {
-        width: auto;
+        width: 100%;
         height: 100%;
         min-width: 150px;
         border-radius: 0.25rem;
