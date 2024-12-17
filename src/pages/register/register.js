@@ -57,6 +57,11 @@ class Register extends LitElement {
                                 gap: 0.25rem;
                                 font-size: var(--paragraph---small);
                             }
+
+                            & c-radio-group {
+                                width: 333px;
+                                display: flex;
+                            }
                         }
                     }
                 }
@@ -104,6 +109,24 @@ class Register extends LitElement {
                         <c-button>인증번호 받기</c-button>
                         배송지에 따라 상품 정보가 달라질 수 있습니다.
                     </div>
+                </span>
+                <span class="input-line">
+                    <c-label>성별</c-label>
+                    <c-radio-group name="radio">
+                        <c-radio id="radio1">남자</c-radio>
+                        <c-radio id="radio2">여자</c-radio>
+                        <c-radio id="radio3">선택안함</c-radio>
+                    </c-radio-group>
+                </span>
+                <span class="input-line">
+                    <c-label>생년월일</c-label>
+                </span>
+                <span class="input-line">
+                    <c-label>추가입력 사항</c-label>
+                    <c-radio-group name="radio">
+                        <c-radio id="radio1">친구초대 추천인 아이디</c-radio>
+                        <c-radio id="radio2">참여 이벤트명</c-radio>
+                    </c-radio-group>
                 </span>
             </form>
         </div>`;
