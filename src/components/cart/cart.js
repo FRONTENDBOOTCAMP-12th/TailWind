@@ -2,12 +2,14 @@ import cartStyle from '@/components/cart/cartStyle.js';
 import '@/components/inc-dec-component/incDecComponent.js';
 import reset from '@/styles/reset.js';
 import { LitElement, html } from 'lit';
+import PocketBase from 'pocketbase';
 
 class Cart extends LitElement {
     static styles = [reset, cartStyle];
 
     static properties = {
         user: { type: Object },
+        cartItems: { type: Object },
         productList: { type: Array },
         productFrozen: { type: Array },
         productChilled: { type: Array },
@@ -34,11 +36,19 @@ class Cart extends LitElement {
 
     // 데이터를 불러오는 함수
     async fetchData() {
-        const response = fetch('https://통신주소.pockethost.io/api/collections/product/records');
-        const data = await response;
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        const str = String(Object.keys(this.cartItems));
+        console.log(str);
+        const pb = new PocketBase('https://littlestar58.pockethost.io');
+        const data = await pb.collection('product').getFullList({
+            filter: `id ~ "9f1sni8979nfd77"` && `id ~ "g47u4h1bznuk810"`,
+        });
 
         // 유저에 해당하는 모든 데이터를 불러와서 변수에 담기(배열)
-        this.productList = (await data.json()).items;
+        this.productList = data.filter((idx) => {
+            return idx['id'] in this.cartItems;
+        });
+
         console.log(this.productList);
 
         // 각각의 배송 타입에 따라 냉동,냉장,상온으로 분류(filter)
@@ -109,7 +119,7 @@ class Cart extends LitElement {
                                             src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
@@ -144,7 +154,7 @@ class Cart extends LitElement {
                                             src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
@@ -179,7 +189,7 @@ class Cart extends LitElement {
                                             src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList}></inc-dec-btn>
+                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
                                         <span class="cart-product-price">
                                             <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                             ${(
@@ -294,6 +304,7 @@ class Cart extends LitElement {
                         </div>
                     </div>
                 </div>
+                <cart-component></cart-component>
             </section>
         `;
     }
