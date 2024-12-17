@@ -16,8 +16,8 @@ export default css`
             }
 
             &.register {
-                width: 25rem;
-                height: 3.125rem;
+                width: 333px;
+                height: 44px;
             }
         }
 
