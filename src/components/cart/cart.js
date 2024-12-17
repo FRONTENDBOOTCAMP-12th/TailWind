@@ -36,20 +36,25 @@ class Cart extends LitElement {
 
     // 데이터를 불러오는 함수
     async fetchData() {
+        // localStorage에 저장된 데이터만 렌더링하도록 유도
         this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
-        const str = String(Object.keys(this.cartItems));
-        console.log(str);
-        const pb = new PocketBase('https://littlestar58.pockethost.io');
-        const data = await pb.collection('product').getFullList({
-            filter: `id ~ "9f1sni8979nfd77"` && `id ~ "g47u4h1bznuk810"`,
-        });
+        console.log(this.cartItems);
+        const localStorageKeys = Object.keys(this.cartItems);
 
-        // 유저에 해당하는 모든 데이터를 불러와서 변수에 담기(배열)
-        this.productList = data.filter((idx) => {
-            return idx['id'] in this.cartItems;
-        });
+        // 'id = "abc" || id="def" || ... 와 같이 변환
+        // 단, localStorage가 비어있다면 id = '' 를 할당
+        const filter =
+            localStorageKeys
+                .map((idx) => {
+                    return `id = "${idx}"`;
+                })
+                .join(' || ') || "id = '' ";
 
-        console.log(this.productList);
+        // pockethost를 통해 통신
+        const pb = new PocketBase('https://통신주소.pockethost.io');
+
+        // localStorage에 해당하는 key값만 추출
+        this.productList = await pb.collection('product').getFullList({ filter: filter });
 
         // 각각의 배송 타입에 따라 냉동,냉장,상온으로 분류(filter)
         this.productFrozen = this.productList.filter((index) => index.product_type === 'frozen');
@@ -57,16 +62,25 @@ class Cart extends LitElement {
         this.productTemperature = this.productList.filter((index) => index.product_type === 'temperature');
     }
 
-    // 값의 수량이 변할떄마다 렌더링되도록 유도
+    // 값의 수량이 변할때마다 렌더링되도록 유도
     updateList() {
         this.requestUpdate();
     }
 
     // x버튼을 누르면 화면에서 사라지도록 설계(이는 이후 변동)
     deleteList(e) {
-        e.target.closest('div').style.display = 'none';
-        this.requestUpdate();
-        // TODO : api에서 삭제
+        // 클릭하는 영역의 id값을 가져오기 후 그 영역을 안보이게 처리
+        const target = e.target.closest('div');
+        target.style.display = 'none';
+
+        // cartItems에서 클릭한 영역의 id 값을 제거 후 localStorage에 다시 저장
+        delete this.cartItems[target.id];
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+
+        // 이후 가격의 계산을 위해 productList를 재할당
+        this.productList = this.productList.filter((idx) => {
+            return idx['id'] !== target.id;
+        });
     }
 
     // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
@@ -116,7 +130,7 @@ class Cart extends LitElement {
                                         <!-- 이미지는 다음과 같이 불러와야함-->
                                         <img
                                             class="cart-product-image"
-                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
@@ -148,10 +162,10 @@ class Cart extends LitElement {
                         <div class=${this.hideFrozen ? 'sr-only' : ''}>
                             ${this.productFrozen.map(
                                 (idx) =>
-                                    html` <div class="cart-product">
+                                    html` <div class="cart-product" id=${idx['id']}>
                                         <img
                                             class="cart-product-image"
-                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
@@ -183,10 +197,10 @@ class Cart extends LitElement {
                         <div class=${this.hideTemperature ? 'sr-only' : ''}>
                             ${this.productTemperature.map(
                                 (idx) =>
-                                    html` <div class="cart-product">
+                                    html` <div class="cart-product" id=${idx['id']}>
                                         <img
                                             class="cart-product-image"
-                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
@@ -197,8 +211,8 @@ class Cart extends LitElement {
                                                 JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
                                             ).toLocaleString()}원</span
                                         >
-                                        <button class="product-delete-btn" type="button">
-                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" @click=${this.deleteList} />
+                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
                                         </button>
                                     </div>`
                             )}
