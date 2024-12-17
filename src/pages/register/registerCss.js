@@ -20,7 +20,7 @@ export default css`
             width: 640px;
             & .top-line {
                 border: 0;
-                height: 3px;
+                height: 2px;
                 background-color: black;
             }
             & .required-text {
