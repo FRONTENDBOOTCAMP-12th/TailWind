@@ -43,8 +43,19 @@ class Register extends LitElement {
                             align-items: center;
                             padding: 1.25rem 0;
 
+                            & c-label {
+                                margin-right: 0.5rem;
+                            }
+
                             & c-input {
-                                margin: 0 0.5rem;
+                                margin-right: 0.5rem;
+                            }
+
+                            & .address-container {
+                                display: flex;
+                                flex-flow: column;
+                                gap: 0.25rem;
+                                font-size: var(--paragraph---small);
                             }
                         }
                     }
@@ -85,6 +96,14 @@ class Register extends LitElement {
                     <c-label required>휴대폰</c-label>
                     <c-input placeholder="숫자만 입력해주세요." classType="register"></c-input>
                     <c-button>인증번호 받기</c-button>
+                </span>
+
+                <span class="input-line">
+                    <c-label required>주소</c-label>
+                    <div class="address-container">
+                        <c-button>인증번호 받기</c-button>
+                        배송지에 따라 상품 정보가 달라질 수 있습니다.
+                    </div>
                 </span>
             </form>
         </div>`;
