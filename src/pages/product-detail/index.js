@@ -5,11 +5,15 @@ import '@/components/radio-group/radioGroup.js';
 import { LitElement, html } from 'lit';
 import { pb } from '@/api/pockethost.js';
 import '@/components/product-header/productHeader.js';
+import { productDetailStyles } from './productDetailStyles.js';
+import resetStyles from '@/styles/reset.js';
 
 class ProductDetail extends LitElement {
     static properties = {
         productId: { type: String, required: true },
     };
+
+    static styles = [resetStyles, productDetailStyles];
 
     constructor() {
         super();
@@ -24,7 +28,7 @@ class ProductDetail extends LitElement {
     }
 
     render() {
-        return html` <div><product-header></product-header></div> `;
+        return html` <div class="product-detail-container"><product-header></product-header></div> `;
     }
 }
 
