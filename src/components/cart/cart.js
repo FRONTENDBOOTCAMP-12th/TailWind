@@ -38,7 +38,6 @@ class Cart extends LitElement {
     async fetchData() {
         // localStorage에 저장된 데이터만 렌더링하도록 유도
         this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
-        console.log(this.cartItems);
         const localStorageKeys = Object.keys(this.cartItems);
 
         // 'id = "abc" || id="def" || ... 와 같이 변환
@@ -110,12 +109,14 @@ class Cart extends LitElement {
                                 <!-- 이후 라디오 컴포넌트 결합을 통해 구현-->
                                 <img src="/assets/product-check.svg" />
                                 <span @click=${this.handleChilck}>전체선택</span>
+                                <span>(3/3) | </span>
+                                <button type="button">선택 삭제</button>
                             </div>
                         </li>
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/chilled.svg" />
-                                <span class="chilled">냉장 식품</span>
+                                <span class="category-text">냉장 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
@@ -151,7 +152,7 @@ class Cart extends LitElement {
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/frozen.svg" />
-                                <span class="frozen">냉동 식품</span>
+                                <span class="category-text">냉동 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
@@ -186,7 +187,7 @@ class Cart extends LitElement {
                         <li>
                             <div class="food-category-container">
                                 <img src="/assets/temperature.svg" />
-                                <span class="temperature">상온 식품</span>
+                                <span class="category-text">상온 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
@@ -222,6 +223,8 @@ class Cart extends LitElement {
                             <div class="product-check-container">
                                 <img src="/assets/product-check.svg" />
                                 <span>전체선택</span>
+                                <span>(3/3) | </span>
+                                <button type="button">선택 삭제</button>
                             </div>
                         </li>
                     </ul>
