@@ -37,7 +37,7 @@ class Cart extends LitElement {
     // 데이터를 불러오는 함수
     async fetchData() {
         // localStorage에 저장된 데이터만 렌더링하도록 유도
-        this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
         console.log(this.cartItems);
         const localStorageKeys = Object.keys(this.cartItems);
 
@@ -51,10 +51,11 @@ class Cart extends LitElement {
                 .join(' || ') || "id = '' ";
 
         // pockethost를 통해 통신
-        const pb = new PocketBase('https://통신주소.pockethost.io');
+        const pb = new PocketBase('https://littlestar58.pockethost.io');
 
         // localStorage에 해당하는 key값만 추출
         this.productList = await pb.collection('product').getFullList({ filter: filter });
+        if (!this.productList) this.prouctList = [];
 
         // 각각의 배송 타입에 따라 냉동,냉장,상온으로 분류(filter)
         this.productFrozen = this.productList.filter((index) => index.product_type === 'frozen');
@@ -130,7 +131,7 @@ class Cart extends LitElement {
                                         <!-- 이미지는 다음과 같이 불러와야함-->
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
@@ -165,7 +166,7 @@ class Cart extends LitElement {
                                     html` <div class="cart-product" id=${idx['id']}>
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
@@ -200,7 +201,7 @@ class Cart extends LitElement {
                                     html` <div class="cart-product" id=${idx['id']}>
                                         <img
                                             class="cart-product-image"
-                                            src="https://통신주소.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
+                                            src="https://littlestar58.pockethost.io/api/files/product/${idx['id']}/${idx['product_img']}"
                                         />
                                         <span class="cart-product-title">${idx['product_desc']}</span>
                                         <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
