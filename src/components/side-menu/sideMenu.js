@@ -77,6 +77,7 @@ class SideMenu extends LitElement {
                 composed: true,
             })
         );
+        this.requestUpdate();
     }
 
     // 카테고리 분류 초기화
