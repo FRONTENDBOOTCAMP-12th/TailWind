@@ -87,19 +87,15 @@ class Register extends LitElement {
     }
 
     //전체 체크
-    handleAllCheck() {
-        const allCheck = this.renderRoot.querySelector('.all-check c-checkbox');
+    handleAllCheck(e) {
+        const allCheck = e.target;
+        const isChecked = allCheck.checked;
+
         const checks = this.renderRoot.querySelectorAll('.part-check c-checkbox ');
 
-        if (!allCheck.hasAttribute('checked')) {
-            checks.forEach((check) => {
-                check.setAttribute('checked', '');
-            });
-        } else {
-            checks.forEach((check) => {
-                check.removeAttribute('checked', '');
-            });
-        }
+        checks.forEach((check) => {
+            check.checked = isChecked; // 부모 상태에 따라 자식 체크박스 설정
+        });
     }
 
     render() {
@@ -199,7 +195,7 @@ class Register extends LitElement {
                     <c-label required>이용약관동의</c-label>
                     <div class="check-container">
                         <span class="all-check">
-                            <c-checkbox @click="${this.handleAllCheck}">
+                            <c-checkbox @checkbox-change="${this.handleAllCheck}">
                                 <div>
                                     전체동의합니다
                                     <p>선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다</p>
