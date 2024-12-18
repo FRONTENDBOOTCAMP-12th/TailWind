@@ -1,47 +1,9 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import resetCss from '@/styles/reset.js';
+import { birthCss } from './birthCss';
 
 class Birth extends LitElement {
-    static styles = [
-        resetCss,
-        css`
-            .birth-container {
-                display: flex;
-                padding: 0.5625rem 1.25rem;
-                border: 0.0625rem solid var(--gray--300);
-                border-radius: 0.25rem;
-                width: 20.8125rem;
-                justify-content: center;
-                color: var(--gray--400);
-                & input {
-                    width: 100%;
-                    text-align: center;
-                }
-
-                & input:focus {
-                    outline: none;
-                }
-                & input::-webkit-inner-spin-button {
-                    -webkit-appearance: none;
-                }
-                & input::-webkit-outer-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
-                }
-            }
-        `,
-    ];
-
-    get yearInput() {
-        return this.renderRoot.querySelector < HTMLInputElement > '#year';
-    }
-
-    get monthInput() {
-        return this.renderRoot.querySelector < HTMLInputElement > '#month';
-    }
-    get dayInput() {
-        return this.renderRoot.querySelector < HTMLInputElement > '#day';
-    }
+    static styles = [resetCss, birthCss];
 
     handleValidation(e) {
         const target = e.target;
