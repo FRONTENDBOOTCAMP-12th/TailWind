@@ -197,7 +197,6 @@ export default css`
 
             .cart-product-image {
                 width: 3.75rem;
-                height: 4.875rem;
             }
 
             .cart-product-title {
@@ -211,11 +210,6 @@ export default css`
                 text-align: right;
                 font-weight: 600;
                 font-size: var(--label---medium);
-            }
-
-            .cart-product-delete {
-                width: 1.875rem;
-                height: 1.875rem;
             }
 
             .product-delete-btn {
