@@ -23,6 +23,17 @@ class ProductHeader extends LitElement {
         this.totalPrice = localStorage.getItem('itemQuantity') * this.product.price;
     }
 
+    handleChange() {
+        this.totalPrice = localStorage.getItem('itemQuantity') * this.product.price;
+        this.requestUpdate();
+    }
+
+    handleAddToCart() {
+        const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        cart.push({ [`${this.product.id}`]: localStorage.getItem('itemQuantity') });
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+    }
+
     render() {
         return html`
             <div class="product-header">
@@ -80,20 +91,22 @@ class ProductHeader extends LitElement {
                                           <div class="product-option-box">
                                               <div class="product-option-name">상품선택</div>
                                               <div class="product-option-value">
-                                                  <inc-dec-btn></inc-dec-btn>${this.product.price.toLocaleString()}원
+                                                  <inc-dec-btn @change=${this.handleChange}></inc-dec-btn>${this.product.price.toLocaleString()}원
                                               </div>
                                           </div>
                                       </td>
                                   </tr>
                               </table>
                               <div class="product-total-price-box">
-                                  <div class="product-total-price">총 상품 금액:<span>${this.totalPrice}</span>원</div>
+                                  <div class="product-total-price">총 상품 금액:<span>${this.totalPrice.toLocaleString()}</span>원</div>
                                   <div>로그인 후, 적립 혜택 제공</div>
                               </div>
                               <div class="product-btn-box">
                                   <c-button type="button" mode="outline">찜하기</c-button>
                                   <c-button type="button" mode="outline">알림</c-button>
-                                  <c-button type="button" mode="fill">장바구니 담기</c-button>
+                                  <c-button type="button" mode="fill" ?disabled=${this.totalPrice === 0} @click=${this.handleAddToCart}
+                                      >장바구니 담기</c-button
+                                  >
                               </div>
                           </div>
                       `
