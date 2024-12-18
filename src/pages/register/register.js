@@ -18,11 +18,16 @@ class Register extends LitElement {
             number: '',
         };
     }
+    connectedCallback() {
+        super.connectedCallback();
+        this.fetchData();
+    }
 
+    async fetchData() {}
     static get styles() {
         return [resetCss, registerCss];
     }
-
+    //input 값 받아오는 함수
     handleInput(e) {
         const input = e.composedPath().find((el) => el.tagName === 'INPUT');
         if (!input) return;
@@ -33,11 +38,16 @@ class Register extends LitElement {
         this.inputs[id] = value;
     }
 
+    //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
         console.log(this.inputs['idField']);
         pb.collection('test_user')
             .create({
                 userid: this.inputs['idField'],
+                pw: this.inputs['pwField'],
+                name: this.inputs['nameField'],
+                email: this.inputs['emailField'],
+                phoneNumber: this.inputs['numberField'],
             })
             .then(() => {
                 console.log('완료');
@@ -46,7 +56,35 @@ class Register extends LitElement {
                 console.log('실패');
             });
     }
+    // 비밀번호 확인 함수
+    handlePwCheck(e) {
+        this.handleInput(e);
 
+        if (this.inputs['pwField'] === this.inputs['pwCheckField']) {
+            return;
+        }
+    }
+    // 중복확인 함수
+
+    async handleDuplication(e) {
+        const value = this.inputs[e.target.dataset.id];
+        const field = e.target.dataset.field;
+
+        try {
+            const result = await pb.collection('test_user').getList(1, 1, { filter: `${field} = '${value}'` });
+
+            if (!(result.items.length === 0)) {
+                console.log('있음');
+                return true;
+            }
+        } catch {
+            console.log('없음');
+            return false;
+        }
+
+        //const value = this.inputs[];
+        //console.log(value);
+    }
     render() {
         return html`
             <div class="register-container">
@@ -62,36 +100,61 @@ class Register extends LitElement {
                             id="idField"
                             @input="${this.handleInput}"
                             errorMessage="6자 이상 16자 이하의 영문"
+                            required
                         ></c-input>
-                        <c-button>중복확인</c-button>
+                        <c-button data-id="idField" data-field="userid" @click=${this.handleDuplication}>중복확인</c-button>
                     </span>
                     <span class="input-line">
                         <c-label required>비밀번호</c-label>
-                        <c-input placeholder="비밀번호를 입력해주세요" classType="register" id="pwField"></c-input>
+                        <c-input
+                            placeholder="비밀번호를 입력해주세요"
+                            classType="register"
+                            id="pwField"
+                            @input="${this.handleInput}"
+                            required
+                        ></c-input>
                     </span>
                     <span class="input-line">
                         <c-label required>비밀번호 확인</c-label>
-                        <c-input placeholder="비밀번호를 한번 더 입력해주세요" classType="register" id="pwCheckField"></c-input>
+                        <c-input
+                            placeholder="비밀번호를 한번 더 입력해주세요"
+                            classType="register"
+                            id="pwCheckField"
+                            @input="${this.handlePwCheck}"
+                            required
+                        ></c-input>
                     </span>
                     <span class="input-line">
                         <c-label required>이름</c-label>
-                        <c-input placeholder="이름을 입력해주세요" classType="register" id="nameField"></c-input>
+                        <c-input
+                            placeholder="이름을 입력해주세요"
+                            classType="register"
+                            id="nameField"
+                            @input="${this.handleInput}"
+                            required
+                        ></c-input>
                     </span>
                     <span class="input-line">
                         <c-label required>이메일</c-label>
-                        <c-input placeholder="이메일" classType="register" id="nameField"></c-input>
-                        <c-button>중복확인</c-button>
+                        <c-input placeholder="이메일" classType="register" id="emailField" @input="${this.handleInput}" required></c-input>
+                        <c-button data-id="emailField" data-field="email" @click=${this.handleDuplication}>중복확인</c-button>
                     </span>
                     <span class="input-line">
                         <c-label required>휴대폰</c-label>
-                        <c-input placeholder="숫자만 입력해주세요." classType="register" id="numberField"></c-input>
+                        <c-input
+                            placeholder="숫자만 입력해주세요."
+                            classType="register"
+                            id="numberField"
+                            @input="${this.handleInput}"
+                            required
+                        ></c-input>
                         <c-button>인증번호 받기</c-button>
                     </span>
 
                     <span class="input-line">
                         <c-label required>주소</c-label>
                         <div class="address-container">
-                            <c-button>인증번호 받기</c-button>
+                            <c-button>주소 찾기</c-button>
                             배송지에 따라 상품 정보가 달라질 수 있습니다.
                         </div>
                     </span>
