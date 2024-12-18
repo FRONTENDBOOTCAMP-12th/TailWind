@@ -46,8 +46,7 @@ class IncDecBtn extends LitElement {
         this.cartItems[`${this.id}`] = this.idValue;
         // 장바구니 페이지라면 객체를 저장, 아니라면 id를 key로 저장
         this.inCartPage ? localStorage.setItem('cartItems', JSON.stringify(this.cartItems)) : localStorage.setItem(`${this.id}`, this.idValue);
-        const quantity = localStorage.getItem('itemQuantity');
-        calc === 'add' ? localStorage.setItem('itemQuantity', Number(quantity) + 1) : localStorage.setItem('itemQuantity', Number(quantity) - 1);
+
         this.dispatchEvent(this.changeEvent);
     }
 
