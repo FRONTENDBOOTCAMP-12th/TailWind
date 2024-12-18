@@ -14,9 +14,10 @@ class ProductList extends LitElement {
         this.idx = {};
     }
 
+    // localStorage에 저장된 장바구니 목록을 변수에 할당
     connectedCallback() {
         super.connectedCallback();
-        this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
     }
 
     deleteList(e) {
