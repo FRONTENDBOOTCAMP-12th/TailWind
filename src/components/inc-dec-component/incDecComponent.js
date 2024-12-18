@@ -29,6 +29,8 @@ class IncDecBtn extends LitElement {
         this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
         // 만약 장바구니 페이지라면 저장된 value를, 아니라면 0을 할당
         this.inCartPage ? (this.idValue = this.cartItems[`${this.id}`] ?? 0) : (this.idValue = 0);
+
+        this.changeEvent = new CustomEvent('change', { bubbles: true, composed: true });
     }
 
     calcQuantity(calc) {
@@ -44,6 +46,9 @@ class IncDecBtn extends LitElement {
         this.cartItems[`${this.id}`] = this.idValue;
         // 장바구니 페이지라면 객체를 저장, 아니라면 id를 key로 저장
         this.inCartPage ? localStorage.setItem('cartItems', JSON.stringify(this.cartItems)) : localStorage.setItem(`${this.id}`, this.idValue);
+        const quantity = localStorage.getItem('itemQuantity');
+        calc === 'add' ? localStorage.setItem('itemQuantity', Number(quantity) + 1) : localStorage.setItem('itemQuantity', Number(quantity) - 1);
+        this.dispatchEvent(this.changeEvent);
     }
 
     handleIncreaseItem() {
