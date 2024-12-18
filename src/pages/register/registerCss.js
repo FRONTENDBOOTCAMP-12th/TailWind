@@ -51,6 +51,7 @@ export default css`
                     flex-flow: column;
                     gap: 0.25rem;
                     font-size: var(--paragraph---small);
+                    width: 20.8125rem;
                 }
 
                 & c-radio-group {
