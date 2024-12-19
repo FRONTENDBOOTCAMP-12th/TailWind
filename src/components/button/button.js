@@ -23,10 +23,11 @@ class Button extends LitElement {
         this.mode = 'outline';
         this.size = 'btn-sm';
         this.disabled = false;
+        this.clickEvent = new CustomEvent('click', { bubbles: true, composed: true });
     }
 
     handleClick() {
-        this.dispatchEvent(new CustomEvent('click', { bubbles: true, composed: true }));
+        this.dispatchEvent(this.clickEvent);
     }
 
     render() {
