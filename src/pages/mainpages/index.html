@@ -5,10 +5,9 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <link rel="stylesheet" href="/src/styles/main.css" />
+        <link rel="stylesheet" href="./index.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="/main.js"></script>
-        <link rel="stylesheet" href="/src/pages/mainpages/index.css" />
-
         <!-- 스와이퍼 삭제 예정 -->
         <script type="module" src="/src/components/swiper/swiper.js"></script>
     </head>
@@ -29,12 +28,9 @@
 
         <div class="mainbanner">
             <div class="swiper">
-                <swiper-container autoplay delay="100" disableOnInteraction="false" navigation="true" pagination="true" loop="true">
-                    <img class="swiper-slide" src="/public/assets/main-banner-1.png" alt="이 주의 특가 한 눈에 보기" />>
-                    <img class="swiper-slide" src="/public/assets/main-banner-2.png" alt="특가부터 인기 브랜드까지 최대 77% 할인 + 쿠폰팩" />
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </swiper-container>
+                <product-swiper>
+                    <!-- <div class="swiper-pagination"></div> -->
+                </product-swiper>
             </div>
         </div>
 

@@ -8,6 +8,7 @@ class Input extends LitElement {
         placeholder: { type: String },
         classType: { type: String },
         errorMessage: { type: String },
+        id: { type: String },
         validation: { type: String },
     };
 
@@ -21,6 +22,7 @@ class Input extends LitElement {
         this.placeholder = '입력';
         this.classType = 'login';
         this.errorMessage = '에러메세지';
+        this.id = 'id';
         this.validation = /^[A-Za-z]+$/;
     }
 
@@ -55,6 +57,7 @@ class Input extends LitElement {
                     type="${this.inputType}"
                     class="input-st ${this.classType}"
                     placeholder="${this.placeholder}"
+                    id="${this.id}"
                 />
                 <span class="error-message">${this.errorMessage}</span>
             </div>
