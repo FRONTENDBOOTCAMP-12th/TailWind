@@ -35,11 +35,12 @@ export default css`
 
             & .input-line {
                 display: flex;
-                align-items: center;
+                align-items: start;
                 padding: 1.25rem 0;
 
                 & c-label {
                     margin-right: 0.5rem;
+                    padding-block: 0.6875rem;
                 }
 
                 & c-input {
