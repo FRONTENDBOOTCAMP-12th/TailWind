@@ -11,11 +11,11 @@ class Register extends LitElement {
         super();
         this.inputs = {
             idField: '',
-            pw: '',
-            pwCheck: '',
-            userName: '',
-            email: '',
-            number: '',
+            pwField: '',
+            pwCheckField: '',
+            nameField: '',
+            emailField: '',
+            numberField: '',
         };
     }
     connectedCallback() {
@@ -40,11 +40,12 @@ class Register extends LitElement {
 
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        console.log(this.inputs['idField']);
-        pb.collection('test_user')
+        console.log(this.inputs);
+        pb.collection('users')
             .create({
                 userid: this.inputs['idField'],
-                pw: this.inputs['pwField'],
+                password: this.inputs['pwField'],
+                passwordConfirm: this.inputs['pwCheckField'],
                 name: this.inputs['nameField'],
                 email: this.inputs['emailField'],
                 phoneNumber: this.inputs['numberField'],
@@ -64,21 +65,21 @@ class Register extends LitElement {
             return;
         }
     }
-    // 중복확인 함수
 
+    // 중복확인 함수
     async handleDuplication(e) {
         const value = this.inputs[e.target.dataset.id];
         const field = e.target.dataset.field;
 
         try {
-            const result = await pb.collection('test_user').getList(1, 1, { filter: `${field} = '${value}'` });
-
+            const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+            console.log(result);
             if (!(result.items.length === 0)) {
-                console.log('있음');
+                alert('있음');
                 return true;
             }
         } catch {
-            console.log('없음');
+            alert('없음');
             return false;
         }
 
@@ -124,6 +125,7 @@ class Register extends LitElement {
                             classType="register"
                             id="pwField"
                             @input="${this.handleInput}"
+                            errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
                             required
                         ></c-input>
                     </span>
@@ -181,11 +183,12 @@ class Register extends LitElement {
                     </span>
                     <span class="input-line">
                         <c-label>생년월일</c-label>
+                        <c-birth></c-birth>
                     </span>
                     <span class="input-line">
                         <c-label>추가입력 사항</c-label>
                         <c-radio-group name="radio">
-                            <c-radio id="radio1">친구초대 추천인 아이디</c-radio>
+                            <c-radio id="radio1">추천인 아이디</c-radio>
                             <c-radio id="radio2">참여 이벤트명</c-radio>
                         </c-radio-group>
                     </span>
