@@ -14,7 +14,10 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
+    "bundle": "^2.1.0",
+    "element": "^0.1.4",
     "lit": "^3.2.1",
-    "pocketbase": "^0.23.0"
+    "pocketbase": "^0.23.0",
+    "swiper": "^11.1.15"
   }
 }
