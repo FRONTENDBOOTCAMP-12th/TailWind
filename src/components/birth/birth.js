@@ -14,13 +14,30 @@ class Birth extends LitElement {
             target.value = target.value.slice(0, target.maxLength);
         }
     }
+
+    handleInput(e) {
+        this.handleValidation(e);
+
+        const year = this.renderRoot.querySelector('#year').value;
+        const month = this.renderRoot.querySelector('#month').value;
+        const day = this.renderRoot.querySelector('#day').value;
+
+        this.dispatchEvent(
+            new CustomEvent('birth-change', {
+                detail: { year, month, day },
+                bubbles: true,
+                composed: true,
+            })
+        );
+    }
+
     render() {
         return html`<span class="birth-container">
-            <input type="number" id="year" placeholder="YYYY" @input=${this.handleValidation} maxlength="4" />
+            <input type="number" id="year" placeholder="YYYY" @input=${this.handleInput} maxlength="4" />
             /
-            <input type="number" id="month" placeholder="MM" @input=${this.handleValidation} maxlength="2" />
+            <input type="number" id="month" placeholder="MM" @input=${this.handleInput} maxlength="2" />
             /
-            <input type="number" id="day" placeholder="DD" @input=${this.handleValidation} maxlength="2" />
+            <input type="number" id="day" placeholder="DD" @input=${this.handleInput} maxlength="2" />
         </span>`;
     }
 }
