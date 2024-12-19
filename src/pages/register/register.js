@@ -113,7 +113,8 @@ class Register extends LitElement {
                             classType="register"
                             id="idField"
                             @input="${this.handleInput}"
-                            errorMessage="6자 이상 16자 이하의 영문"
+                            errorMessage="올바른 형식으로 입력하세요요"
+                            .validation=${null}
                             required
                         ></c-input>
                         <c-button data-id="idField" data-field="userid" @click=${this.handleDuplication}>중복확인</c-button>
@@ -126,6 +127,7 @@ class Register extends LitElement {
                             id="pwField"
                             @input="${this.handleInput}"
                             errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
+                            .validation=${/^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,16}$/}
                             required
                         ></c-input>
                     </span>
@@ -136,6 +138,7 @@ class Register extends LitElement {
                             classType="register"
                             id="pwCheckField"
                             @input="${this.handlePwCheck}"
+                            errorMessage="비밀번호가 일치하지 않습니다"
                             required
                         ></c-input>
                     </span>
@@ -146,12 +149,22 @@ class Register extends LitElement {
                             classType="register"
                             id="nameField"
                             @input="${this.handleInput}"
+                            errorMessage="이름을 올바르게 입력해주세요"
+                            .validation=${/^[가-힣A-Za-z]+$/}
                             required
                         ></c-input>
                     </span>
                     <span class="input-line">
                         <c-label required>이메일</c-label>
-                        <c-input placeholder="이메일" classType="register" id="emailField" @input="${this.handleInput}" required></c-input>
+                        <c-input
+                            placeholder="이메일"
+                            classType="register"
+                            id="emailField"
+                            @input="${this.handleInput}"
+                            errorMessage="올바른 이메일 형식으로 입력해주세요"
+                            .validation=${/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
+                            required
+                        ></c-input>
                         <c-button data-id="emailField" data-field="email" @click=${this.handleDuplication}>중복확인</c-button>
                     </span>
                     <span class="input-line">
@@ -161,6 +174,8 @@ class Register extends LitElement {
                             classType="register"
                             id="numberField"
                             @input="${this.handleInput}"
+                            errorMessage="숫자만 입력해주세요"
+                            .validation=${/^\d+$/}
                             required
                         ></c-input>
                         <c-button>인증번호 받기</c-button>
