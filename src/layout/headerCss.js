@@ -195,7 +195,7 @@ export default css`
                 top: 100%;
                 background-color: var(--white);
                 /*호버를 하지 않았을 시엔 보이지 않게*/
-                display: none;
+                z-index: 1;
                 border-inline: 1px solid var(--gray--100);
                 /* 배경색과 메뉴바 배경색이 같아 경게를 위해 추가 */
                 /* 추후 삭제 예정 */
