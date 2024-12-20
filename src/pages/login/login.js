@@ -31,9 +31,9 @@ class Login extends LitElement {
             const pw = this.inputs['pwField'];
 
             await pb.collection('users').authWithPassword(id, pw);
-            console.log('성공');
+            alert('성공');
         } catch {
-            console.log('틀렸어');
+            alert('틀렸어');
         }
     }
 
@@ -46,12 +46,14 @@ class Login extends LitElement {
                 placeholder="아이디"
                 id="idField"
                 @input="${this.handleInput}" 
+                            .validation=${null} 
                             required></c-input>
                 <c-input 
                 placeholder="비밀번호"  
                 id="pwField"
                 @input="${this.handleInput}" 
-                            required></c-input>
+                         .validation=${null}    
+                         required></c-input>
 
                 <span class="find-st">
                     <a href="/">아이디 찾기</a>

@@ -77,10 +77,12 @@ class Register extends LitElement {
 
         try {
             const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
-            console.log(result);
             if (!(result.items.length === 0)) {
                 alert('있음');
                 return true;
+            } else {
+                alert('없음');
+                return false;
             }
         } catch {
             alert('없음');
@@ -142,7 +144,7 @@ class Register extends LitElement {
                             classType="register"
                             id="idField"
                             @input="${this.handleInput}"
-                            errorMessage="올바른 형식으로 입력하세요요"
+                            errorMessage="올바른 형식으로 입력하세요"
                             .validation=${null}
                             required
                         ></c-input>
