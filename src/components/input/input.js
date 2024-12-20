@@ -44,7 +44,10 @@ class Input extends LitElement {
     }
 
     handleErrorReg(text) {
-        return this.validation.test(String(text).toLowerCase());
+        if (this.validation !== null && this.validation !== undefined) {
+            return this.validation.test(String(text).toLowerCase());
+        }
+        return true;
     }
 
     render() {
