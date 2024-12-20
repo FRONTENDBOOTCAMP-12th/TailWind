@@ -26,7 +26,8 @@ class Button extends LitElement {
         this.clickEvent = new CustomEvent('click', { bubbles: true, composed: true });
     }
 
-    handleClick() {
+    handleClick(e) {
+        e.stopPropagation();
         this.dispatchEvent(this.clickEvent);
     }
 

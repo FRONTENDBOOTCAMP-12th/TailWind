@@ -3,10 +3,6 @@ import resetCss from '@/styles/reset.js';
 import registerCss from '@/pages/register/registerCss.js';
 import { pb } from '@/api/pockethost.js';
 class Register extends LitElement {
-    static properties = {
-        idInputValue: { type: String },
-    };
-
     constructor() {
         super();
         this.inputs = {
@@ -16,6 +12,13 @@ class Register extends LitElement {
             nameField: '',
             emailField: '',
             numberField: '',
+            genderField: '',
+            birthField: {
+                year: '',
+                month: '',
+                day: '',
+            },
+            birthDate: '',
         };
     }
     connectedCallback() {
@@ -40,7 +43,6 @@ class Register extends LitElement {
 
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        console.log(this.inputs);
         pb.collection('users')
             .create({
                 userid: this.inputs['idField'],
@@ -49,12 +51,14 @@ class Register extends LitElement {
                 name: this.inputs['nameField'],
                 email: this.inputs['emailField'],
                 phoneNumber: this.inputs['numberField'],
+                birth: this.inputs['birthDate'],
+                gender: [this.inputs['genderField']],
             })
             .then(() => {
-                console.log('완료');
+                alert('완료!!');
             })
             .catch(() => {
-                console.log('실패');
+                alert('실패!!');
             });
     }
     // 비밀번호 확인 함수
@@ -87,6 +91,31 @@ class Register extends LitElement {
         //console.log(value);
     }
 
+    // 성별 택하기
+    handleRadio(e) {
+        const gender = e.target.id;
+        this.inputs['genderField'] = gender;
+    }
+
+    //생년월일 값 넣기
+    handleBirth(e) {
+        const { year, month, day } = e.detail;
+
+        this.inputs.birthField.year = year;
+        this.inputs.birthField.month = this.handleZero(month);
+        this.inputs.birthField.day = this.handleZero(day);
+
+        this.handleBirthDate(this.inputs.birthField);
+    }
+
+    // 형식에 맞게 생년월일 바꾸기
+    handleBirthDate({ year, month, day }) {
+        this.inputs.birthDate = `${year}-${month}-${day}`;
+    }
+    //숫자 한개가 들어올 때는 앞에 0을 추가해주는 함수
+    handleZero(value) {
+        return String(value).padStart(2, '0');
+    }
     //전체 체크
     handleAllCheck(e) {
         const allCheck = e.target;
@@ -113,7 +142,8 @@ class Register extends LitElement {
                             classType="register"
                             id="idField"
                             @input="${this.handleInput}"
-                            errorMessage="6자 이상 16자 이하의 영문"
+                            errorMessage="올바른 형식으로 입력하세요요"
+                            .validation=${null}
                             required
                         ></c-input>
                         <c-button data-id="idField" data-field="userid" @click=${this.handleDuplication}>중복확인</c-button>
@@ -126,6 +156,7 @@ class Register extends LitElement {
                             id="pwField"
                             @input="${this.handleInput}"
                             errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
+                            .validation=${/^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,16}$/}
                             required
                         ></c-input>
                     </span>
@@ -136,6 +167,7 @@ class Register extends LitElement {
                             classType="register"
                             id="pwCheckField"
                             @input="${this.handlePwCheck}"
+                            errorMessage="비밀번호가 일치하지 않습니다"
                             required
                         ></c-input>
                     </span>
@@ -146,12 +178,22 @@ class Register extends LitElement {
                             classType="register"
                             id="nameField"
                             @input="${this.handleInput}"
+                            errorMessage="이름을 올바르게 입력해주세요"
+                            .validation=${/^[가-힣A-Za-z]+$/}
                             required
                         ></c-input>
                     </span>
                     <span class="input-line">
                         <c-label required>이메일</c-label>
-                        <c-input placeholder="이메일" classType="register" id="emailField" @input="${this.handleInput}" required></c-input>
+                        <c-input
+                            placeholder="이메일"
+                            classType="register"
+                            id="emailField"
+                            @input="${this.handleInput}"
+                            errorMessage="올바른 이메일 형식으로 입력해주세요"
+                            .validation=${/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/}
+                            required
+                        ></c-input>
                         <c-button data-id="emailField" data-field="email" @click=${this.handleDuplication}>중복확인</c-button>
                     </span>
                     <span class="input-line">
@@ -161,6 +203,8 @@ class Register extends LitElement {
                             classType="register"
                             id="numberField"
                             @input="${this.handleInput}"
+                            errorMessage="숫자만 입력해주세요"
+                            .validation=${/^\d+$/}
                             required
                         ></c-input>
                         <c-button>인증번호 받기</c-button>
@@ -176,14 +220,14 @@ class Register extends LitElement {
                     <span class="input-line">
                         <c-label>성별</c-label>
                         <c-radio-group name="radio">
-                            <c-radio id="radio1">남자</c-radio>
-                            <c-radio id="radio2">여자</c-radio>
-                            <c-radio id="radio3">선택안함</c-radio>
+                            <c-radio id="male" @radio-change="${this.handleRadio}">남자</c-radio>
+                            <c-radio id="female" @radio-change="${this.handleRadio}">여자</c-radio>
+                            <c-radio id="none" @radio-change="${this.handleRadio}">선택안함</c-radio>
                         </c-radio-group>
                     </span>
                     <span class="input-line">
                         <c-label>생년월일</c-label>
-                        <c-birth></c-birth>
+                        <c-birth @birth-change="${this.handleBirth}"></c-birth>
                     </span>
                     <span class="input-line">
                         <c-label>추가입력 사항</c-label>
