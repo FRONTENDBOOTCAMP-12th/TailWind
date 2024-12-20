@@ -25,10 +25,11 @@ class ProductDetail extends LitElement {
 
         this.product = await pb.collection('product').getOne('l8125u60nj73e27');
         localStorage.setItem('product', JSON.stringify(this.product));
+        this.requestUpdate();
     }
 
     render() {
-        return html` <div class="product-detail-container"><product-header></product-header></div> `;
+        return this.product ? html` <div class="product-detail-container"><product-header></product-header></div> ` : html` <div>로딩중...</div> `;
     }
 }
 
