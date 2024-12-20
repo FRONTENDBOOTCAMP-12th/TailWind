@@ -20,6 +20,7 @@ class Register extends LitElement {
             },
             birthDate: '',
         };
+        this.hint = '';
     }
     connectedCallback() {
         super.connectedCallback();
@@ -39,6 +40,25 @@ class Register extends LitElement {
         const value = input.value;
 
         this.inputs[id] = value;
+
+        this.handleHint(e); // e 값을 넘겨주기
+    }
+
+    // 유효성을 갖추었는지 값 가져오기
+    handleHint(e) {
+        const errorMessage = getComputedStyle(
+            e
+                .composedPath()
+                .find((el) => el.classList?.contains('input-container'))
+                ?.querySelector('.error-message')
+        ).display;
+
+        //display가 none이면 제대로 입력했다는 뜻
+        if (errorMessage === 'none') {
+            this.hint = true;
+        } else {
+            this.hint = false;
+        }
     }
 
     //포켓 호스트에 값을 전송하는 함수
@@ -61,6 +81,7 @@ class Register extends LitElement {
                 alert('실패!!');
             });
     }
+
     // 비밀번호 확인 함수
     handlePwCheck(e) {
         this.handleInput(e);
@@ -75,18 +96,24 @@ class Register extends LitElement {
         const value = this.inputs[e.target.dataset.id];
         const field = e.target.dataset.field;
 
-        try {
-            const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
-            if (!(result.items.length === 0)) {
-                alert('있음');
-                return true;
-            } else {
-                alert('없음');
+        //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
+        if (this.hint) {
+            try {
+                const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+
+                //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
+                if (!(result.items.length === 0)) {
+                    alert('있음');
+                    return true;
+                } else {
+                    alert('없음');
+                    return false;
+                }
+            } catch {
                 return false;
             }
-        } catch {
-            alert('없음');
-            return false;
+        } else {
+            alert('제대로 입력하세요');
         }
 
         //const value = this.inputs[];
@@ -144,8 +171,8 @@ class Register extends LitElement {
                             classType="register"
                             id="idField"
                             @input="${this.handleInput}"
-                            errorMessage="올바른 형식으로 입력하세요"
-                            .validation=${null}
+                            errorMessage="숫자만 입력 불가능, 6자 이상"
+                            .validation=${/^(?=.*\D).{6,}$/}
                             required
                         ></c-input>
                         <c-button data-id="idField" data-field="userid" @click=${this.handleDuplication}>중복확인</c-button>
