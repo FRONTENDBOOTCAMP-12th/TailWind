@@ -9,7 +9,7 @@ class Input extends LitElement {
         classType: { type: String },
         errorMessage: { type: String },
         id: { type: String },
-        validation: { type: String },
+        validation: { type: RegExp }, //RegExp 정규식 객체타입, 문자열의 패턴 매칭을 위한 도구
     };
 
     static get styles() {
