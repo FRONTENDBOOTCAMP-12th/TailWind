@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import cartProductListStyle from '@/components/cart-product-list/cartProductListStyle.js';
 import resetCss from '@/styles/reset.js';
+import obj from '@/components/cart/cart.js';
 
 class ProductList extends LitElement {
     static styles = [resetCss, cartProductListStyle];
@@ -24,21 +25,21 @@ class ProductList extends LitElement {
         // 클릭하는 영역의 id값을 가져오기 후 그 영역을 안보이게 처리
         const target = e.target.closest('div');
         target.style.display = 'none';
-        console.log(this.cartItems);
 
         // cartItems에서 클릭한 영역의 id 값을 제거 후 localStorage에 다시 저장
         delete this.cartItems[target.id];
         localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
 
-        // 이후 가격의 계산을 위해 productList를 재할당
-        this.productList = this.productList.filter((idx) => {
-            return idx['id'] !== target.id;
-        });
+        delete obj[target.id];
+    }
+
+    handleChangeCount() {
+        obj[this.idx['id']] = false;
     }
 
     render() {
         return html` <div class="cart-product" id=${this.idx['id']}>
-            <c-checkbox checked="true"></c-checkbox>
+            <c-checkbox checked="true" @checkbox-change=${this.handleChangeCount}>ff</c-checkbox>
             <!-- 이미지는 다음과 같이 불러와야함-->
             <img class="cart-product-image" src="${import.meta.env.VITE_API_URL}/api/files/product/${this.idx['id']}/${this.idx['main_image']}" />
             <span class="cart-product-title">${this.idx['name']}</span>
