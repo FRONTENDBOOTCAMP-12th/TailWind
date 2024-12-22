@@ -51,12 +51,25 @@ class Footer extends LitElement {
 
                     <address class="address-2">
                         <span class="introduce-karly">
-                            <p>칼리소개</p>
-                            <p>칼리소개영상</p>
-                            <p>인재채용</p>
-                            <p>이용약관</p>
-                            <p>개인정보처리방침</p>
-                            <p>이용안내</p>
+                            <a href="">
+                                <p>칼리소개</p>
+                            </a>
+                            <a href="">
+                                <p>칼리소개영상</p>
+                            </a>
+                            <a href="">
+                                <p>인재채용</p>
+                            </a>
+
+                            <a href="">
+                                <p>이용약관</p>
+                            </a>
+                            <a href="">
+                                <p>개인정보처리방침</p>
+                            </a>
+                            <a href="">
+                                <p>이용안내</p>
+                            </a>
                         </span>
 
                         <div class="info">
@@ -95,19 +108,19 @@ class Footer extends LitElement {
                         </div>
                         <span class="sns-container">
                             <a href="/" target="_blank" rel="noopener noreferrer">
-                                <img src="/assets/Blog.svg" alt="블로그 아이콘" />
+                                <img src="/assets/Blog.svg" alt="블로그 바로가기" />
                             </a>
                             <a href="/" target="_blank" rel="noopener noreferrer">
-                                <img src="/assets/FaceBook.svg" alt="페이스북 아이콘" />
+                                <img src="/assets/FaceBook.svg" alt="페이스북 바로가기" />
                             </a>
                             <a href="/" target="_blank" rel="noopener noreferrer">
-                                <img src="/assets/Instagram.svg" alt="인스타그램 아이콘" />
+                                <img src="/assets/Instagram.svg" alt="인스타그램 바로가기" />
                             </a>
                             <a href="/" target="_blank" rel="noopener noreferrer">
-                                <img src="/assets/Naver.svg" alt="네이버 글쓰기 아이콘" />
+                                <img src="/assets/Naver.svg" alt="네이버 글쓰기 바로가기" />
                             </a>
                             <a href="/" target="_blank" rel="noopener noreferrer">
-                                <img src="/assets/Youtube.svg" alt="유튜브 아이콘" />
+                                <img src="/assets/Youtube.svg" alt="유튜브 바로가기기" />
                             </a>
                         </span>
                     </address>
