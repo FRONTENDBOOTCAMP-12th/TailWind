@@ -1,6 +1,7 @@
 import { css } from 'lit';
 
-export const MainpagesStyles = css`
+export const SwiperStyles = css`
+    /* 사이드바 컴포넌트 스타일 */
     .mainbanner {
         margin: 0 auto;
         display: flex;
@@ -19,7 +20,6 @@ export const MainpagesStyles = css`
     }
 
     .itembox {
-        /* background-color: blue; */
         list-style: none;
         display: flex;
         justify-content: center;
