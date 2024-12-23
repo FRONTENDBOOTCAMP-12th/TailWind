@@ -9,11 +9,15 @@ class Tab extends LitElement {
 
     static properties = {
         activeTab: { type: String },
+        reviewList: { type: Array },
+        qnaList: { type: Array },
     };
 
     constructor() {
         super();
         this.activeTab = 'description';
+        this.reviewList = [];
+        this.qnaList = [];
     }
 
     connectedCallback() {
@@ -92,21 +96,20 @@ class Tab extends LitElement {
                 <thead>
                     <tr>
                         <th>작성자</th>
+                        <th>제목</th>
                         <th>내용</th>
-                        <th>평점</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>사용자1</td>
-                        <td>좋아요!</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>사용자2</td>
-                        <td>만족합니다.</td>
-                        <td>4</td>
-                    </tr>
+                    ${this.reviewList.map(
+                        (review) => html`
+                            <tr>
+                                <td>${review.author}</td>
+                                <td>${review.title}</td>
+                                <td>${review.contents}</td>
+                            </tr>
+                        `
+                    )}
                 </tbody>
             </table>
         `;
@@ -130,21 +133,20 @@ class Tab extends LitElement {
                 <thead>
                     <tr>
                         <th>작성자</th>
-                        <th>문의내용</th>
-                        <th>답변상태</th>
+                        <th>제목</th>
+                        <th>문의 내용</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>사용자3</td>
-                        <td>배송은 얼마나 걸리나요?</td>
-                        <td>답변 완료</td>
-                    </tr>
-                    <tr>
-                        <td>사용자4</td>
-                        <td>재입고 예정이 있나요?</td>
-                        <td>미답변</td>
-                    </tr>
+                    ${this.qnaList.map(
+                        (qna) => html`
+                            <tr>
+                                <td>${qna.author}</td>
+                                <td>${qna.title}</td>
+                                <td>${qna.contents}</td>
+                            </tr>
+                        `
+                    )}
                 </tbody>
             </table>
         `;

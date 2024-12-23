@@ -14,6 +14,8 @@ class ProductDetail extends LitElement {
         modalOpen: { type: Boolean, required: true },
         modalTitle: { type: String, required: true },
         isQuestion: { type: Boolean, required: true },
+        reviewList: { type: Array, required: true },
+        qnaList: { type: Array, required: true },
     };
 
     static styles = [resetStyles, productDetailStyles];
@@ -24,14 +26,22 @@ class ProductDetail extends LitElement {
         this.modalOpen = false;
         this.modalTitle = '';
         this.isQuestion = false;
+        this.reviewList = [];
+        this.qnaList = [];
     }
 
     async connectedCallback() {
         super.connectedCallback();
 
-        this.product = await pb.collection('product').getOne('l8125u60nj73e27');
+        const [product, reviewList, qnaList] = await Promise.all([
+            pb.collection('product').getOne('l8125u60nj73e27'),
+            pb.collection('reviews').getList(1, 5, { productId: 'l8125u60nj73e27' }),
+            pb.collection('questions_answers').getList(1, 5, { productId: 'l8125u60nj73e27' }),
+        ]);
+        this.product = product;
+        this.reviewList = reviewList.items;
+        this.qnaList = qnaList.items;
         localStorage.setItem('product', JSON.stringify(this.product));
-        this.requestUpdate();
     }
 
     handleModal(event) {
@@ -52,11 +62,11 @@ class ProductDetail extends LitElement {
                 ?isQuestion=${this.isQuestion}
                 @modal-closed="${this.handleModalClosed}"
             ></modal-component>
-            ${this.product
+            ${this.product && this.reviewList && this.qnaList
                 ? html`
                       <div class="product-detail-container">
                           <product-header></product-header>
-                          <c-tab @open-modal="${this.handleModal}"></c-tab>
+                          <c-tab @open-modal="${this.handleModal}" .reviewList=${this.reviewList} .qnaList=${this.qnaList}></c-tab>
                       </div>
                   `
                 : html` <div>로딩중...</div> `}
