@@ -5,6 +5,7 @@ import resetStyles from '@/styles/reset.js';
 import '@/components/checkbox/checkbox.js';
 import '@/components/button/button.js';
 import { fileUrl } from '@/api/pockethost.js';
+import { pb } from '@/api/pockethost.js';
 
 class Modal extends LitElement {
     static properties = {
@@ -38,6 +39,30 @@ class Modal extends LitElement {
     closeModal() {
         this.dispatchEvent(new CustomEvent('modal-closed'));
         this.resetValues();
+    }
+
+    async handleSubmit() {
+        if (this.isQuestion) {
+            // example create data
+            const data = {
+                title: this.titleInput.value,
+                contents: this.contentInput.value,
+                isSecret: this.isSecret,
+                productId: 'l8125u60nj73e27',
+                author: '22447xjk6th363a',
+            };
+            await pb.collection('questions_answers').create(data);
+        } else {
+            // example create data
+            const data = {
+                title: this.titleInput.value,
+                contents: this.contentInput.value,
+                productId: 'l8125u60nj73e27',
+                author: '22447xjk6th363a',
+            };
+            await pb.collection('reviews').create(data);
+        }
+        this.closeModal();
     }
 
     resetValues() {
@@ -95,7 +120,7 @@ class Modal extends LitElement {
                 <div class="modal-footer">
                     <div class="button-group">
                         <c-button class="outline" @click=${this.closeModal}>취소</c-button>
-                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</c-button>
+                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.handleSubmit}>등록</c-button>
                     </div>
                 </div>
             </div>
