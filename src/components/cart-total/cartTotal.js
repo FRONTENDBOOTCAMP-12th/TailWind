@@ -2,16 +2,60 @@ import { LitElement, html } from 'lit';
 import '@/components/checkbox/checkbox.js';
 import cartTotalStyle from '@/components/cart-total/cartTotalStyle.js';
 import resetCss from '@/styles/reset.js';
+import itemCounter from '@/components/cart/cart.js';
 
 class CartTotal extends LitElement {
     static styles = [resetCss, cartTotalStyle];
 
+    static properties = {
+        checkAll: { type: Boolean },
+    };
+
+    constructor() {
+        super();
+        this.checkAll = true;
+    }
+
+    handleAllProuct() {
+        for (const value of Object.keys(itemCounter)) {
+            if (!itemCounter[value]) {
+                this.checkAll = false;
+                break;
+            }
+        }
+
+        console.log(this.checkAll);
+
+        if (!this.checkAll) {
+            Object.keys(itemCounter).map((idx) => {
+                itemCounter[idx] = true;
+            });
+        } else {
+            Object.keys(itemCounter).map((idx) => {
+                itemCounter[idx] = false;
+            });
+        }
+
+        this.checkAll = !this.checkAll;
+        this.requestUpdate();
+    }
+
+    updateList() {
+        this.requestUpdate();
+    }
+
     render() {
         return html`
             <div class="product-check-container">
-                <!-- TODO : 이후 전체 개수를 받아와 처리하는 로직 구현 -->
-                <c-checkbox checked="true"> 전체선택 (3/3) | </c-checkbox>
-                <!-- TODO : 선택된 상품을 제거하는 로직 구현 -->
+                <c-checkbox ?checked=${this.checkAll} @checkbox-change=${this.handleAllProuct}>
+                    <span @click=${this.handleChilck}>전체선택</span>
+                    <span @click=${this.updateList}
+                        >(${Object.entries(itemCounter).reduce((acc, cur) => {
+                            return (acc += +cur[1]);
+                        }, 0)}/${Object.keys(itemCounter).length})
+                        |
+                    </span>
+                </c-checkbox>
                 <button type="button">선택 삭제</button>
             </div>
         `;
