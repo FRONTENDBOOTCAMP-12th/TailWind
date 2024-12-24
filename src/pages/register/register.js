@@ -84,9 +84,15 @@ class Register extends LitElement {
 
     // 비밀번호 확인 함수
     handlePwCheck(e) {
+        //부모 컴포넌트의 이벤트에서 자식을 찾는 방법 currentTarget
+        const errorMessage = e.currentTarget.renderRoot.querySelector('.error-message');
+
         this.handleInput(e);
 
         if (this.inputs['pwField'] === this.inputs['pwCheckField']) {
+            errorMessage.style.display = 'block';
+            errorMessage.style.color = 'dodgerblue';
+            errorMessage.textContent = '비밀번호가 일치합니다.';
             return;
         }
     }
