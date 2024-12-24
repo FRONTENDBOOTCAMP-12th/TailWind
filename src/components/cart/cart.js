@@ -131,29 +131,31 @@ class Cart extends LitElement {
                         <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideChilled ? 'sr-only' : ''}>
-                            ${this.productChilled.map(
-                                (idx) =>
-                                    html` <div class="cart-product" id=${idx['id']}>
-                                        <c-checkbox checked="true"></c-checkbox>
-                                        <!-- 이미지는 다음과 같이 불러와야함-->
-                                        <img
-                                            class="cart-product-image"
-                                            src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                        />
-                                        <span class="cart-product-title">${idx['name']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
-                                        <span class="cart-product-price">
-                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                            ${(
-                                                Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                            ).toLocaleString()}원</span
-                                        >
-                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                        </button>
-                                    </div>`
-                            )}
+                            ${Array.isArray(this.productChilled)
+                                ? this.productChilled.map(
+                                      (idx) =>
+                                          html` <div class="cart-product" id=${idx['id']}>
+                                              <c-checkbox checked="true"></c-checkbox>
+                                              <!-- 이미지는 다음과 같이 불러와야함-->
+                                              <img
+                                                  class="cart-product-image"
+                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                              />
+                                              <span class="cart-product-title">${idx['name']}</span>
+                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <span class="cart-product-price">
+                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                  ${(
+                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                  ).toLocaleString()}원</span
+                                              >
+                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                              </button>
+                                          </div>`
+                                  )
+                                : ''}
                         </div>
                         <li>
                             <div class="food-category-container">
@@ -168,28 +170,30 @@ class Cart extends LitElement {
                         <!--분류해뒀던 냉동 타입 렌더링-->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideFrozen ? 'sr-only' : ''}>
-                            ${this.productFrozen.map(
-                                (idx) =>
-                                    html` <div class="cart-product" id=${idx['id']}>
-                                        <c-checkbox checked="true"></c-checkbox>
-                                        <img
-                                            class="cart-product-image"
-                                            src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                        />
-                                        <span class="cart-product-title">${idx['name']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
-                                        <span class="cart-product-price">
-                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                            ${(
-                                                Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                            ).toLocaleString()}원</span
-                                        >
-                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                        </button>
-                                    </div>`
-                            )}
+                            ${Array.isArray(this.productFrozen)
+                                ? this.productFrozen.map(
+                                      (idx) =>
+                                          html` <div class="cart-product" id=${idx['id']}>
+                                              <c-checkbox checked="true"></c-checkbox>
+                                              <img
+                                                  class="cart-product-image"
+                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                              />
+                                              <span class="cart-product-title">${idx['name']}</span>
+                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <span class="cart-product-price">
+                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                  ${(
+                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                  ).toLocaleString()}원</span
+                                              >
+                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                              </button>
+                                          </div>`
+                                  )
+                                : ''}
                         </div>
                         <li>
                             <div class="food-category-container">
@@ -204,28 +208,30 @@ class Cart extends LitElement {
                         <!--분류해뒀던 상온 타입 렌더링-->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideTemperature ? 'sr-only' : ''}>
-                            ${this.productTemperature.map(
-                                (idx) =>
-                                    html` <div class="cart-product" id=${idx['id']}>
-                                        <c-checkbox checked="true"></c-checkbox>
-                                        <img
-                                            class="cart-product-image"
-                                            src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                        />
-                                        <span class="cart-product-title">${idx['name']}</span>
-                                        <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
-                                        <span class="cart-product-price">
-                                            <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                            ${(
-                                                Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                            ).toLocaleString()}원</span
-                                        >
-                                        <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                            <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                        </button>
-                                    </div>`
-                            )}
+                            ${Array.isArray(this.productTemperature)
+                                ? this.productTemperature.map(
+                                      (idx) =>
+                                          html` <div class="cart-product" id=${idx['id']}>
+                                              <c-checkbox checked="true"></c-checkbox>
+                                              <img
+                                                  class="cart-product-image"
+                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                              />
+                                              <span class="cart-product-title">${idx['name']}</span>
+                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <span class="cart-product-price">
+                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                  ${(
+                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                  ).toLocaleString()}원</span
+                                              >
+                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                              </button>
+                                          </div>`
+                                  )
+                                : ''}
                         </div>
                         <li>
                             <div class="product-check-container">
@@ -253,29 +259,34 @@ class Cart extends LitElement {
                                     <span>상품금액</span>
                                     <span>
                                         <!--localStroage와 api를 연동하여 가격 합산-->
-                                        ${Math.floor(
-                                            this.productList.reduce(
-                                                (acc, cur) => (acc += cur['price'] * JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                0
-                                            )
-                                        ).toLocaleString()} <b>원</b></span
+                                        ${Array.isArray(this.productList)
+                                            ? Math.floor(
+                                                  this.productList.reduce(
+                                                      (acc, cur) =>
+                                                          (acc += cur['price'] * JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                      0
+                                                  )
+                                              ).toLocaleString()
+                                            : 0} <b>원</b></span
                                     >
                                 </div>
                                 <div>
                                     <span>상품할인금액</span>
                                     <span>
                                         <!--localStroage와 api를 연동하여 할인하는 가격 합산-->
-                                        -${Math.floor(
-                                            this.productList.reduce(
-                                                (acc, cur) =>
-                                                    (acc +=
-                                                        cur['price'] *
-                                                        cur['discount'] *
-                                                        0.01 *
-                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                0
-                                            )
-                                        ).toLocaleString()} <b>원</b></span
+                                        -${Array.isArray(this.productList)
+                                            ? Math.floor(
+                                                  this.productList.reduce(
+                                                      (acc, cur) =>
+                                                          (acc +=
+                                                              cur['price'] *
+                                                              cur['discount'] *
+                                                              0.01 *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                      0
+                                                  )
+                                              ).toLocaleString()
+                                            : 0} <b>원</b></span
                                     >
                                 </div>
                                 <div>
@@ -289,15 +300,17 @@ class Cart extends LitElement {
                                     <span
                                         ><b>
                                             <!--localStroage와 api를 연동하여 총 가격 합산-->
-                                            ${Math.floor(
-                                                this.productList.reduce(
-                                                    (acc, cur) =>
-                                                        (acc +=
-                                                            (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                            JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                    0
-                                                )
-                                            ).toLocaleString()} </b
+                                            ${Array.isArray(this.productList)
+                                                ? Math.floor(
+                                                      this.productList.reduce(
+                                                          (acc, cur) =>
+                                                              (acc +=
+                                                                  (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                  JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                          0
+                                                      )
+                                                  ).toLocaleString()
+                                                : 0} </b
                                         >원</span
                                     >
                                 </div>
@@ -306,15 +319,17 @@ class Cart extends LitElement {
                                     <span
                                         >최대
                                         <!--결제하는 가격에서 0.1%를 계산후 반올림-->
-                                        ${Math.round(
-                                            this.productList.reduce(
-                                                (acc, cur) =>
-                                                    (acc +=
-                                                        (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                0
-                                            ) * 0.001
-                                        )}원
+                                        ${Array.isArray(this.productList)
+                                            ? Math.round(
+                                                  this.productList.reduce(
+                                                      (acc, cur) =>
+                                                          (acc +=
+                                                              (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
+                                                      0
+                                                  ) * 0.001
+                                              )
+                                            : 0}원
                                         적립 일반 0.1%</span
                                     >
                                 </div>
