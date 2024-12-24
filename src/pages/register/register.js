@@ -4,7 +4,8 @@ import registerCss from '@/pages/register/registerCss.js';
 import { pb } from '@/api/pockethost.js';
 class Register extends LitElement {
     static properties = {
-        isFormValid: false,
+        isFormValid: { type: Boolean },
+        requiredChecked: { type: Boolean },
     };
 
     constructor() {
@@ -27,6 +28,7 @@ class Register extends LitElement {
         this.hint = '';
 
         this.isFormValid = false;
+        this.requiredChecked = false;
     }
     connectedCallback() {
         super.connectedCallback();
@@ -74,24 +76,30 @@ class Register extends LitElement {
     }
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
+        //필수 입력 값 모두 입력력
         if (!this.handleReuired()) {
-            pb.collection('users')
-                .create({
-                    userid: this.inputs['idField'],
-                    password: this.inputs['pwField'],
-                    passwordConfirm: this.inputs['pwCheckField'],
-                    name: this.inputs['nameField'],
-                    email: this.inputs['emailField'],
-                    phoneNumber: this.inputs['numberField'],
-                    birth: this.inputs['birthDate'],
-                    gender: [this.inputs['genderField']],
-                })
-                .then(() => {
-                    alert('완료!!');
-                })
-                .catch(() => {
-                    alert('실패!!');
-                });
+            //필수 약관 모두 체크
+            if (this.requiredChecked) {
+                pb.collection('users')
+                    .create({
+                        userid: this.inputs['idField'],
+                        password: this.inputs['pwField'],
+                        passwordConfirm: this.inputs['pwCheckField'],
+                        name: this.inputs['nameField'],
+                        email: this.inputs['emailField'],
+                        phoneNumber: this.inputs['numberField'],
+                        birth: this.inputs['birthDate'],
+                        gender: [this.inputs['genderField']],
+                    })
+                    .then(() => {
+                        alert('완료!!');
+                    })
+                    .catch(() => {
+                        alert('실패!!');
+                    });
+            } else {
+                alert('필수 약관에 동의해주세요');
+            }
         } else {
             alert('필수입력값을 입력하세요');
         }
@@ -166,10 +174,13 @@ class Register extends LitElement {
     handleZero(value) {
         return String(value).padStart(2, '0');
     }
+    // 체크 항목 가져오는 함수
+    handleChecked(e) {
+        return e.target.checked;
+    }
     //전체 체크
     handleAllCheck(e) {
-        const allCheck = e.target;
-        const isChecked = allCheck.checked;
+        const isChecked = this.handleChecked(e);
 
         const checks = this.renderRoot.querySelectorAll('.part-check c-checkbox ');
 
@@ -178,6 +189,16 @@ class Register extends LitElement {
         });
     }
 
+    //필수 체크 확인 함수
+    handleReCheck(e) {
+        const checked = this.handleChecked(e);
+
+        //필수 속성 입력 체크박스만 가지고 오기
+        const requiredCk = this.renderRoot.querySelectorAll('c-checkbox[required]');
+
+        //필수 체크라고 되어있는 박스가 모두 체크 되었으면 true를 반환
+        this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
+    }
     render() {
         return html`
             <div class="register-container">
@@ -300,11 +321,11 @@ class Register extends LitElement {
                             </c-checkbox>
                         </span>
                         <span class="part-check">
-                            <c-checkbox>이용약관 동의(필수)</c-checkbox>
+                            <c-checkbox @checkbox-change=${this.handleReCheck} required>이용약관 동의(필수)</c-checkbox>
                             <p>약관보기</p>
                         </span>
                         <span class="part-check"
-                            ><c-checkbox>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
+                            ><c-checkbox @checkbox-change=${this.handleReCheck} required>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
                             <p>약관보기</p></span
                         >
                         <span class="part-check"
@@ -312,7 +333,7 @@ class Register extends LitElement {
                             <p>약관보기</p></span
                         >
                         <span class="part-check"
-                            ><c-checkbox>본인은 만 14세 이상입니다. (필수)</c-checkbox>
+                            ><c-checkbox @checkbox-change=${this.handleReCheck} required>본인은 만 14세 이상입니다. (필수)</c-checkbox>
                             <p>약관보기</p></span
                         >
                     </div>
