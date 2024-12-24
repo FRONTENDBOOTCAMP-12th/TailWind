@@ -5,6 +5,7 @@ import { LitElement, html } from 'lit';
 import '@/components/checkbox/checkbox.js';
 import { pb } from '@/api/pockethost.js';
 
+// 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
 
 class Cart extends LitElement {
@@ -20,6 +21,7 @@ class Cart extends LitElement {
         hideChilled: { type: Boolean },
         hideFrozen: { type: Boolean },
         hideTemperature: { type: Boolean },
+        totalPrice: { type: Number },
     };
 
     constructor() {
@@ -45,6 +47,7 @@ class Cart extends LitElement {
 
         // 'id = "abc" || id="def" || ... 와 같이 변환
         // 단, localStorage가 비어있다면 id = '' 를 할당
+        // itemCounter에 id값으로는 물품 id를, value로는 초기 설정값인 true를 저장
         const filter =
             localStorageKeys
                 .map((idx) => {
@@ -81,11 +84,25 @@ class Cart extends LitElement {
         this.hideChilled = !this.hideChilled;
     }
 
+    // 전체 선택의 상태를 즉각적으로 변경해주기 위한 함수
+    checkAllState() {
+        // itemCounter에 저장된 모든 상태가 true일때만 true를 저장하고 리렌더링
+        for (const value of Object.keys(itemCounter)) {
+            if (!itemCounter[value]) {
+                obj1['state'] = false;
+                break;
+            }
+            obj1['state'] = true;
+        }
+        this.requestUpdate();
+    }
+
     deleteList(e, id) {
         // 클릭하는 영역의 id값을 가져오기 후 그 영역을 안보이게 처리
         this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
         let target;
 
+        // 만약 id를 전달받았다면 그에 해당하는 element를 찾아 이벤트 실행
         if (!id) {
             target = e.target.closest('div');
         } else {
@@ -97,21 +114,19 @@ class Cart extends LitElement {
         delete this.cartItems[target.id];
         localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
 
+        // 상태를 저장하는 객체에서도 제거
         delete itemCounter[target.id];
+
+        this.checkAllState();
     }
 
+    // 개별 품목의 체크 상태를 변경하는 이벤트 함수
     handleChangeCount(e) {
+        // 선택된 영역의 div에서 id를 추출 후 상태를 현재와 반대로 저장
         const id = e.target.closest('div').id;
         itemCounter[id] = !itemCounter[id];
 
-        for (const value of Object.keys(itemCounter)) {
-            if (!itemCounter[value]) {
-                obj1['state'] = false;
-                break;
-            }
-            obj1['state'] = true;
-        }
-        this.requestUpdate();
+        this.checkAllState();
     }
 
     handleAllProuct() {
@@ -287,7 +302,18 @@ class Cart extends LitElement {
                                 : ''}
                         </div>
                         <li>
-                            <cart-total @request-update=${this.handleUpdate}></cart-total>
+                            <div class="product-check-container">
+                                <c-checkbox ?checked=${obj1['state']} @checkbox-change=${this.handleAllProuct}>
+                                    <span>전체선택</span>
+                                    <span
+                                        >(${Object.entries(itemCounter).reduce((acc, cur) => {
+                                            return (acc += +cur[1]);
+                                        }, 0)}/${Object.keys(itemCounter).length})
+                                        |
+                                    </span>
+                                </c-checkbox>
+                                <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
+                            </div>
                         </li>
                     </ul>
                     <div class="purchase-container">
@@ -337,7 +363,22 @@ class Cart extends LitElement {
                                 </div>
                                 <div>
                                     <span>배송비</span>
-                                    <span>+3,000 <b>원</b></span>
+                                    <span
+                                        >${(Array.isArray(this.productList)
+                                            ? Math.floor(
+                                                  this.productList.reduce((acc, cur) => {
+                                                      if (itemCounter[cur['id']]) {
+                                                          acc +=
+                                                              (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                      }
+                                                      return acc;
+                                                  }, 0)
+                                              )
+                                            : 0) > 20000
+                                            ? 0
+                                            : '+3,000'} <b>원</b></span
+                                    >
                                 </div>
                             </div>
                             <div class="purchase-info">
@@ -346,7 +387,7 @@ class Cart extends LitElement {
                                     <span
                                         ><b>
                                             <!--localStroage와 api를 연동하여 총 가격 합산-->
-                                            ${Array.isArray(this.productList)
+                                            ${((Array.isArray(this.productList)
                                                 ? Math.floor(
                                                       this.productList.reduce((acc, cur) => {
                                                           if (itemCounter[cur['id']]) {
@@ -356,8 +397,33 @@ class Cart extends LitElement {
                                                           }
                                                           return acc;
                                                       }, 0)
-                                                  ).toLocaleString()
-                                                : 0} </b
+                                                  )
+                                                : 0) > 20000
+                                                ? Array.isArray(this.productList)
+                                                    ? Math.floor(
+                                                          this.productList.reduce((acc, cur) => {
+                                                              if (itemCounter[cur['id']]) {
+                                                                  acc +=
+                                                                      (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                      JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                              }
+                                                              return acc;
+                                                          }, 0)
+                                                      )
+                                                    : 0
+                                                : (Array.isArray(this.productList)
+                                                      ? Math.floor(
+                                                            this.productList.reduce((acc, cur) => {
+                                                                if (itemCounter[cur['id']]) {
+                                                                    acc +=
+                                                                        (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                                }
+                                                                return acc;
+                                                            }, 0)
+                                                        )
+                                                      : 0) + 3000
+                                            ).toLocaleString()} </b
                                         >원</span
                                     >
                                 </div>
