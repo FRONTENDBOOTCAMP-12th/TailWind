@@ -89,11 +89,13 @@ class Cart extends LitElement {
         // itemCounter에 저장된 모든 상태가 true일때만 true를 저장하고 리렌더링
         for (const value of Object.keys(itemCounter)) {
             if (!itemCounter[value]) {
-                obj1['state'] = false;
+                checkAll['state'] = false;
                 break;
             }
-            obj1['state'] = true;
+
+            checkAll['state'] = true;
         }
+
         this.requestUpdate();
     }
 
@@ -129,8 +131,10 @@ class Cart extends LitElement {
         this.checkAllState();
     }
 
+    // 전체 선택 체크박스 이벤트
     handleAllProuct() {
-        if (!obj1['state']) {
+        // 전체 선택 관리 클릭 시 itemCounter에 저장된 모든 value가 true라면 true를 아니라면 false를 저장 후 리렌더링
+        if (!checkAll['state']) {
             Object.keys(itemCounter).map((idx) => {
                 itemCounter[idx] = true;
             });
@@ -140,11 +144,13 @@ class Cart extends LitElement {
             });
         }
 
-        obj1['state'] = !obj1['state'];
+        // 전체선택은 항상 클릭 시 반대가 되므로 해당 값을 저장
+        checkAll['state'] = !checkAll['state'];
         this.requestUpdate();
     }
 
     deleteSelectList(e) {
+        // itemCounter의 key를 순회하며 그에 해당하는 value가 true인 것들만 delete실행
         for (const value of Object.keys(itemCounter)) {
             if (itemCounter[value]) {
                 this.deleteList(e, value);
@@ -166,15 +172,18 @@ class Cart extends LitElement {
                     <ul class="li-container">
                         <li>
                             <div class="product-check-container">
-                                <c-checkbox ?checked=${obj1['state']} @checkbox-change=${this.handleAllProuct}>
+                                <!-- 체크박스의 상태가 변경되면 이벤트 발생 -->
+                                <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
                                     <span>전체선택</span>
-                                    <span
-                                        >(${Object.entries(itemCounter).reduce((acc, cur) => {
+                                    <span>
+                                        <!-- reduce로 전체 길이와 선택된 요소들을 계산 -->
+                                        (${Object.entries(itemCounter).reduce((acc, cur) => {
                                             return (acc += +cur[1]);
                                         }, 0)}/${Object.keys(itemCounter).length})
                                         |
                                     </span>
                                 </c-checkbox>
+                                <!-- 품목 삭제 버튼 -->
                                 <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
                             </div>
                         </li>
@@ -184,10 +193,10 @@ class Cart extends LitElement {
                                 <span class="category-text">냉장 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
+                                <!-- 품목 숨김 버튼 -->
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
                             </button>
                         </li>
-                        <!-- TODO : 라디오 컴포넌트 삽입 -->
                         <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideChilled ? 'sr-only' : ''}>
@@ -212,6 +221,7 @@ class Cart extends LitElement {
                                                       JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
                                                   ).toLocaleString()}원</span
                                               >
+                                              <!-- 품목 삭제 버튼 -->
                                               <button class="product-delete-btn" type="button" @click=${this.deleteList}>
                                                   <img class="cart-product-delete" src="/assets/product-cancel.svg" />
                                               </button>
@@ -225,10 +235,10 @@ class Cart extends LitElement {
                                 <span class="category-text">냉동 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
+                                <!-- 품목 숨김 버튼 -->
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
                             </button>
                         </li>
-                        <!-- TODO : 라디오 컴포넌트 삽입 -->
                         <!--분류해뒀던 냉동 타입 렌더링-->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideFrozen ? 'sr-only' : ''}>
@@ -266,10 +276,10 @@ class Cart extends LitElement {
                                 <span class="category-text">상온 식품</span>
                             </div>
                             <button class="dropdown-btn" type="button">
+                                <!-- 품목 숨김 버튼 -->
                                 <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
                             </button>
                         </li>
-                        <!-- TODO : 라디오 컴포넌트 삽입 -->
                         <!--분류해뒀던 상온 타입 렌더링-->
                         <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                         <div class=${this.hideTemperature ? 'sr-only' : ''}>
@@ -303,7 +313,7 @@ class Cart extends LitElement {
                         </div>
                         <li>
                             <div class="product-check-container">
-                                <c-checkbox ?checked=${obj1['state']} @checkbox-change=${this.handleAllProuct}>
+                                <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
                                     <span>전체선택</span>
                                     <span
                                         >(${Object.entries(itemCounter).reduce((acc, cur) => {
@@ -312,6 +322,7 @@ class Cart extends LitElement {
                                         |
                                     </span>
                                 </c-checkbox>
+                                <!-- 품목 삭제 버튼 -->
                                 <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
                             </div>
                         </li>
@@ -363,6 +374,7 @@ class Cart extends LitElement {
                                 </div>
                                 <div>
                                     <span>배송비</span>
+                                    <!-- 배송비 계산 총 가격이 20000원 초과라면 0원 아니라면 3000원 -->
                                     <span
                                         >${(Array.isArray(this.productList)
                                             ? Math.floor(
@@ -465,5 +477,5 @@ class Cart extends LitElement {
 }
 
 export default itemCounter;
-export const obj1 = { state: true };
+export const checkAll = { state: true };
 customElements.define('c-cart', Cart);
