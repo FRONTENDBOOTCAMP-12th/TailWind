@@ -3,6 +3,10 @@ import resetCss from '@/styles/reset.js';
 import registerCss from '@/pages/register/registerCss.js';
 import { pb } from '@/api/pockethost.js';
 class Register extends LitElement {
+    static properties = {
+        isFormValid: false,
+    };
+
     constructor() {
         super();
         this.inputs = {
@@ -21,6 +25,8 @@ class Register extends LitElement {
             birthDate: '',
         };
         this.hint = '';
+
+        this.isFormValid = false;
     }
     connectedCallback() {
         super.connectedCallback();
@@ -60,26 +66,35 @@ class Register extends LitElement {
             this.hint = false;
         }
     }
+    //필수 입력 값이 모두 입력되었는지 확인
+    handleReuired() {
+        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField'];
 
+        return fields.some((field) => this.inputs[field] === '');
+    }
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        pb.collection('users')
-            .create({
-                userid: this.inputs['idField'],
-                password: this.inputs['pwField'],
-                passwordConfirm: this.inputs['pwCheckField'],
-                name: this.inputs['nameField'],
-                email: this.inputs['emailField'],
-                phoneNumber: this.inputs['numberField'],
-                birth: this.inputs['birthDate'],
-                gender: [this.inputs['genderField']],
-            })
-            .then(() => {
-                alert('완료!!');
-            })
-            .catch(() => {
-                alert('실패!!');
-            });
+        if (!this.handleReuired()) {
+            pb.collection('users')
+                .create({
+                    userid: this.inputs['idField'],
+                    password: this.inputs['pwField'],
+                    passwordConfirm: this.inputs['pwCheckField'],
+                    name: this.inputs['nameField'],
+                    email: this.inputs['emailField'],
+                    phoneNumber: this.inputs['numberField'],
+                    birth: this.inputs['birthDate'],
+                    gender: [this.inputs['genderField']],
+                })
+                .then(() => {
+                    alert('완료!!');
+                })
+                .catch(() => {
+                    alert('실패!!');
+                });
+        } else {
+            alert('필수입력값을 입력하세요');
+        }
     }
 
     // 비밀번호 확인 함수
