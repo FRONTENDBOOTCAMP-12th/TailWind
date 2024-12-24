@@ -5,6 +5,8 @@ import { LitElement, html } from 'lit';
 import '@/components/checkbox/checkbox.js';
 import { pb } from '@/api/pockethost.js';
 
+const itemCounter = {};
+
 class Cart extends LitElement {
     static styles = [reset, cartStyle];
 
@@ -46,6 +48,7 @@ class Cart extends LitElement {
         const filter =
             localStorageKeys
                 .map((idx) => {
+                    itemCounter[idx] = true;
                     return `id = "${idx}"`;
                 })
                 .join(' || ') || "id = '' ";
@@ -64,25 +67,6 @@ class Cart extends LitElement {
     }
 
     // 값의 수량이 변할때마다 렌더링되도록 유도
-    updateList() {
-        this.requestUpdate();
-    }
-
-    // x버튼을 누르면 화면에서 사라지도록 설계(이는 이후 변동)
-    deleteList(e) {
-        // 클릭하는 영역의 id값을 가져오기 후 그 영역을 안보이게 처리
-        const target = e.target.closest('div');
-        target.style.display = 'none';
-
-        // cartItems에서 클릭한 영역의 id 값을 제거 후 localStorage에 다시 저장
-        delete this.cartItems[target.id];
-        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
-
-        // 이후 가격의 계산을 위해 productList를 재할당
-        this.productList = this.productList.filter((idx) => {
-            return idx['id'] !== target.id;
-        });
-    }
 
     // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
     handleShowHideTemperautre() {
@@ -97,8 +81,64 @@ class Cart extends LitElement {
         this.hideChilled = !this.hideChilled;
     }
 
-    handleCheck(e) {
-        console.log(e.target.value);
+    deleteList(e, id) {
+        // 클릭하는 영역의 id값을 가져오기 후 그 영역을 안보이게 처리
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
+        let target;
+
+        if (!id) {
+            target = e.target.closest('div');
+        } else {
+            target = this.renderRoot.getElementById(`${id}`);
+        }
+        target.style.display = 'none';
+
+        // cartItems에서 클릭한 영역의 id 값을 제거 후 localStorage에 다시 저장
+        delete this.cartItems[target.id];
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+
+        delete itemCounter[target.id];
+    }
+
+    handleChangeCount(e) {
+        const id = e.target.closest('div').id;
+        itemCounter[id] = !itemCounter[id];
+
+        for (const value of Object.keys(itemCounter)) {
+            if (!itemCounter[value]) {
+                obj1['state'] = false;
+                break;
+            }
+            obj1['state'] = true;
+        }
+        this.requestUpdate();
+    }
+
+    handleAllProuct() {
+        if (!obj1['state']) {
+            Object.keys(itemCounter).map((idx) => {
+                itemCounter[idx] = true;
+            });
+        } else {
+            Object.keys(itemCounter).map((idx) => {
+                itemCounter[idx] = false;
+            });
+        }
+
+        obj1['state'] = !obj1['state'];
+        this.requestUpdate();
+    }
+
+    deleteSelectList(e) {
+        for (const value of Object.keys(itemCounter)) {
+            if (itemCounter[value]) {
+                this.deleteList(e, value);
+            }
+        }
+    }
+
+    handleUpdate() {
+        this.requestUpdate();
     }
 
     render() {
@@ -111,11 +151,16 @@ class Cart extends LitElement {
                     <ul class="li-container">
                         <li>
                             <div class="product-check-container">
-                                <!-- 이후 라디오 컴포넌트 결합을 통해 구현-->
-                                <img src="/assets/product-check.svg" />
-                                <span @click=${this.handleChilck}>전체선택</span>
-                                <span>(3/3) | </span>
-                                <button type="button">선택 삭제</button>
+                                <c-checkbox ?checked=${obj1['state']} @checkbox-change=${this.handleAllProuct}>
+                                    <span>전체선택</span>
+                                    <span
+                                        >(${Object.entries(itemCounter).reduce((acc, cur) => {
+                                            return (acc += +cur[1]);
+                                        }, 0)}/${Object.keys(itemCounter).length})
+                                        |
+                                    </span>
+                                </c-checkbox>
+                                <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
                             </div>
                         </li>
                         <li>
@@ -135,14 +180,16 @@ class Cart extends LitElement {
                                 ? this.productChilled.map(
                                       (idx) =>
                                           html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox checked="true"></c-checkbox>
+                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                  >ff</c-checkbox
+                                              >
                                               <!-- 이미지는 다음과 같이 불러와야함-->
                                               <img
                                                   class="cart-product-image"
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
@@ -174,13 +221,16 @@ class Cart extends LitElement {
                                 ? this.productFrozen.map(
                                       (idx) =>
                                           html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox checked="true"></c-checkbox>
+                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                  >ff</c-checkbox
+                                              >
+                                              <!-- 이미지는 다음과 같이 불러와야함-->
                                               <img
                                                   class="cart-product-image"
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
@@ -212,13 +262,16 @@ class Cart extends LitElement {
                                 ? this.productTemperature.map(
                                       (idx) =>
                                           html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox checked="true"></c-checkbox>
+                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                  >ff</c-checkbox
+                                              >
+                                              <!-- 이미지는 다음과 같이 불러와야함-->
                                               <img
                                                   class="cart-product-image"
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} @click=${this.updateList} incartpage="true"></inc-dec-btn>
+                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
@@ -234,12 +287,7 @@ class Cart extends LitElement {
                                 : ''}
                         </div>
                         <li>
-                            <div class="product-check-container">
-                                <img src="/assets/product-check.svg" />
-                                <span>전체선택</span>
-                                <span>(3/3) | </span>
-                                <button type="button">선택 삭제</button>
-                            </div>
+                            <cart-total @request-update=${this.handleUpdate}></cart-total>
                         </li>
                     </ul>
                     <div class="purchase-container">
@@ -261,11 +309,12 @@ class Cart extends LitElement {
                                         <!--localStroage와 api를 연동하여 가격 합산-->
                                         ${Array.isArray(this.productList)
                                             ? Math.floor(
-                                                  this.productList.reduce(
-                                                      (acc, cur) =>
-                                                          (acc += cur['price'] * JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                      0
-                                                  )
+                                                  this.productList.reduce((acc, cur) => {
+                                                      if (itemCounter[cur['id']]) {
+                                                          acc += cur['price'] * this.cartItems[`${cur['id']}`];
+                                                      }
+                                                      return acc;
+                                                  }, 0)
                                               ).toLocaleString()
                                             : 0} <b>원</b></span
                                     >
@@ -276,15 +325,12 @@ class Cart extends LitElement {
                                         <!--localStroage와 api를 연동하여 할인하는 가격 합산-->
                                         -${Array.isArray(this.productList)
                                             ? Math.floor(
-                                                  this.productList.reduce(
-                                                      (acc, cur) =>
-                                                          (acc +=
-                                                              cur['price'] *
-                                                              cur['discount'] *
-                                                              0.01 *
-                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                      0
-                                                  )
+                                                  this.productList.reduce((acc, cur) => {
+                                                      if (itemCounter[cur['id']]) {
+                                                          acc += cur['price'] * cur['discount'] * 0.01 * this.cartItems[`${cur['id']}`];
+                                                      }
+                                                      return acc;
+                                                  }, 0)
                                               ).toLocaleString()
                                             : 0} <b>원</b></span
                                     >
@@ -302,13 +348,14 @@ class Cart extends LitElement {
                                             <!--localStroage와 api를 연동하여 총 가격 합산-->
                                             ${Array.isArray(this.productList)
                                                 ? Math.floor(
-                                                      this.productList.reduce(
-                                                          (acc, cur) =>
-                                                              (acc +=
+                                                      this.productList.reduce((acc, cur) => {
+                                                          if (itemCounter[cur['id']]) {
+                                                              acc +=
                                                                   (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                                  JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                          0
-                                                      )
+                                                                  JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                          }
+                                                          return acc;
+                                                      }, 0)
                                                   ).toLocaleString()
                                                 : 0} </b
                                         >원</span
@@ -321,13 +368,14 @@ class Cart extends LitElement {
                                         <!--결제하는 가격에서 0.1%를 계산후 반올림-->
                                         ${Array.isArray(this.productList)
                                             ? Math.round(
-                                                  this.productList.reduce(
-                                                      (acc, cur) =>
-                                                          (acc +=
+                                                  this.productList.reduce((acc, cur) => {
+                                                      if (itemCounter[cur['id']]) {
+                                                          acc +=
                                                               (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`]),
-                                                      0
-                                                  ) * 0.001
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                      }
+                                                      return acc;
+                                                  }, 0) * 0.001
                                               )
                                             : 0}원
                                         적립 일반 0.1%</span
@@ -350,4 +398,6 @@ class Cart extends LitElement {
     }
 }
 
+export default itemCounter;
+export const obj1 = { state: true };
 customElements.define('c-cart', Cart);
