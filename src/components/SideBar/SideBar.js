@@ -1,9 +1,9 @@
+import sidebarStyle from './SideBarStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import { SidebarStyles } from './popupStyle';
-import resetStyles from '@/styles/reset.js';
 
 class Sidebar extends LitElement {
-    static styles = [resetStyles, SidebarStyles];
+    static styles = [resetCss, sidebarStyle];
 
     render() {
         return html`

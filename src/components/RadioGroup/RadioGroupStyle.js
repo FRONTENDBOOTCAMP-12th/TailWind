@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const radioGroupStyles = css`
+export default css`
     :host {
         display: block;
         width: 100%;

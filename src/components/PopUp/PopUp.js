@@ -1,9 +1,9 @@
+import resetCss from '@/styles/Reset.js';
+import popupStyle from './PopUpStyle.js';
 import { LitElement, html } from 'lit';
-import { popupStyles } from './popupStyle';
-import resetStyles from '@/styles/reset.js';
 
 class Popup extends LitElement {
-    static styles = [resetStyles, popupStyles];
+    static styles = [resetCss, popupStyle];
     render() {
         return html`
             <div class="popup">

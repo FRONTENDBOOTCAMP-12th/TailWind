@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const popupStyles = css`
+export default css`
     /* 팝업 컴포넌트 스타일 */
     .popup {
         background-color: var(--black);

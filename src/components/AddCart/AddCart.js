@@ -1,13 +1,12 @@
+import '@/components/IncDecComponent/IncDecComponent.js';
+import addCartStyle from './AddCartStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import addCartStyle from '@/components/add-cart/addCartStyle.js';
-import reset from '@/styles/reset.js';
-import '@/components/inc-dec-component/incDecComponent.js';
-import '@/components/button/button.js';
+import '@/components/Button/Button.js';
 
 class AddCart extends LitElement {
-    static styles = [reset, addCartStyle];
+    static styles = [resetCss, addCartStyle];
 
-    //
     static properties = {
         // idx를 받아 모달의 렌더링을 관리
         // isModalOpen과 itemQuantity로 모달의 상태를 관리(수량, 열림상태)

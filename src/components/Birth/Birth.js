@@ -1,9 +1,9 @@
+import resetCss from '@/styles/Reset.js';
+import birthStyle from './BirthStyle.js';
 import { LitElement, html } from 'lit';
-import resetCss from '@/styles/reset.js';
-import { birthCss } from './birthCss';
 
 class Birth extends LitElement {
-    static styles = [resetCss, birthCss];
+    static styles = [resetCss, birthStyle];
 
     handleValidation(e) {
         const target = e.target;

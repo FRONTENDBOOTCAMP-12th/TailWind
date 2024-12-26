@@ -1,10 +1,10 @@
+import radioGroupStyle from './RadioGroupStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import { radioGroupStyles } from '@/components/radio-group/radioGroupStyles';
-import resetStyles from '@/styles/reset';
-import '@/components/radio/radio';
+import '@/components/Radio/Radio.js';
 
 export class RadioGroup extends LitElement {
-    static styles = [radioGroupStyles, resetStyles];
+    static styles = [resetCss , radioGroupStyle];
 
     static properties = {
         selectedValue: { type: String, state: true },

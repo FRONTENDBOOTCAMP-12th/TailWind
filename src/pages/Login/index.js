@@ -1,5 +1,5 @@
-import '@/components/input/input.js';
-import '@/layout/header.js';
-import '@/components/footer/footer.js';
-import '@/pages/login/login.js';
-import '@/components/button/button.js';
+import '@/components/Button/Button.js';
+import '@/components/Footer/Footer.js';
+import '@/components/Input/Input.js';
+import '@/pages/Login/Login.js';
+import '@/layout/Header.js';

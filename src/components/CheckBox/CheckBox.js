@@ -1,9 +1,9 @@
+import checkboxStyle from './CheckBoxStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { html, LitElement } from 'lit';
-import { checkboxStyles } from './checkboxStyles';
-import resetStyles from '@/styles/reset.js';
 
 class Checkbox extends LitElement {
-    static styles = [resetStyles, checkboxStyles];
+    static styles = [resetCss, checkboxStyle];
 
     static properties = {
         checked: { type: Boolean, attribute: 'checked', reflect: true },

@@ -1,4 +1,5 @@
 import { css } from 'lit';
+
 export default css`
     .amount-container {
         border: 1px solid var(--gray--200);

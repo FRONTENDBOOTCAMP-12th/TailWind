@@ -1,9 +1,9 @@
+import incDecComponentStyle from './IncDecComponentStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import reset from '@/styles/reset.js';
-import incDecComponentStyle from '@/components/inc-dec-component/incDecComponentStyle.js';
 
 class IncDecBtn extends LitElement {
-    static styles = [reset, incDecComponentStyle];
+    static styles = [resetCss, incDecComponentStyle];
 
     // 외부에서도 itemQuantity에 접근할 수 있도록 유도
     static properties = {

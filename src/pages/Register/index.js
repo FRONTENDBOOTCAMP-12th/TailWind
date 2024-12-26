@@ -1,8 +1,8 @@
+import '@/components/RadioGroup/RadioGroup.js';
+import '@/components/CheckBox/CheckBox.js';
+import '@/components/Button/Button.js';
+import '@/pages/Register/Register.js';
+import '@/components/Input/Input.js';
+import '@/components/Label/Label.js';
+import '@/components/Birth/Birth.js';
 import '/main.js';
-import '@/pages/register/register.js';
-import '@/components/input/input.js';
-import '@/components/button/button.js';
-import '@/components/label/label.js';
-import '@/components/radio-group/radioGroup.js';
-import '@/components/checkbox/checkbox.js';
-import '@/components/birth/birth.js';

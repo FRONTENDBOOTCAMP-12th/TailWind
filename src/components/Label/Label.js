@@ -1,9 +1,9 @@
+import resetCss from '@/styles/Reset.js';
+import labelStyle from './LabelStyle.js';
 import { LitElement, html } from 'lit';
-import { labelStyles } from '@/components/label/labelStyles.js';
-import resetStyles from '@/styles/reset';
 
 export class Label extends LitElement {
-    static styles = [resetStyles, labelStyles];
+    static styles = [resetCss, labelStyle];
 
     static properties = {
         required: { type: Boolean, reflect: true },

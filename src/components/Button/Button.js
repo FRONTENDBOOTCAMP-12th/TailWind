@@ -1,9 +1,9 @@
+import resetCss from '@/styles/Reset.js';
+import buttonStyle from './ButtonStyle';
 import { LitElement, html } from 'lit';
-import { buttonStyles } from './buttonStyles';
-import resetStyles from '@/styles/reset.js';
 
 class Button extends LitElement {
-    static styles = [resetStyles, buttonStyles];
+    static styles = [resetCss, buttonStyle];
 
     static properties = {
         type: { type: String, attribute: 'type', reflect: true },

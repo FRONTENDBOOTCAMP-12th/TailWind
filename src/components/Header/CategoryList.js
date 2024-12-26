@@ -1,6 +1,6 @@
+import categoryStyle from './CategoryListStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import resetCss from '@/styles/reset.js';
-import categoryCss from './categoryListCss.js';
 
 class categoryList extends LitElement {
     //필요 프로퍼티 선언 연결링크,src,alt,text
@@ -40,7 +40,7 @@ class categoryList extends LitElement {
     }
 
     static get styles() {
-        return [resetCss, categoryCss];
+        return [resetCss, categoryStyle];
     }
 
     render() {

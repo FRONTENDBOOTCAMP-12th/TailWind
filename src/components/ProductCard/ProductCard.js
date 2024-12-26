@@ -1,8 +1,8 @@
+import productCardStyle from './ProductCardStyle.js';
+import { fileUrl } from '@/api/PocketHost.js';
+import resetCss from '@/styles/Reset.js';
+import '@/components/AddCart/AddCart.js';
 import { LitElement, html } from 'lit';
-import reset from '@/styles/reset.js';
-import productCardStyle from '@/components/product-card/productCardStyle.js';
-import { fileUrl } from '@/api/pockethost.js';
-import '@/components/add-cart/addCart.js';
 
 class ProductCard extends LitElement {
     static properties = {
@@ -21,7 +21,7 @@ class ProductCard extends LitElement {
     }
 
     // 스타일 지정
-    static styles = [reset, productCardStyle];
+    static styles = [resetCss, productCardStyle];
 
     // 모달을 열고 닫는 이벤트함수
     handleOpenCartModal() {

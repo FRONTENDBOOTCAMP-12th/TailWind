@@ -1,11 +1,11 @@
+import sideMenuStyle from './SideMenuStyle.js';
+import '@/components/CheckBox/CheckBox.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
 import PocketBase from 'pocketbase';
-import reset from '@/styles/reset.js';
-import sideMenuStyle from '@/components/side-menu/sideMenuStyle.js';
-import '@/components/checkbox/checkbox.js';
 
 class SideMenu extends LitElement {
-    static styles = [reset, sideMenuStyle];
+    static styles = [resetCss, sideMenuStyle];
 
     static properties = {
         category: { type: Array },

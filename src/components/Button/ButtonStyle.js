@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const buttonStyles = css`
+export default css`
     :host {
         height: 100%;
     }

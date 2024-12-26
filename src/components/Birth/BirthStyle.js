@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const birthCss = css`
+export default css`
     .birth-container {
         display: flex;
         padding: 0.5625rem 1.25rem;

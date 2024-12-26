@@ -1,9 +1,9 @@
+import resetCss from '@/styles/Reset.js';
+import radioStyle from './RadioStyle.js';
 import { html, LitElement } from 'lit';
-import { radioStyles } from './radioStyles';
-import resetStyles from '@/styles/reset';
 
 class Radio extends LitElement {
-    static styles = [radioStyles, resetStyles];
+    static styles = [radioStyle, resetCss];
 
     static properties = {
         checked: { type: Boolean, reflect: true },

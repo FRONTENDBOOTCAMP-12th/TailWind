@@ -1,11 +1,13 @@
+import resetCss from '@/styles/Reset.js';
+import { pb } from '@/api/PocketHost.js';
+import loginStyle from './LoginStyle.js';
 import { LitElement, html } from 'lit';
-import resetCss from '@/styles/reset.js';
-import loginCss from './loginCss';
-import { pb } from '@/api/pockethost.js';
+
 class Login extends LitElement {
     static properties = {
         hint: { type: Boolean },
     };
+    
     constructor() {
         super();
         this.inputs = {
@@ -16,7 +18,7 @@ class Login extends LitElement {
     }
 
     static get styles() {
-        return [resetCss, loginCss];
+        return [resetCss, loginStyle];
     }
 
     handleInput(e) {

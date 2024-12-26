@@ -1,11 +1,11 @@
+import { fileUrl } from '@/api/PocketHost.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import { tabStyles } from './tabStyles.js';
-import resetStyles from '@/styles/reset.js';
-import { fileUrl } from '@/api/pockethost.js';
-import '@/components/button/button.js';
+import '@/components/Button/Button.js';
+import tabStyle from './TabStyle.js';
 
 class Tab extends LitElement {
-    static styles = [resetStyles, tabStyles];
+    static styles = [resetCss, tabStyle];
 
     static properties = {
         activeTab: { type: String },

@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const SidebarStyles = css`
+export default css`
     /* 사이드바 컴포넌트 스타일 */
 
     .sidebar {

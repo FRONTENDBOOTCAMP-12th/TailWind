@@ -1,11 +1,11 @@
+import '@/components/Header/CategoryList.js';
+import headerStyle from './HeaderStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import resetCss from '@/styles/reset.js';
-import headerCss from './headerCss';
-import '@/components/header/categoryList.js';
 
 class Header extends LitElement {
     static get styles() {
-        return [resetCss, headerCss];
+        return [resetCss, headerStyle];
     }
 
     handleCategory(e) {

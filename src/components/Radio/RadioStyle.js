@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const radioStyles = css`
+export default css`
     :host {
         display: flex;
         width: 100%;

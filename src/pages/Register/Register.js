@@ -1,7 +1,8 @@
-import { LitElement, html } from 'lit';
+import registerStyle from './RegisterStyle.js';
 import resetCss from '@/styles/reset.js';
-import registerCss from '@/pages/register/registerCss.js';
-import { pb } from '@/api/pockethost.js';
+import { pb } from '@/api/PocketHost.js';
+import { LitElement, html } from 'lit';
+
 class Register extends LitElement {
     static properties = {
         isFormValid: { type: Boolean },
@@ -37,7 +38,7 @@ class Register extends LitElement {
 
     //async fetchData() {}
     static get styles() {
-        return [resetCss, registerCss];
+        return [resetCss, registerStyle];
     }
     //input 값 받아오는 함수
     handleInput(e) {

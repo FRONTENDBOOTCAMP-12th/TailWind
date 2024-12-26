@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const tabStyles = css`
+export default css`
     :host {
         display: block;
     }

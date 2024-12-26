@@ -1,9 +1,9 @@
+import '@/components/ProductSorting/ProductSorting.js';
+import productListStyle from './ProductListStyle.js';
+import '@/components/ProductCard/ProductCard.js';
+import '@/components/SideMenu/SideMenu.js';
 import { LitElement, html } from 'lit';
 import PocketBase from 'pocketbase';
-import productListStyle from '@/pages/product-list/productListStyle.js';
-import '@/components/side-menu/sideMenu.js';
-import '@/components/product-card/productCard.js';
-import '@/components/ProductSorting/ProductSorting.js';
 
 // getPbImageURL : 포켓베이스 이미지 가져오는 함수
 function getPbImageURL(item, fieldName) {

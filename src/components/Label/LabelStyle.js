@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const labelStyles = css`
+export default css`
     .c-label {
         color: #000;
         display: inline-block;

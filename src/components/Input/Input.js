@@ -1,6 +1,6 @@
-import { LitElement, html, css } from 'lit';
-import reset from '@/styles/reset.js';
-import inputCss from './inputCss.js';
+import resetCss from '@/styles/Reset.js';
+import inputStyle from './InputStyle.js';
+import { LitElement, html } from 'lit';
 
 class Input extends LitElement {
     static properties = {
@@ -13,7 +13,7 @@ class Input extends LitElement {
     };
 
     static get styles() {
-        return [reset, inputCss];
+        return [resetCss, inputStyle];
     }
 
     constructor() {

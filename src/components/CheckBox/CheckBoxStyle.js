@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const checkboxStyles = css`
+export default css`
     input[type='checkbox'] {
         margin: 0;
         position: absolute;

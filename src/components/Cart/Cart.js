@@ -1,12 +1,12 @@
-import cartStyle from '@/components/cart/cartStyle.js';
-import '@/components/inc-dec-component/incDecComponent.js';
-import reset from '@/styles/reset.js';
+import '@/components/IncDecComponent/IncDecComponent.js';
+import '@/components/CheckBox/CheckBox.js';
+import resetCss from '@/styles/Reset.js';
+import { pb } from '@/api/PocketHost.js';
+import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
-import '@/components/checkbox/checkbox.js';
-import { pb } from '@/api/pockethost.js';
 
 class Cart extends LitElement {
-    static styles = [reset, cartStyle];
+    static styles = [resetCss, cartStyle];
 
     static properties = {
         user: { type: Object },

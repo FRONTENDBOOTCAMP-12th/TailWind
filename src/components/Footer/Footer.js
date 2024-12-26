@@ -1,10 +1,10 @@
+import footerStyle from './FooterStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import reset from '@/styles/reset.js';
-import footerCss from './footerCss.js';
 
 class Footer extends LitElement {
     static get styles() {
-        return [reset, footerCss];
+        return [resetCss, footerStyle];
     }
 
     render() {
