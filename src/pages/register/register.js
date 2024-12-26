@@ -128,14 +128,24 @@ class Register extends LitElement {
         //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
         if (this.hint) {
             try {
+                // 중복 값이 있는지 확인하는 값 가져오기
                 const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+                //힌트 메세지 태그 가져오기
+                const vdMessage = this.renderRoot.querySelector('#idField').shadowRoot.querySelector('.error-message');
 
                 //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
                 if (!(result.items.length === 0)) {
-                    alert('있음');
+                    //중복이 있다는 힌트 메세지로 변경 시켜주기
+                    vdMessage.style.color = 'var(--info---error)';
+                    vdMessage.style.display = 'block';
+                    vdMessage.textContent = '같은 아이디가 이미 존재합니다';
+
                     return true;
                 } else {
-                    alert('없음');
+                    vdMessage.style.color = 'dodgerblue';
+                    vdMessage.style.display = 'block';
+                    vdMessage.textContent = '사용 가능한 아이디입니다';
+
                     return false;
                 }
             } catch {
