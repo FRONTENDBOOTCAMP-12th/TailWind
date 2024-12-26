@@ -20,6 +20,7 @@ class ProductDetail extends LitElement {
         currentQnaPage: { type: Number },
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
+        reviewSortOption: { type: String },
     };
 
     static styles = [resetStyles, productDetailStyles];
@@ -36,6 +37,7 @@ class ProductDetail extends LitElement {
         this.currentQnaPage = 1;
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
+        this.reviewSortOption = 'latest';
     }
 
     connectedCallback() {
@@ -50,8 +52,11 @@ class ProductDetail extends LitElement {
     }
 
     async fetchReviewData() {
+        const sortOrder = this.reviewSortOption === 'latest' ? '-' : '+'; // '-'는 내림차순
+
         const reviewList = await pb.collection('reviews').getList(this.currentReviewPage, 5, {
             productId: this.productId,
+            sort: `${sortOrder}created`,
             expand: 'author',
         });
         this.reviewList = reviewList.items;
@@ -92,6 +97,15 @@ class ProductDetail extends LitElement {
         }
     }
 
+    handleSort(e) {
+        const { type, sort } = e.detail;
+        if (type === 'review') {
+            this.reviewSortOption = sort;
+            this.currentReviewPage = 1; // 정렬이 바뀌면 첫 페이지로 돌아가기
+            this.fetchReviewData();
+        }
+    }
+
     render() {
         return html`
             <product-detail-modal
@@ -107,6 +121,7 @@ class ProductDetail extends LitElement {
                           <c-tab
                               @open-modal="${this.handleModal}"
                               @page-change="${this.handlePageChange}"
+                              @sort-change="${this.handleSort}"
                               .reviewList=${this.reviewList}
                               .qnaList=${this.qnaList}
                               .currentReviewPage=${this.currentReviewPage}

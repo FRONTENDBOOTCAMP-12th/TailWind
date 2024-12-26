@@ -80,16 +80,51 @@ export const tabStyles = css`
             }
         }
 
+        .review-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #f9f9f9;
+            margin: 24px 0 12px 0;
+
+            .total-count {
+                font-size: 14px;
+                color: #333;
+            }
+
+            .sort-options {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+                font-size: 14px;
+                color: #666;
+
+                .divider {
+                    color: #e0e0e0;
+                }
+
+                button {
+                    cursor: pointer;
+
+                    &.active {
+                        color: #333;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+
         .qna-row {
             cursor: pointer;
-        }
 
-        .qna-row:hover {
-            background-color: #f5f5f5;
-        }
+            &:hover {
+                background-color: #f5f5f5;
+            }
 
-        .qna-content {
-            background-color: #f9f9f9;
+            .qna-content {
+                background-color: #f9f9f9;
+            }
         }
 
         .qna-content td {
@@ -128,24 +163,24 @@ export const tabStyles = css`
             justify-content: center;
             gap: 8px;
             margin-top: 20px;
-        }
 
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-        }
+            button {
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                background: white;
+                cursor: pointer;
 
-        .pagination button.active {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
+                &.active {
+                    background: #007bff;
+                    color: white;
+                    border-color: #007bff;
+                }
 
-        .pagination button:disabled {
-            background: #eee;
-            cursor: not-allowed;
+                &:disabled {
+                    background: #eee;
+                    cursor: not-allowed;
+                }
+            }
         }
     }
 `;

@@ -16,6 +16,7 @@ class Tab extends LitElement {
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
         expandedQnaId: { type: String },
+        sortOption: { type: String },
     };
 
     constructor() {
@@ -28,6 +29,7 @@ class Tab extends LitElement {
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
         this.expandedQnaId = null;
+        this.sortOption = 'latest'; // 'latest' 또는 'recommended'
     }
 
     connectedCallback() {
@@ -75,6 +77,17 @@ class Tab extends LitElement {
         this.expandedQnaId = this.expandedQnaId === qnaId ? null : qnaId;
     }
 
+    handleSort(option) {
+        this.sortOption = option;
+        const event = new CustomEvent('sort-change', {
+            detail: {
+                type: 'review',
+                sort: option,
+            },
+        });
+        this.dispatchEvent(event);
+    }
+
     render() {
         return html`
             <div class="tab-header">
@@ -113,6 +126,26 @@ class Tab extends LitElement {
                     <li>적립금 지급일은 리뷰 작성일로부터 익월 1~2주 소요</li>
                 </ul>
             </div>
+            <div class="review-meta">
+                <span class="total-count">총 ${this.reviewList.length}개</span>
+                <div class="sort-options">
+                    <button
+                        class="${this.sortOption === 'latest' ? 'active' : ''}"
+                        @click="${() => this.handleSort('latest')}"
+                        ?disabled=${this.sortOption === 'latest'}
+                    >
+                        최근 등록순
+                    </button>
+                    <span class="divider">|</span>
+                    <button
+                        class="${this.sortOption === 'oldest' ? 'active' : ''}"
+                        @click="${() => this.handleSort('oldest')}"
+                        ?disabled=${this.sortOption === 'oldest'}
+                    >
+                        오래된 순
+                    </button>
+                </div>
+            </div>
             <table>
                 <tbody>
                     ${this.reviewList.map(
@@ -145,14 +178,22 @@ class Tab extends LitElement {
                 </ul>
             </div>
             <table>
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
                 <tbody>
                     ${this.qnaList.map(
                         (qna) => html`
                             <tr class="qna-row ${this.expandedQnaId === qna.id ? 'expanded' : ''}" @click="${() => this.toggleQnaExpand(qna.id)}">
-                                <td>${qna.status || '답변대기'}</td>
                                 <td>${qna.title}</td>
                                 <td>${qna.expand.author.name}</td>
                                 <td>${new Date(qna.created).toLocaleDateString()}</td>
+                                <td>${qna.status || '답변대기'}</td>
                             </tr>
                             ${this.expandedQnaId === qna.id
                                 ? html`
