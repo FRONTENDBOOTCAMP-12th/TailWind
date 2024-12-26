@@ -170,14 +170,17 @@ class Register extends LitElement {
     handleBirthDate({ year, month, day }) {
         this.inputs.birthDate = `${year}-${month}-${day}`;
     }
+
     //숫자 한개가 들어올 때는 앞에 0을 추가해주는 함수
     handleZero(value) {
         return String(value).padStart(2, '0');
     }
+
     // 체크 항목 가져오는 함수
     handleChecked(e) {
         return e.target.checked;
     }
+
     //전체 체크
     handleAllCheck(e) {
         const isChecked = this.handleChecked(e);
@@ -187,6 +190,8 @@ class Register extends LitElement {
         checks.forEach((check) => {
             check.checked = isChecked; // 부모 상태에 따라 자식 체크박스 설정
         });
+
+        this.handleReCheck(e); // 필수체크 값을 체크 하기 위해서 이벤트를 넘겨줌
     }
 
     //필수 체크 확인 함수
@@ -199,6 +204,8 @@ class Register extends LitElement {
         //필수 체크라고 되어있는 박스가 모두 체크 되었으면 true를 반환
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
     }
+
+    //html 구조
     render() {
         return html`
             <div class="register-container">
