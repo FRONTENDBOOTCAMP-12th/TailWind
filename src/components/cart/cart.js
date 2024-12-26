@@ -158,6 +158,16 @@ class Cart extends LitElement {
         }
     }
 
+    storeCartItems(e) {
+        const id = e.target.closest('div').id;
+        const newValue = e.detail.itemQuantity;
+
+        this.cartItems[id] = newValue;
+
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        this.handleUpdate();
+    }
+
     handleUpdate() {
         this.requestUpdate();
     }
@@ -213,7 +223,10 @@ class Cart extends LitElement {
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
+                                              <inc-dec-btn
+                                                  .itemQuantity=${this.cartItems[idx['id']]}
+                                                  @quantity-change=${this.storeCartItems}
+                                              ></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
@@ -255,7 +268,10 @@ class Cart extends LitElement {
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
+                                              <inc-dec-btn
+                                                  .itemQuantity=${this.cartItems[idx['id']]}
+                                                  @quantity-change=${this.storeCartItems}
+                                              ></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
@@ -296,7 +312,10 @@ class Cart extends LitElement {
                                                   src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                               />
                                               <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
+                                              <inc-dec-btn
+                                                  .itemQuantity=${this.cartItems[idx['id']]}
+                                                  @quantity-change=${this.storeCartItems}
+                                              ></inc-dec-btn>
                                               <span class="cart-product-price">
                                                   <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
                                                   ${(
