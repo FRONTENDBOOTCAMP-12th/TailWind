@@ -2,9 +2,16 @@ import { LitElement, html } from 'lit';
 import resetCss from '@/styles/reset.js';
 import headerCss from './headerCss';
 import '@/components/header/categoryList.js';
+
 class Header extends LitElement {
     static get styles() {
         return [resetCss, headerCss];
+    }
+
+    handleCategory(e) {
+        const buttonCt = e.currentTarget;
+
+        buttonCt.classList.toggle('isActive');
     }
 
     render() {
@@ -71,7 +78,7 @@ class Header extends LitElement {
                     </div>
                     <nav class="header-bottom">
                         <div class="category-menu">
-                            <button type="button" class="btn-category">카테고리</button>
+                            <button type="button" class="btn-category" @click="${this.handleCategory}">카테고리</button>
                             <ul class="category-list">
                                 <c-category></c-category>
                             </ul>
