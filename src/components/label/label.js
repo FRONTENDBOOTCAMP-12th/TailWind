@@ -15,7 +15,7 @@ export class Label extends LitElement {
     }
 
     render() {
-        return html`<label class="c-label"> <slot></slot>${this.required ? html`<span class="required">*</span>` : ''} </label>`;
+        return html`<label class="c-label"> <slot></slot>${this.required ? html` <span class="required" aria-hidden="true">*</span>` : ''} </label>`;
     }
 }
 
