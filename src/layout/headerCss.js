@@ -248,8 +248,7 @@ export default css`
             }
         }
         /*tab으로 접근이 가능하도록 함  */
-        .btn-category.isActive + .category-list,
-        .category-list:focus-within {
+        .btn-category.isActive + .category-list {
             display: block;
         }
     }
