@@ -1,7 +1,10 @@
 import { css } from 'lit';
 
-export const productDetailStyles = css`
+export default css`
     .product-detail-container {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
         width: 1050px;
         height: 100%;
         margin: 0 auto;
