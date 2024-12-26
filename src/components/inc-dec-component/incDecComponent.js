@@ -12,7 +12,6 @@ class IncDecBtn extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.changeEvent = new CustomEvent('quantity-change', { bubbles: true, composed: true });
     }
 
     // 덧셈과 뺄셈만 수행하도록 단순화
@@ -24,7 +23,7 @@ class IncDecBtn extends LitElement {
         }
 
         // itemQuantity의 변동에 따라 event할당하도록 유도
-        this.dispatchEvent(this.changeEvent);
+        this.dispatchEvent(new CustomEvent('quantity-change', { detail: { itemQuantity: this.itemQuantity }, bubbles: true, composed: true }));
     }
 
     handleIncreaseItem() {
