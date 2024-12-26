@@ -63,15 +63,18 @@ class ProductListPage extends LitElement {
     handleSortChange(e) {
         const { order } = e.detail;
 
+        // 할인된 가격 계산 함수
+        const getDiscountedPrice = (product) => product.price * (1 - (product.discount || 0) / 100);
+
         if (order === 'newest') {
-            this.filteredProducts.sort((a, b) => b.created - a.created);
+            this.filteredProducts = [...this.filteredProducts].sort((a, b) => b.created - a.created);
         } else if (order === 'low-to-high') {
-            this.filteredProducts.sort((a, b) => a.price - a.price * (a.discount / 100) - (b.price - b.price * (b.discount / 100)));
+            this.filteredProducts = [...this.filteredProducts].sort((a, b) => getDiscountedPrice(a) - getDiscountedPrice(b));
         } else if (order === 'high-to-low') {
-            this.filteredProducts.sort((a, b) => b.price - b.price * (b.discount / 100) - (a.price - a.price * (a.discount / 100)));
+            this.filteredProducts = [...this.filteredProducts].sort((a, b) => getDiscountedPrice(b) - getDiscountedPrice(a));
         }
 
-        this.requestUpdate(); // UI 업데이트
+        this.requestUpdate();
     }
 
     connectedCallback() {

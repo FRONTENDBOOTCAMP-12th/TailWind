@@ -35,35 +35,14 @@ class ProductSorting extends LitElement {
 
     handleNewest() {
         this.handleSortChange('newest');
-        this.dispatchEvent(
-            new CustomEvent('sort-change', {
-                detail: { order: 'newest' },
-                bubbles: true,
-                composed: true,
-            })
-        );
     }
 
     handleLowToHigh() {
         this.handleSortChange('low-to-high');
-        this.dispatchEvent(
-            new CustomEvent('sort-change', {
-                detail: { order: 'low-to-high' },
-                bubbles: true,
-                composed: true,
-            })
-        );
     }
 
     handleHighToLow() {
         this.handleSortChange('high-to-low');
-        this.dispatchEvent(
-            new CustomEvent('sort-change', {
-                detail: { order: 'high-to-low' },
-                bubbles: true,
-                composed: true,
-            })
-        );
     }
 
     render() {
