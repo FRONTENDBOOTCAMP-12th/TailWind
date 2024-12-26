@@ -8,11 +8,17 @@ export default css`
         width: 1050px;
         padding: 0 50px;
     }
+
     .product-list {
         display: flex;
-        justify-content: space-between;
         column-gap: 18px;
         row-gap: 46px;
         flex-wrap: wrap;
+    }
+
+    .product-title {
+        margin: 48px 0;
+        text-align: center;
+        color: var(--black);
     }
 `;
