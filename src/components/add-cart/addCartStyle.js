@@ -26,7 +26,6 @@ export default css`
         left: 50%;
         transform: translate(-50%, -50%);
         width: 24.75rem;
-        height: 18.25rem;
         border-radius: 1rem;
         padding: 1.5rem;
         display: flex;
