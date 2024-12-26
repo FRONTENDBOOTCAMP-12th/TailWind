@@ -31,7 +31,7 @@ class ProductCard extends LitElement {
                     <button type="button" aria-label="장바구니에 추가하기" class="save-item"></button>
                 </div>
                 <!-- TODO: 이동하는 링크를 이후에 아이템에 맞춰 설정하여 렌더링 -->
-                <a href="/" class="text-container">
+                <a href="/src/pages/ProductDetail/index.html?id=${this.idx['id']}" class="text-container">
                     <!--TODO : 여기에 사용되는 모든 텍스트와 가격,할인율은 이후 get요청으로 받아오기-->
                     <!-- 접근성을 고려햐여 할인된 가격과 원래 가격, 할인율이 각각 무엇에 해당하는지 명시 -->
                     <span class="special-desc">${this.idx['category']}</span>
