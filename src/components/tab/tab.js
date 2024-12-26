@@ -11,6 +11,10 @@ class Tab extends LitElement {
         activeTab: { type: String },
         reviewList: { type: Array },
         qnaList: { type: Array },
+        currentReviewPage: { type: Number },
+        currentQnaPage: { type: Number },
+        totalReviewPages: { type: Number },
+        totalQnaPages: { type: Number },
     };
 
     constructor() {
@@ -18,6 +22,10 @@ class Tab extends LitElement {
         this.activeTab = 'description';
         this.reviewList = [];
         this.qnaList = [];
+        this.currentReviewPage = 1;
+        this.currentQnaPage = 1;
+        this.totalReviewPages = 0;
+        this.totalQnaPages = 0;
     }
 
     connectedCallback() {
@@ -50,6 +58,13 @@ class Tab extends LitElement {
                 title: '문의하기',
                 isQuestion: true,
             },
+        });
+        this.dispatchEvent(event);
+    }
+
+    handlePageChange(type, page) {
+        const event = new CustomEvent('page-change', {
+            detail: { type, page },
         });
         this.dispatchEvent(event);
     }
@@ -112,6 +127,7 @@ class Tab extends LitElement {
                     )}
                 </tbody>
             </table>
+            ${this.renderPagination(this.currentReviewPage, this.totalReviewPages, 'review')}
         `;
     }
 
@@ -149,6 +165,16 @@ class Tab extends LitElement {
                     )}
                 </tbody>
             </table>
+            ${this.renderPagination(this.currentQnaPage, this.totalQnaPages, 'qna')}
+        `;
+    }
+
+    renderPagination(currentPage, totalPages, type) {
+        return html`
+            <div class="pagination">
+                <button ?disabled=${currentPage === 1} @click=${() => this.handlePageChange(type, currentPage - 1)}>이전</button>
+                <button ?disabled=${currentPage === totalPages} @click=${() => this.handlePageChange(type, currentPage + 1)}>다음</button>
+            </div>
         `;
     }
 }

@@ -16,6 +16,10 @@ class ProductDetail extends LitElement {
         isQuestion: { type: Boolean, required: true },
         reviewList: { type: Array, required: true },
         qnaList: { type: Array, required: true },
+        currentReviewPage: { type: Number },
+        currentQnaPage: { type: Number },
+        totalReviewPages: { type: Number },
+        totalQnaPages: { type: Number },
     };
 
     static styles = [resetStyles, productDetailStyles];
@@ -28,20 +32,43 @@ class ProductDetail extends LitElement {
         this.isQuestion = false;
         this.reviewList = [];
         this.qnaList = [];
+        this.currentReviewPage = 1;
+        this.currentQnaPage = 1;
+        this.totalReviewPages = 0;
+        this.totalQnaPages = 0;
     }
 
-    async connectedCallback() {
+    connectedCallback() {
         super.connectedCallback();
+        this.fetchData();
+    }
 
-        const [product, reviewList, qnaList] = await Promise.all([
-            pb.collection('product').getOne(this.productId),
-            pb.collection('reviews').getList(1, 5, { productId: this.productId, expand: 'author' }),
-            pb.collection('questions_answers').getList(1, 5, { productId: this.productId, expand: 'author' }),
-        ]);
+    async fetchProductData() {
+        const product = await pb.collection('product').getOne(this.productId);
         this.product = product;
-        this.reviewList = reviewList.items;
-        this.qnaList = qnaList.items;
         localStorage.setItem('product', JSON.stringify(this.product));
+    }
+
+    async fetchReviewData() {
+        const reviewList = await pb.collection('reviews').getList(this.currentReviewPage, 5, {
+            productId: this.productId,
+            expand: 'author',
+        });
+        this.reviewList = reviewList.items;
+        this.totalReviewPages = Math.ceil(reviewList.totalItems / 5);
+    }
+
+    async fetchQnaData() {
+        const qnaList = await pb.collection('questions_answers').getList(this.currentQnaPage, 5, {
+            productId: this.productId,
+            expand: 'author',
+        });
+        this.qnaList = qnaList.items;
+        this.totalQnaPages = Math.ceil(qnaList.totalItems / 5);
+    }
+
+    async fetchData() {
+        await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData()]);
     }
 
     handleModal(event) {
@@ -52,6 +79,17 @@ class ProductDetail extends LitElement {
 
     handleModalClosed() {
         this.modalOpen = false;
+    }
+
+    handlePageChange(e) {
+        const { type, page } = e.detail;
+        if (type === 'review') {
+            this.currentReviewPage = page;
+            this.fetchReviewData();
+        } else {
+            this.currentQnaPage = page;
+            this.fetchQnaData();
+        }
     }
 
     render() {
@@ -66,7 +104,16 @@ class ProductDetail extends LitElement {
                 ? html`
                       <div class="product-detail-container">
                           <product-header></product-header>
-                          <c-tab @open-modal="${this.handleModal}" .reviewList=${this.reviewList} .qnaList=${this.qnaList}></c-tab>
+                          <c-tab
+                              @open-modal="${this.handleModal}"
+                              @page-change="${this.handlePageChange}"
+                              .reviewList=${this.reviewList}
+                              .qnaList=${this.qnaList}
+                              .currentReviewPage=${this.currentReviewPage}
+                              .currentQnaPage=${this.currentQnaPage}
+                              .totalReviewPages=${this.totalReviewPages}
+                              .totalQnaPages=${this.totalQnaPages}
+                          ></c-tab>
                       </div>
                   `
                 : html` <div>로딩중...</div> `}
