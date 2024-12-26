@@ -145,24 +145,6 @@ export default css`
             font-size: var(--label---medium);
             text-align: center;
             font-weight: bold;
-
-            .add-cancel {
-                width: 10.875rem;
-                padding-block: 0.9375rem;
-                background-color: transparent;
-                border-radius: 0.25rem;
-                border: 1px solid var(--gray--400);
-                color: var(--content);
-            }
-
-            .add-confirm {
-                width: 10.875rem;
-                background-color: var(--primary);
-                color: var(--white);
-                border-radius: 0.25rem;
-                border: 1px solid var(--primary);
-                padding-block: 0.9375rem;
-            }
         }
     }
 `;

@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import addCartStyle from '@/components/add-cart/addCartStyle.js';
 import reset from '@/styles/reset.js';
 import '@/components/inc-dec-component/incDecComponent.js';
+import '@/components/button/button.js';
 
 class AddCart extends LitElement {
     static styles = [reset, addCartStyle];
@@ -95,8 +96,8 @@ class AddCart extends LitElement {
                     </section>
                     <div class="add-confirm-container">
                         <!-- 취소와 담기 컴포넌트-->
-                        <button type="button" class="add-cancel" @click=${this.handleCancel}>취소</button>
-                        <button type="submit" class="add-confirm" @click=${this.handleConfirm}>장바구니 담기</button>
+                        <c-button size="btn-md" type="button" @click=${this.handleCancel}>취소</c-button>
+                        <c-button size="btn-md" mode="fill" type="button" @click=${this.handleConfirm}>장바구니 담기</c-button>
                     </div>
                 </div>
             </div>
