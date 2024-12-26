@@ -80,6 +80,49 @@ export const tabStyles = css`
             }
         }
 
+        .qna-row {
+            cursor: pointer;
+        }
+
+        .qna-row:hover {
+            background-color: #f5f5f5;
+        }
+
+        .qna-content {
+            background-color: #f9f9f9;
+        }
+
+        .qna-content td {
+            padding: 20px;
+        }
+
+        .question,
+        .answer {
+            display: flex;
+            gap: 16px;
+            margin: 10px 0;
+        }
+
+        .q-icon,
+        .a-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .q-icon {
+            background-color: #e0e0e0;
+        }
+
+        .a-icon {
+            background-color: #2196f3;
+            color: white;
+        }
+
         .pagination {
             display: flex;
             justify-content: center;

@@ -15,6 +15,7 @@ class Tab extends LitElement {
         currentQnaPage: { type: Number },
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
+        expandedQnaId: { type: String },
     };
 
     constructor() {
@@ -26,6 +27,7 @@ class Tab extends LitElement {
         this.currentQnaPage = 1;
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
+        this.expandedQnaId = null;
     }
 
     connectedCallback() {
@@ -69,6 +71,10 @@ class Tab extends LitElement {
         this.dispatchEvent(event);
     }
 
+    toggleQnaExpand(qnaId) {
+        this.expandedQnaId = this.expandedQnaId === qnaId ? null : qnaId;
+    }
+
     render() {
         return html`
             <div class="tab-header">
@@ -108,13 +114,6 @@ class Tab extends LitElement {
                 </ul>
             </div>
             <table>
-                <thead>
-                    <tr>
-                        <th>작성자</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                    </tr>
-                </thead>
                 <tbody>
                     ${this.reviewList.map(
                         (review) => html`
@@ -146,21 +145,35 @@ class Tab extends LitElement {
                 </ul>
             </div>
             <table>
-                <thead>
-                    <tr>
-                        <th>작성자</th>
-                        <th>제목</th>
-                        <th>문의 내용</th>
-                    </tr>
-                </thead>
                 <tbody>
                     ${this.qnaList.map(
                         (qna) => html`
-                            <tr>
-                                <td>${qna.expand.author.name}</td>
+                            <tr class="qna-row ${this.expandedQnaId === qna.id ? 'expanded' : ''}" @click="${() => this.toggleQnaExpand(qna.id)}">
+                                <td>${qna.status || '답변대기'}</td>
                                 <td>${qna.title}</td>
-                                <td>${qna.contents}</td>
+                                <td>${qna.expand.author.name}</td>
+                                <td>${new Date(qna.created).toLocaleDateString()}</td>
                             </tr>
+                            ${this.expandedQnaId === qna.id
+                                ? html`
+                                      <tr class="qna-content">
+                                          <td colspan="4">
+                                              <div class="question">
+                                                  <span class="q-icon">Q</span>
+                                                  <p>${qna.contents}</p>
+                                              </div>
+                                              ${qna.answer
+                                                  ? html`
+                                                        <div class="answer">
+                                                            <span class="a-icon">A</span>
+                                                            <p>${qna.answer}</p>
+                                                        </div>
+                                                    `
+                                                  : ''}
+                                          </td>
+                                      </tr>
+                                  `
+                                : ''}
                         `
                     )}
                 </tbody>
