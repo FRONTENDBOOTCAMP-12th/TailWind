@@ -171,13 +171,18 @@ export default css`
             align-items: center;
             justify-content: space-between;
             margin-top: 0.875rem;
-            padding: 1rem 0;
+            /*padding: 1rem 0;*/
             position: relative;
 
+            .category-menu {
+                padding: 1rem 0;
+                padding-right: 3rem;
+            }
             .btn-category {
                 padding-left: 1.75rem;
                 border: none;
                 font-size: var(--paragraph---medium);
+
                 background-image: image-set(
                     url(/assets/ico-category-menu.png),
                     url(/assets/ico-category-menu1x.webp) 1x,
@@ -233,7 +238,7 @@ export default css`
         }
 
         /*카테고리 호버 스타일 */
-        .header-bottom:hover {
+        .category-menu:hover {
             .category-list {
                 display: block;
             }
@@ -241,6 +246,10 @@ export default css`
             .btn-category {
                 color: var(--primary);
             }
+        }
+        /*tab으로 접근이 가능하도록 함  */
+        .btn-category.isActive + .category-list {
+            display: block;
         }
     }
 `;

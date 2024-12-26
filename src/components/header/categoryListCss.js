@@ -27,7 +27,8 @@ export default css`
         }
     }
 
-    a:hover {
+    a:hover,
+    a:focus {
         background-color: var(--gray--100);
         color: var(--primary);
 

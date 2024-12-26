@@ -2,11 +2,25 @@ import { LitElement, html } from 'lit';
 import resetCss from '@/styles/reset.js';
 import headerCss from './headerCss';
 import '@/components/header/categoryList.js';
+
 class Header extends LitElement {
     static get styles() {
         return [resetCss, headerCss];
     }
 
+    handleCategory(e) {
+        const buttonCt = e.currentTarget;
+
+        buttonCt.classList.toggle('isActive');
+    }
+
+    handleEscape(e) {
+        const buttonCt = this.renderRoot.querySelector('.btn-category');
+
+        if (e.keyCode === 27) {
+            buttonCt.classList.remove('isActive');
+        }
+    }
     render() {
         return html`
             <header class="header">
@@ -71,8 +85,8 @@ class Header extends LitElement {
                     </div>
                     <nav class="header-bottom">
                         <div class="category-menu">
-                            <button type="button" class="btn-category">카테고리</button>
-                            <ul class="category-list">
+                            <button type="button" class="btn-category" @click="${this.handleCategory}" @keyup="${this.handleEscape}">카테고리</button>
+                            <ul class="category-list" @keyup="${this.handleEscape}">
                                 <c-category></c-category>
                             </ul>
                         </div>
