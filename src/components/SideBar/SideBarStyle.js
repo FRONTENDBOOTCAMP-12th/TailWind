@@ -1,0 +1,37 @@
+import { css } from 'lit';
+
+export default css`
+    /* 사이드바 컴포넌트 스타일 */
+
+    .sidebar {
+        width: 6.25rem;
+        height: 12.5rem;
+        border: 0.0625rem solid gray;
+        background-color: var(--white);
+        text-align: center;
+        overflow: hidden;
+
+        & p {
+            font-size: 0.625rem;
+            margin: 0.625rem;
+        }
+    }
+
+    .products {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 8.125rem;
+        overflow-y: auto;
+    }
+
+    .products li {
+        margin: 0.25rem 0;
+    }
+
+    .products li img {
+        width: 2.5rem;
+        height: 3.2131rem;
+        object-fit: cover;
+    }
+`;
