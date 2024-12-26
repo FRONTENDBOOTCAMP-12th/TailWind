@@ -55,7 +55,18 @@ class Login extends LitElement {
                 const pw = this.inputs['pwField'];
 
                 await pb.collection('users').authWithPassword(id, pw);
+                const { record, token } = JSON.parse(localStorage.getItem('pocketbase_auth'));
+
+                localStorage.setItem(
+                    'auth',
+                    JSON.stringify({
+                        isAuth: !!record,
+                        user: record,
+                        token: token,
+                    })
+                );
                 alert('성공');
+                location.href = '/index.html';
             } catch {
                 alert('실패');
             }
@@ -69,23 +80,24 @@ class Login extends LitElement {
             <h2 class="login-title">로그인</h2>
 
             <div class="login-form">
-
                 <label for="idField" class="sr-only">아이디</label>
-                <c-input 
-                placeholder="아이디"
-                id="idField"
-                @input="${this.handleInput}" 
-                            errorMessage="숫자만 입력 불가능, 6자 이상"
-                            .validation=${/^(?=.*\D).{6,}$/}
-                            required></c-input>
+                <c-input
+                    placeholder="아이디"
+                    id="idField"
+                    @input="${this.handleInput}"
+                    errorMessage="숫자만 입력 불가능, 6자 이상"
+                    .validation=${/^(?=.*\D).{6,}$/}
+                    required
+                ></c-input>
                 <label for="pwField" class="sr-only">비밀번호</label>
-                <c-input 
-                placeholder="비밀번호"  
-                id="pwField"
-                @input="${this.handleInput}" 
-                errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
-                .validation=${/^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,16}$/}  
-                         required></c-input>
+                <c-input
+                    placeholder="비밀번호"
+                    id="pwField"
+                    @input="${this.handleInput}"
+                    errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
+                    .validation=${/^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,16}$/}
+                    required
+                ></c-input>
 
                 <span class="find-st">
                     <a href="/">아이디 찾기</a>
@@ -93,8 +105,8 @@ class Login extends LitElement {
                     <a href="/">비밀번호 찾기</a>
                 </span>
 
-                <c-button type="submit" mode="fill" size="btn-md" @click ="${this.handleLogin}">로그인</c-button>
-                <c-button type="link" mode="outline" size="btn-md">회원가입</c-button></c-button>
+                <c-button type="submit" mode="fill" size="btn-md" @click="${this.handleLogin}">로그인</c-button>
+                <c-button type="link" mode="outline" size="btn-md">회원가입</c-button>
             </div>
         </div>`;
     }
