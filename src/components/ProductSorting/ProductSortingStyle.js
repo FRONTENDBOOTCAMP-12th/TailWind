@@ -4,8 +4,8 @@ export default css`
     .product-top-menu {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
-        font-size: 16px;
+        margin-bottom: 1.25rem;
+        font-size: 1rem;
     }
 
     .product-num {
@@ -14,7 +14,7 @@ export default css`
 
     .product-sorting-list {
         display: flex;
-        column-gap: 17px;
+        column-gap: 1.0625rem;
         color: #a6a6a6;
 
         & li {
@@ -27,9 +27,9 @@ export default css`
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            left: -9px;
+            left: -0.5625rem;
             width: 1px;
-            height: 10px;
+            height: 0.625rem;
             background-color: #a6a6a6;
         }
 
