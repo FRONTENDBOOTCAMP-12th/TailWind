@@ -35,8 +35,8 @@ class ProductDetail extends LitElement {
 
         const [product, reviewList, qnaList] = await Promise.all([
             pb.collection('product').getOne('l8125u60nj73e27'),
-            pb.collection('reviews').getList(1, 5, { productId: 'l8125u60nj73e27' }),
-            pb.collection('questions_answers').getList(1, 5, { productId: 'l8125u60nj73e27' }),
+            pb.collection('reviews').getList(1, 5, { productId: 'l8125u60nj73e27', expand: 'author' }),
+            pb.collection('questions_answers').getList(1, 5, { productId: 'l8125u60nj73e27', expand: 'author' }),
         ]);
         this.product = product;
         this.reviewList = reviewList.items;

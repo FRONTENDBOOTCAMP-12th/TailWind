@@ -104,7 +104,7 @@ class Tab extends LitElement {
                     ${this.reviewList.map(
                         (review) => html`
                             <tr>
-                                <td>${review.author}</td>
+                                <td>${review.expand.author.name}</td>
                                 <td>${review.title}</td>
                                 <td>${review.contents}</td>
                             </tr>
@@ -141,7 +141,7 @@ class Tab extends LitElement {
                     ${this.qnaList.map(
                         (qna) => html`
                             <tr>
-                                <td>${qna.author}</td>
+                                <td>${qna.expand.author.name}</td>
                                 <td>${qna.title}</td>
                                 <td>${qna.contents}</td>
                             </tr>
