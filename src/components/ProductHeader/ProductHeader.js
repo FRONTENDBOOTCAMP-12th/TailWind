@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { fileUrl } from '@/api/pockethost.js';
-import { productHeaderStyles } from './productHeaderStyles.js';
+import productHeaderStyles from './ProductHeaderStyles.js';
 import '@/components/inc-dec-component/incDecComponent.js';
 import '@/components/button/button.js';
 import resetStyles from '@/styles/reset.js';

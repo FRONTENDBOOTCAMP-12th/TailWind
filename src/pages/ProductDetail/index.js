@@ -4,7 +4,7 @@ import '@/components/tab/tab.js';
 import '@/components/ProductDetailModal/ProductDetailModal.js';
 import { LitElement, html } from 'lit';
 import { pb } from '@/api/pockethost.js';
-import '@/components/product-header/productHeader.js';
+import '@/components/ProductHeader/ProductHeader.js';
 import productDetailStyles from './ProductDetailStyles.js';
 import resetStyles from '@/styles/reset.js';
 
