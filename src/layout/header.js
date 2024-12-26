@@ -27,10 +27,10 @@ class Header extends LitElement {
                 <div class="header-inner">
                     <ul class="header-top">
                         <li class="sign-up">
-                            <a href="/">회원가입</a>
+                            <a href="/src/pages/register/index.html">회원가입</a>
                         </li>
                         <li>
-                            <a href="/">로그인</a>
+                            <a href="/src/pages/login/index.html">로그인</a>
                         </li>
                         <li class="customer">
                             <a href="/">고객센터</a>
