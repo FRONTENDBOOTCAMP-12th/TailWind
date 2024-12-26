@@ -34,9 +34,9 @@ class ProductDetail extends LitElement {
         super.connectedCallback();
 
         const [product, reviewList, qnaList] = await Promise.all([
-            pb.collection('product').getOne('l8125u60nj73e27'),
-            pb.collection('reviews').getList(1, 5, { productId: 'l8125u60nj73e27', expand: 'author' }),
-            pb.collection('questions_answers').getList(1, 5, { productId: 'l8125u60nj73e27', expand: 'author' }),
+            pb.collection('product').getOne(this.productId),
+            pb.collection('reviews').getList(1, 5, { productId: this.productId, expand: 'author' }),
+            pb.collection('questions_answers').getList(1, 5, { productId: this.productId, expand: 'author' }),
         ]);
         this.product = product;
         this.reviewList = reviewList.items;
