@@ -1,13 +1,13 @@
 // lit을 이용한 공통 모달 컴포넌트
 import { html, LitElement } from 'lit';
-import { modalStyles } from './modalStyle';
+import { modalStyles } from './ProductDetailModalStyle';
 import resetStyles from '@/styles/reset.js';
 import '@/components/checkbox/checkbox.js';
 import '@/components/button/button.js';
 import { fileUrl } from '@/api/pockethost.js';
 import { pb } from '@/api/pockethost.js';
 
-class Modal extends LitElement {
+class ProductDetailModal extends LitElement {
     static properties = {
         isOpen: { type: Boolean, attribute: true },
         modalTitle: { type: String, attribute: true },
@@ -128,4 +128,4 @@ class Modal extends LitElement {
     }
 }
 
-customElements.define('modal-component', Modal);
+customElements.define('product-detail-modal', ProductDetailModal);

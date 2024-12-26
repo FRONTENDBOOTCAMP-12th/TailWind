@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const productDetailStyles = css`
+export default css`
     .product-detail-container {
         display: flex;
         flex-direction: column;

@@ -1,11 +1,11 @@
 import '@/layout/header.js';
 import '@/components/footer/footer.js';
 import '@/components/tab/tab.js';
-import '@/components/modal/modal.js';
+import '@/components/ProductDetailModal/ProductDetailModal.js';
 import { LitElement, html } from 'lit';
 import { pb } from '@/api/pockethost.js';
 import '@/components/product-header/productHeader.js';
-import { productDetailStyles } from './productDetailStyles.js';
+import productDetailStyles from './ProductDetailStyles.js';
 import resetStyles from '@/styles/reset.js';
 
 class ProductDetail extends LitElement {
@@ -56,12 +56,12 @@ class ProductDetail extends LitElement {
 
     render() {
         return html`
-            <modal-component
+            <product-detail-modal
                 ?isOpen=${this.modalOpen}
                 modalTitle=${this.modalTitle}
                 ?isQuestion=${this.isQuestion}
                 @modal-closed="${this.handleModalClosed}"
-            ></modal-component>
+            ></product-detail-modal>
             ${this.product && this.reviewList && this.qnaList
                 ? html`
                       <div class="product-detail-container">
