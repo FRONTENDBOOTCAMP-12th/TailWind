@@ -97,7 +97,7 @@ export default css`
         }
 
         /* 해당 제품에 적용되는 룰 카드 */
-        .tag {
+        .product-tag {
             display: flex;
             flex-direction: row;
             gap: 0.5rem;
