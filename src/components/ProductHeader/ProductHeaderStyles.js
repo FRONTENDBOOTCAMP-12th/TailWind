@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const productHeaderStyles = css`
+export default css`
     .product-header {
         display: flex;
         gap: 90px;

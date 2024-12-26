@@ -3,6 +3,11 @@ import resetCss from '@/styles/reset.js';
 import registerCss from '@/pages/register/registerCss.js';
 import { pb } from '@/api/pockethost.js';
 class Register extends LitElement {
+    static properties = {
+        isFormValid: { type: Boolean },
+        requiredChecked: { type: Boolean },
+    };
+
     constructor() {
         super();
         this.inputs = {
@@ -20,6 +25,10 @@ class Register extends LitElement {
             },
             birthDate: '',
         };
+        this.hint = '';
+
+        this.isFormValid = false;
+        this.requiredChecked = false;
     }
     connectedCallback() {
         super.connectedCallback();
@@ -39,33 +48,74 @@ class Register extends LitElement {
         const value = input.value;
 
         this.inputs[id] = value;
+
+        this.handleHint(e); // e 값을 넘겨주기
     }
 
+    // 유효성을 갖추었는지 값 가져오기
+    handleHint(e) {
+        const errorMessage = getComputedStyle(
+            e
+                .composedPath()
+                .find((el) => el.classList?.contains('input-container'))
+                ?.querySelector('.error-message')
+        ).display;
+
+        //display가 none이면 제대로 입력했다는 뜻
+        if (errorMessage === 'none') {
+            this.hint = true;
+        } else {
+            this.hint = false;
+        }
+    }
+    //필수 입력 값이 모두 입력되었는지 확인
+    handleReuired() {
+        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField'];
+
+        return fields.some((field) => this.inputs[field] === '');
+    }
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        pb.collection('users')
-            .create({
-                userid: this.inputs['idField'],
-                password: this.inputs['pwField'],
-                passwordConfirm: this.inputs['pwCheckField'],
-                name: this.inputs['nameField'],
-                email: this.inputs['emailField'],
-                phoneNumber: this.inputs['numberField'],
-                birth: this.inputs['birthDate'],
-                gender: [this.inputs['genderField']],
-            })
-            .then(() => {
-                alert('완료!!');
-            })
-            .catch(() => {
-                alert('실패!!');
-            });
+        //필수 입력 값 모두 입력력
+        if (!this.handleReuired()) {
+            //필수 약관 모두 체크
+            if (this.requiredChecked) {
+                pb.collection('users')
+                    .create({
+                        userid: this.inputs['idField'],
+                        password: this.inputs['pwField'],
+                        passwordConfirm: this.inputs['pwCheckField'],
+                        name: this.inputs['nameField'],
+                        email: this.inputs['emailField'],
+                        phoneNumber: this.inputs['numberField'],
+                        birth: this.inputs['birthDate'],
+                        gender: [this.inputs['genderField']],
+                    })
+                    .then(() => {
+                        alert('완료!!');
+                    })
+                    .catch(() => {
+                        alert('실패!!');
+                    });
+            } else {
+                alert('필수 약관에 동의해주세요');
+            }
+        } else {
+            alert('필수입력값을 입력하세요');
+        }
     }
+
     // 비밀번호 확인 함수
     handlePwCheck(e) {
+        //부모 컴포넌트의 이벤트에서 자식을 찾는 방법 currentTarget
+        const errorMessage = e.currentTarget.renderRoot.querySelector('.error-message');
+
         this.handleInput(e);
 
         if (this.inputs['pwField'] === this.inputs['pwCheckField']) {
+            errorMessage.style.display = 'block';
+            errorMessage.style.color = 'dodgerblue';
+            errorMessage.textContent = '비밀번호가 일치합니다.';
             return;
         }
     }
@@ -75,18 +125,24 @@ class Register extends LitElement {
         const value = this.inputs[e.target.dataset.id];
         const field = e.target.dataset.field;
 
-        try {
-            const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
-            if (!(result.items.length === 0)) {
-                alert('있음');
-                return true;
-            } else {
-                alert('없음');
+        //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
+        if (this.hint) {
+            try {
+                const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+
+                //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
+                if (!(result.items.length === 0)) {
+                    alert('있음');
+                    return true;
+                } else {
+                    alert('없음');
+                    return false;
+                }
+            } catch {
                 return false;
             }
-        } catch {
-            alert('없음');
-            return false;
+        } else {
+            alert('제대로 입력하세요');
         }
 
         //const value = this.inputs[];
@@ -118,10 +174,13 @@ class Register extends LitElement {
     handleZero(value) {
         return String(value).padStart(2, '0');
     }
+    // 체크 항목 가져오는 함수
+    handleChecked(e) {
+        return e.target.checked;
+    }
     //전체 체크
     handleAllCheck(e) {
-        const allCheck = e.target;
-        const isChecked = allCheck.checked;
+        const isChecked = this.handleChecked(e);
 
         const checks = this.renderRoot.querySelectorAll('.part-check c-checkbox ');
 
@@ -130,6 +189,16 @@ class Register extends LitElement {
         });
     }
 
+    //필수 체크 확인 함수
+    handleReCheck(e) {
+        const checked = this.handleChecked(e);
+
+        //필수 속성 입력 체크박스만 가지고 오기
+        const requiredCk = this.renderRoot.querySelectorAll('c-checkbox[required]');
+
+        //필수 체크라고 되어있는 박스가 모두 체크 되었으면 true를 반환
+        this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
+    }
     render() {
         return html`
             <div class="register-container">
@@ -144,8 +213,8 @@ class Register extends LitElement {
                             classType="register"
                             id="idField"
                             @input="${this.handleInput}"
-                            errorMessage="올바른 형식으로 입력하세요"
-                            .validation=${null}
+                            errorMessage="숫자만 입력 불가능, 6자 이상"
+                            .validation=${/^(?=.*\D).{6,}$/}
                             required
                         ></c-input>
                         <c-button data-id="idField" data-field="userid" @click=${this.handleDuplication}>중복확인</c-button>
@@ -252,11 +321,11 @@ class Register extends LitElement {
                             </c-checkbox>
                         </span>
                         <span class="part-check">
-                            <c-checkbox>이용약관 동의(필수)</c-checkbox>
+                            <c-checkbox @checkbox-change=${this.handleReCheck} required>이용약관 동의(필수)</c-checkbox>
                             <p>약관보기</p>
                         </span>
                         <span class="part-check"
-                            ><c-checkbox>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
+                            ><c-checkbox @checkbox-change=${this.handleReCheck} required>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
                             <p>약관보기</p></span
                         >
                         <span class="part-check"
@@ -264,7 +333,7 @@ class Register extends LitElement {
                             <p>약관보기</p></span
                         >
                         <span class="part-check"
-                            ><c-checkbox>본인은 만 14세 이상입니다. (필수)</c-checkbox>
+                            ><c-checkbox @checkbox-change=${this.handleReCheck} required>본인은 만 14세 이상입니다. (필수)</c-checkbox>
                             <p>약관보기</p></span
                         >
                     </div>

@@ -1,15 +1,15 @@
 // lit을 이용한 공통 모달 컴포넌트
 import { html, LitElement } from 'lit';
-import { modalStyles } from './modalStyle';
+import { modalStyles } from './ProductDetailModalStyle';
 import resetStyles from '@/styles/reset.js';
 import '@/components/checkbox/checkbox.js';
 import '@/components/button/button.js';
+import { fileUrl } from '@/api/pockethost.js';
+import { pb } from '@/api/pockethost.js';
 
-class Modal extends LitElement {
+class ProductDetailModal extends LitElement {
     static properties = {
         isOpen: { type: Boolean, attribute: true },
-        productImage: { type: String, attribute: true },
-        productName: { type: String, attribute: true },
         modalTitle: { type: String, attribute: true },
         isQuestion: { type: Boolean, attribute: true },
         registerBtnDisabled: { type: Boolean, attribute: true },
@@ -20,8 +20,12 @@ class Modal extends LitElement {
     constructor() {
         super();
         this.isOpen = false;
-        this.isQuestion = true;
+        this.isQuestion = false;
         this.registerBtnDisabled = true;
+
+        this.product = JSON.parse(localStorage.getItem('product'));
+        this.productImage = fileUrl + this.product.id + '/' + this.product.main_image;
+        this.productName = this.product.name;
     }
 
     get titleInput() {
@@ -32,46 +36,51 @@ class Modal extends LitElement {
         return this.shadowRoot.querySelector('#modal-textarea');
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-
-        const openButton = document.querySelector('#openModalBtn');
-        openButton.addEventListener('click', () => this.openModal());
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-
-        const openButton = document.querySelector('#openModalBtn');
-        openButton.removeEventListener('click', () => this.openModal());
-    }
-
-    openModal() {
-        this.isOpen = true;
-    }
-
     closeModal() {
-        this.isOpen = false;
+        this.dispatchEvent(new CustomEvent('modal-closed'));
         this.resetValues();
+    }
+
+    async handleSubmit() {
+        if (this.isQuestion) {
+            // example create data
+            const data = {
+                title: this.titleInput.value,
+                contents: this.contentInput.value,
+                isSecret: this.isSecret,
+                productId: 'l8125u60nj73e27',
+                author: '22447xjk6th363a',
+            };
+            await pb.collection('questions_answers').create(data);
+        } else {
+            // example create data
+            const data = {
+                title: this.titleInput.value,
+                contents: this.contentInput.value,
+                productId: 'l8125u60nj73e27',
+                author: '22447xjk6th363a',
+            };
+            await pb.collection('reviews').create(data);
+        }
+        this.closeModal();
     }
 
     resetValues() {
         this.titleInput.value = ''; // 제목 입력 필드 초기화
         this.contentInput.value = ''; // 내용 입력 필드 초기화
-        this.shadowRoot.querySelector('#secret-question').reset();
+        if (this.isQuestion) {
+            this.shadowRoot.querySelector('#secret-question').reset();
+        }
         this.registerBtnDisabled = true; // 버튼 비활성화
     }
 
     handleCheckboxChange(e) {
-        this.isSecretQuestion = e.detail.checked;
-        console.log('비밀글 설정:', this.isSecretQuestion);
+        this.isSecret = e.detail.checked;
     }
 
     handleInput() {
         const titleVal = this.titleInput.value;
         const contentVal = this.contentInput.value;
-
-        console.log(titleVal !== '' && contentVal !== '');
 
         if (titleVal !== '' && contentVal !== '') {
             this.registerBtnDisabled = false;
@@ -111,7 +120,7 @@ class Modal extends LitElement {
                 <div class="modal-footer">
                     <div class="button-group">
                         <c-button class="outline" @click=${this.closeModal}>취소</c-button>
-                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.closeModal}>등록</c-button>
+                        <c-button class="fill" ?disabled=${this.registerBtnDisabled} @click=${this.handleSubmit}>등록</c-button>
                     </div>
                 </div>
             </div>
@@ -119,4 +128,4 @@ class Modal extends LitElement {
     }
 }
 
-customElements.define('modal-component', Modal);
+customElements.define('product-detail-modal', ProductDetailModal);
