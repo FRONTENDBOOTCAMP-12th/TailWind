@@ -82,8 +82,14 @@ class ProductDetail extends LitElement {
         this.modalOpen = true;
     }
 
-    handleModalClosed() {
+    handleModalClosed(e) {
         this.modalOpen = false;
+        console.log(e.detail);
+        if (e.detail.isQuestion) {
+            this.fetchQnaData();
+        } else {
+            this.fetchReviewData();
+        }
     }
 
     handlePageChange(e) {
@@ -108,14 +114,14 @@ class ProductDetail extends LitElement {
 
     render() {
         return html`
-            <product-detail-modal
-                ?isOpen=${this.modalOpen}
-                modalTitle=${this.modalTitle}
-                ?isQuestion=${this.isQuestion}
-                @modal-closed="${this.handleModalClosed}"
-            ></product-detail-modal>
             ${this.product && this.reviewList && this.qnaList
                 ? html`
+                      <product-detail-modal
+                          ?isOpen=${this.modalOpen}
+                          modalTitle=${this.modalTitle}
+                          ?isQuestion=${this.isQuestion}
+                          @modal-closed="${this.handleModalClosed}"
+                      ></product-detail-modal>
                       <div class="product-detail-container">
                           <product-header></product-header>
                           <product-detail-tab
