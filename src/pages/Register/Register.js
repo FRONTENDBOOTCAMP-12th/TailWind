@@ -129,14 +129,24 @@ class Register extends LitElement {
         //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
         if (this.hint) {
             try {
+                // 중복 값이 있는지 확인하는 값 가져오기
                 const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+                //힌트 메세지 태그 가져오기
+                const vdMessage = this.renderRoot.querySelector('#idField').shadowRoot.querySelector('.error-message');
 
                 //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
                 if (!(result.items.length === 0)) {
-                    alert('있음');
+                    //중복이 있다는 힌트 메세지로 변경 시켜주기
+                    vdMessage.style.color = 'var(--info---error)';
+                    vdMessage.style.display = 'block';
+                    vdMessage.textContent = '같은 아이디가 이미 존재합니다';
+
                     return true;
                 } else {
-                    alert('없음');
+                    vdMessage.style.color = 'dodgerblue';
+                    vdMessage.style.display = 'block';
+                    vdMessage.textContent = '사용 가능한 아이디입니다';
+
                     return false;
                 }
             } catch {
@@ -171,14 +181,17 @@ class Register extends LitElement {
     handleBirthDate({ year, month, day }) {
         this.inputs.birthDate = `${year}-${month}-${day}`;
     }
+
     //숫자 한개가 들어올 때는 앞에 0을 추가해주는 함수
     handleZero(value) {
         return String(value).padStart(2, '0');
     }
+
     // 체크 항목 가져오는 함수
     handleChecked(e) {
         return e.target.checked;
     }
+
     //전체 체크
     handleAllCheck(e) {
         const isChecked = this.handleChecked(e);
@@ -188,6 +201,8 @@ class Register extends LitElement {
         checks.forEach((check) => {
             check.checked = isChecked; // 부모 상태에 따라 자식 체크박스 설정
         });
+
+        this.handleReCheck(e); // 필수체크 값을 체크 하기 위해서 이벤트를 넘겨줌
     }
 
     //필수 체크 확인 함수
@@ -200,6 +215,8 @@ class Register extends LitElement {
         //필수 체크라고 되어있는 박스가 모두 체크 되었으면 true를 반환
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
     }
+
+    //html 구조
     render() {
         return html`
             <div class="register-container">
