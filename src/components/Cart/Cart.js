@@ -6,6 +6,7 @@ import '@/components/Button/Button.js';
 import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
 import Swal from 'sweetalert2';
+import { gsap } from 'gsap';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -88,14 +89,48 @@ class Cart extends LitElement {
     // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
     handleShowHideTemperautre() {
         this.hideTemperature = !this.hideTemperature;
+
+        const target = this.renderRoot.querySelector('.temperature-container');
+
+        if (this.hideTemperature) {
+            gsap.to(target, {
+                height: '3.5rem',
+            });
+        } else {
+            gsap.to(target, {
+                height: 'auto',
+            });
+        }
     }
 
     handleShowHideFrozen() {
         this.hideFrozen = !this.hideFrozen;
+        const target = this.renderRoot.querySelector('.frozen-container');
+
+        if (this.hideFrozen) {
+            gsap.to(target, {
+                height: '3.5rem',
+            });
+        } else {
+            gsap.to(target, {
+                height: 'auto',
+            });
+        }
     }
 
     handleShowHideChilled() {
         this.hideChilled = !this.hideChilled;
+        const target = this.renderRoot.querySelector('.chilled-container');
+
+        if (this.hideChilled) {
+            gsap.to(target, {
+                height: '3.5rem',
+            });
+        } else {
+            gsap.to(target, {
+                height: 'auto',
+            });
+        }
     }
 
     // 전체 선택의 상태를 즉각적으로 변경해주기 위한 함수
@@ -273,7 +308,7 @@ class Cart extends LitElement {
                                     <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
                                 </div>
                             </li>
-                            <li>
+                            <li class="chilled-container">
                                 <div class="food-category-container">
                                     <img src="/assets/chilled.svg" />
                                     <span class="category-text">냉장 식품</span>
@@ -283,12 +318,15 @@ class Cart extends LitElement {
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
                                 </button>
                                 <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
-                                <div ?hidden=${this.hideChilled}>
+                                <div>
                                     ${Array.isArray(this.productChilled)
                                         ? this.productChilled.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
-                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                      <c-checkbox
+                                                          ?checked=${itemCounter[idx['id']]}
+                                                          @checkbox-change=${this.handleChangeCount}
+                                                          ?hidden=${this.hideChilled}
                                                           >ff</c-checkbox
                                                       >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
@@ -318,7 +356,7 @@ class Cart extends LitElement {
                                 </div>
                             </li>
                             <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                            <li>
+                            <li class="frozen-container">
                                 <div class="food-category-container">
                                     <img src="/assets/frozen.svg" />
                                     <span class="category-text">냉동 식품</span>
@@ -328,12 +366,15 @@ class Cart extends LitElement {
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
                                 </button>
                                 <!--분류해뒀던 냉동 타입 렌더링-->
-                                <div ?hidden=${this.hideFrozen}>
+                                <div>
                                     ${Array.isArray(this.productFrozen)
                                         ? this.productFrozen.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
-                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                      <c-checkbox
+                                                          ?checked=${itemCounter[idx['id']]}
+                                                          @checkbox-change=${this.handleChangeCount}
+                                                          ?hidden=${this.hideFrozen}
                                                           >ff</c-checkbox
                                                       >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
@@ -361,7 +402,7 @@ class Cart extends LitElement {
                                         : ''}
                                 </div>
                             </li>
-                            <li>
+                            <li class="temperature-container">
                                 <div class="food-category-container">
                                     <img src="/assets/temperature.svg" />
                                     <span class="category-text">상온 식품</span>
@@ -371,12 +412,15 @@ class Cart extends LitElement {
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
                                 </button>
                                 <!--분류해뒀던 상온 타입 렌더링-->
-                                <div ?hidden=${this.hideTemperature}>
+                                <div>
                                     ${Array.isArray(this.productTemperature)
                                         ? this.productTemperature.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
-                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                      <c-checkbox
+                                                          ?checked=${itemCounter[idx['id']]}
+                                                          @checkbox-change=${this.handleChangeCount}
+                                                          ?hidden=${this.hideTemperature}
                                                           >ff</c-checkbox
                                                       >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->

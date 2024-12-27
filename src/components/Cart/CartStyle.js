@@ -29,6 +29,7 @@ export default css`
                     flex-wrap: wrap;
                     align-items: center;
                     justify-content: space-between;
+                    overflow: hidden;
 
                     .product-check-container {
                         display: flex;
@@ -231,9 +232,5 @@ export default css`
         100% {
             transform: rotate(360deg);
         }
-    }
-
-    .product-frozen {
-        overflow: hidden;
     }
 `;
