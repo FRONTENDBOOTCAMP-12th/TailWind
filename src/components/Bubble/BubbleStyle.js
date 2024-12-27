@@ -13,7 +13,7 @@ export default css`
         background: #fff;
         padding: 20px;
         border-radius: 6px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         min-width: 220px;
         display: flex;
         gap: 12px;
@@ -29,6 +29,6 @@ export default css`
         height: 16px;
         background: #fff;
         transform: rotate(45deg);
-        box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.2);
     }
 `;
