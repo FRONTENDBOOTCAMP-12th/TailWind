@@ -4,18 +4,21 @@ import { fileUrl } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
 import '@/components/Button/Button.js';
+import '@/components/Bubble/Bubble.js';
 
 class ProductHeader extends LitElement {
     static properties = {
         product: { type: Object, required: true },
         totalPrice: { type: Number, required: true },
         itemQuantity: { type: Number, required: true },
+        isVisible: { type: Boolean, required: true },
     };
 
     constructor() {
         super();
         this.totalPrice = 0;
         this.itemQuantity = 1;
+        this.isVisible = false;
     }
 
     static styles = [resetCss, productHeaderStyle];
@@ -33,9 +36,15 @@ class ProductHeader extends LitElement {
     }
 
     handleAddToCart() {
-        const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-        cart.push({ [`${this.product.id}`]: this.itemQuantity });
-        localStorage.setItem('cartItems', JSON.stringify(cart));
+        try {
+            const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cart.push({ [`${this.product.id}`]: this.itemQuantity });
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+            this.isVisible = true;
+        } catch (e) {
+            this.isVisible = false;
+            console.error(e);
+        }
     }
 
     render() {
@@ -108,6 +117,13 @@ class ProductHeader extends LitElement {
                         <c-button type="button" mode="outline">찜하기</c-button>
                         <c-button type="button" mode="outline">알림</c-button>
                         <c-button type="button" mode="fill" ?disabled=${this.totalPrice === 0} @click=${this.handleAddToCart}>장바구니 담기</c-button>
+                        <c-bubble ?isVisible=${this.isVisible}>
+                            <img slot="image" class="bubble-product-image" src="${fileUrl + this.product.id + '/' + this.product.main_image}" />
+                            <div slot="content" class="bubble-content">
+                                <p class="title">${this.product.name}</p>
+                                <p class="description">장바구니에 상품을 담았습니다.</p>
+                            </div>
+                        </c-bubble>
                     </div>
                 </div>
             </div>
