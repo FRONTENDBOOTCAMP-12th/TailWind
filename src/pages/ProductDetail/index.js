@@ -10,6 +10,7 @@ import '@/layout/Header.js';
 
 class ProductDetail extends LitElement {
     static properties = {
+        product: { type: Object, required: true },
         productId: { type: String, required: true },
         modalOpen: { type: Boolean, required: true },
         modalTitle: { type: String, required: true },
@@ -27,6 +28,7 @@ class ProductDetail extends LitElement {
 
     constructor() {
         super();
+        this.product = null;
         this.productId = new URLSearchParams(window.location.search).get('id');
         this.modalOpen = false;
         this.modalTitle = '';
@@ -73,7 +75,11 @@ class ProductDetail extends LitElement {
     }
 
     async fetchData() {
-        await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData()]);
+        try {
+            await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData()]);
+        } catch (error) {
+            console.error('데이터 로드 실패', error);
+        }
     }
 
     handleModal(event) {
