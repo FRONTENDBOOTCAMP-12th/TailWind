@@ -229,4 +229,8 @@ export default css`
             transform: rotate(360deg);
         }
     }
+
+    .product-frozen {
+        overflow: hidden;
+    }
 `;

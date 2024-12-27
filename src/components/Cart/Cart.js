@@ -5,6 +5,7 @@ import { pb } from '@/api/PocketHost.js';
 import '@/components/Button/Button.js';
 import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
+import { gsap } from 'gsap';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -85,12 +86,18 @@ class Cart extends LitElement {
     // 값의 수량이 변할때마다 렌더링되도록 유도
 
     // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
-    handleShowHideTemperautre() {
+    handleShowHideTemperautre(e) {
         this.hideTemperature = !this.hideTemperature;
     }
 
     handleShowHideFrozen() {
         this.hideFrozen = !this.hideFrozen;
+        const target = this.renderRoot.querySelector('.product-frozen');
+        console.log(target);
+        gsap.to(target, {
+            display: 'none',
+            height: 0,
+        });
     }
 
     handleShowHideChilled() {
@@ -225,7 +232,7 @@ class Cart extends LitElement {
                             </li>
                             <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
                             <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                            <div class=${this.hideChilled ? 'sr-only' : ''}>
+                            <div ?hidden=${this.hideChilled}>
                                 ${Array.isArray(this.productChilled)
                                     ? this.productChilled.map(
                                           (idx) =>
@@ -270,7 +277,7 @@ class Cart extends LitElement {
                             </li>
                             <!--분류해뒀던 냉동 타입 렌더링-->
                             <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                            <div class=${this.hideFrozen ? 'sr-only' : ''}>
+                            <div class="product-frozen">
                                 ${Array.isArray(this.productFrozen)
                                     ? this.productFrozen.map(
                                           (idx) =>
@@ -314,7 +321,7 @@ class Cart extends LitElement {
                             </li>
                             <!--분류해뒀던 상온 타입 렌더링-->
                             <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                            <div class=${this.hideTemperature ? 'sr-only' : ''}>
+                            <div ?hidden=${this.hideTemperature}>
                                 ${Array.isArray(this.productTemperature)
                                     ? this.productTemperature.map(
                                           (idx) =>
