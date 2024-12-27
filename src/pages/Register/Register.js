@@ -2,6 +2,7 @@ import registerStyle from './RegisterStyle.js';
 import resetCss from '@/styles/reset.js';
 import { pb } from '@/api/PocketHost.js';
 import { LitElement, html } from 'lit';
+import { handleFindAddr } from '@/api/AddressApi.js';
 
 class Register extends LitElement {
     static properties = {
@@ -223,19 +224,7 @@ class Register extends LitElement {
 
     //주소 찾기 함수
     handleFindAddr() {
-        new daum.Postcode({
-            oncomplete: (data) => {
-                // 선택된 주소 처리
-                let addr = '';
-                if (data.userSelectedType === 'R') {
-                    addr = data.roadAddress;
-                } else {
-                    addr = data.jibunAddress;
-                }
-
-                this.inputs['addressField'] = addr;
-            },
-        }).open();
+        handleFindAddr(this.inputs);
     }
 
     //html 구조
