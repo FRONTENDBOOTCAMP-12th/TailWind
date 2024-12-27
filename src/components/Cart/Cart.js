@@ -224,59 +224,63 @@ class Cart extends LitElement {
 
     // 주문하기 버튼 클릭시 띄워주는 팝업창
     handleOrder() {
-        // 주문을 확인하는 팝업
-        Swal.fire({
-            title: '주문하시겠습니까?',
-            showCancelButton: true,
-            confirmButtonText: '주문하기',
-            cancelButtonText: '취소하기',
-            confirmButtonColor: 'var(--primary)',
-            cancelButtonColor: 'var(--gray--500)',
-            imageUrl: `/public/logo.svg`,
-            imageHeight: 200,
-            imageWidth: 200,
-        }).then(async (result) => {
-            // 확인을 누르면 발생하는 이벤트
-            if (result.isConfirmed) {
-                // 선택한 물품을 담는 변수
-                const deliveryItem = {};
-                // 선택을 했다면 객체에 담기
-                for (const value of Object.keys(this.cartItems)) {
-                    if (itemCounter[value]) {
-                        deliveryItem[value] = this.cartItems[value];
+        if (!JSON.parse(localStorage.getItem('auth'))) {
+            location.href = '/src/pages/Login/index.html';
+        } else {
+            // 주문을 확인하는 팝업
+            Swal.fire({
+                title: '주문하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '주문하기',
+                cancelButtonText: '취소하기',
+                confirmButtonColor: 'var(--primary)',
+                cancelButtonColor: 'var(--gray--500)',
+                imageUrl: `/public/logo.svg`,
+                imageHeight: 200,
+                imageWidth: 200,
+            }).then(async (result) => {
+                // 확인을 누르면 발생하는 이벤트
+                if (result.isConfirmed) {
+                    // 선택한 물품을 담는 변수
+                    const deliveryItem = {};
+                    // 선택을 했다면 객체에 담기
+                    for (const value of Object.keys(this.cartItems)) {
+                        if (itemCounter[value]) {
+                            deliveryItem[value] = this.cartItems[value];
+                        }
+                    }
+
+                    // 만약 선택된 물품이 없다면 에러 팝업
+                    if (Object.keys(deliveryItem).length === 0) {
+                        Swal.fire({
+                            title: '현재 선택된 상품이 없습니다!',
+                            icon: 'error',
+                            timer: 3000,
+                        });
+                    } else {
+                        // 주문을 확정하면 확정됐다는 팝업과 동시에 localStorage삭제, 유저 정보 등록
+                        Swal.fire({
+                            title: '주문이 완료되었습니다!',
+                            icon: 'success',
+                            timer: 3000,
+                        }).then(() => {
+                            location.href = '/src/pages/MainPages/index.html';
+                        });
+
+                        const userId = JSON.parse(localStorage.getItem('auth')).user.id;
+
+                        const data = {
+                            user: userId,
+                            order_list: JSON.stringify(deliveryItem),
+                        };
+
+                        await pb.collection('delivery').create(data);
+
+                        localStorage.removeItem('cartItems');
                     }
                 }
-
-                // 만약 선택된 물품이 없다면 에러 팝업
-                if (Object.keys(deliveryItem).length === 0) {
-                    Swal.fire({
-                        title: '현재 선택된 상품이 없습니다!',
-                        icon: 'error',
-                        timer: 3000,
-                    });
-                } else {
-                    // 주문을 확정하면 확정됐다는 팝업과 동시에 localStorage삭제, 유저 정보 등록
-                    Swal.fire({
-                        title: '주문이 완료되었습니다!',
-                        icon: 'success',
-                        timer: 3000,
-                    }).then(() => {
-                        location.href = '/';
-                    });
-
-                    const userId = JSON.parse(localStorage.getItem('auth')).user.id;
-
-                    const data = {
-                        user: userId,
-                        order_list: JSON.stringify(deliveryItem),
-                    };
-
-                    await pb.collection('delivery').create(data);
-
-                    localStorage.removeItem('cartItems');
-                }
-            }
-        });
+            });
+        }
     }
 
     render() {
@@ -598,7 +602,9 @@ class Cart extends LitElement {
                                     </div>
                                 </div>
                             </div>
-                            <c-button type="submit" mode="fill" size="btn-sm" class="purchase-confirm" @click=${this.handleOrder}>주문하기</c-button>
+                            <c-button type="submit" mode="fill" size="btn-sm" class="purchase-confirm" @click=${this.handleOrder}
+                                >${localStorage.getItem('auth') ? '주문하기' : '로그인'}</c-button
+                            >
                             <div class="purchase-detail">
                                 쿠폰/적립금은 주문서에서 사용 가능합니다<br />
                                 [주문완료] 상태일 경우에만 주문 취소 가능합니다.<br />
