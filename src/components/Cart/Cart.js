@@ -2,8 +2,10 @@ import '@/components/IncDecComponent/IncDecComponent.js';
 import '@/components/CheckBox/CheckBox.js';
 import resetCss from '@/styles/Reset.js';
 import { pb } from '@/api/PocketHost.js';
+import '@/components/Button/Button.js';
 import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
+import Swal from 'sweetalert2';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -22,6 +24,7 @@ class Cart extends LitElement {
         hideFrozen: { type: Boolean },
         hideTemperature: { type: Boolean },
         totalPrice: { type: Number },
+        loading: { type: Boolean },
     };
 
     constructor() {
@@ -31,6 +34,7 @@ class Cart extends LitElement {
             address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
             id: 'abc123',
         };
+        this.loading = true;
     }
 
     // 카트 상품 페이지에 들어가게 되면 데이터를 불러와서 렌더링할 준비
@@ -41,6 +45,7 @@ class Cart extends LitElement {
 
     // 데이터를 불러오는 함수
     async fetchData() {
+        this.loading = true;
         // localStorage에 저장된 데이터만 렌더링하도록 유도
         this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
         const localStorageKeys = Object.keys(this.cartItems);
@@ -59,7 +64,16 @@ class Cart extends LitElement {
         // pockethost를 통해 통신
 
         // localStorage에 해당하는 key값만 추출
-        this.productList = await pb.collection('product').getFullList({ filter: filter });
+        try {
+            this.loading = true;
+            this.productList = await pb.collection('product').getFullList({ filter: filter });
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setTimeout(() => {
+                this.loading = false;
+            }, 500);
+        }
 
         if (!this.productList) this.prouctList = [];
 
@@ -158,248 +172,304 @@ class Cart extends LitElement {
         }
     }
 
+    // 수량 변경에 따른 localStorage의 데이터 변경
+    storeCartItems(e) {
+        const id = e.target.closest('div').id;
+        const newValue = e.detail.itemQuantity;
+
+        this.cartItems[id] = newValue;
+
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        this.handleUpdate();
+    }
+
     handleUpdate() {
         this.requestUpdate();
     }
 
+    // 주문하기 버튼 클릭시 띄워주는 팝업창
+    handleOrder() {
+        // 주문을 확인하는 팝업
+        Swal.fire({
+            title: '주문하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonText: '주문하기',
+            cancelButtonText: '취소하기',
+            confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: 'var(--gray--500)',
+            imageUrl: `/public/logo.svg`,
+            imageHeight: 200,
+            imageWidth: 200,
+        }).then(async (result) => {
+            // 확인을 누르면 발생하는 이벤트
+            if (result.isConfirmed) {
+                // 선택한 물품을 담는 변수
+                const deliveryItem = {};
+                // 선택을 했다면 객체에 담기
+                for (const value of Object.keys(this.cartItems)) {
+                    if (itemCounter[value]) {
+                        deliveryItem[value] = this.cartItems[value];
+                    }
+                }
+
+                // 만약 선택된 물품이 없다면 에러 팝업
+                if (Object.keys(deliveryItem).length === 0) {
+                    Swal.fire({
+                        title: '현재 선택된 상품이 없습니다!',
+                        icon: 'error',
+                        timer: 3000,
+                    });
+                } else {
+                    // 주문을 확정하면 확정됐다는 팝업과 동시에 localStorage삭제, 유저 정보 등록
+                    Swal.fire({
+                        title: '주문이 완료되었습니다!',
+                        icon: 'success',
+                        timer: 3000,
+                    }).then(() => {
+                        location.href = '/';
+                    });
+
+                    const userId = JSON.parse(localStorage.getItem('auth')).user.id;
+
+                    const data = {
+                        user: userId,
+                        order_list: JSON.stringify(deliveryItem),
+                    };
+
+                    await pb.collection('delivery').create(data);
+
+                    localStorage.removeItem('cartItems');
+                }
+            }
+        });
+    }
+
     render() {
-        return html`
-            <!--장바구니라는 타이틀이 있어 section으로 마크업-->
-            <section class="cart-container">
-                <h1 class="title-text">장바구니</h1>
-                <!-- 모든 품목을 포함하는 container -->
-                <div class="li-purchase-container">
-                    <ul class="li-container">
-                        <li>
-                            <div class="product-check-container">
-                                <!-- 체크박스의 상태가 변경되면 이벤트 발생 -->
-                                <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
-                                    <span>전체선택</span>
-                                    <span>
-                                        <!-- reduce로 전체 길이와 선택된 요소들을 계산 -->
-                                        (${Object.entries(itemCounter).reduce((acc, cur) => {
-                                            return (acc += +cur[1]);
-                                        }, 0)}/${Object.keys(itemCounter).length})
-                                        |
-                                    </span>
-                                </c-checkbox>
-                                <!-- 품목 삭제 버튼 -->
-                                <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="food-category-container">
-                                <img src="/assets/chilled.svg" />
-                                <span class="category-text">냉장 식품</span>
-                            </div>
-                            <button class="dropdown-btn" type="button">
-                                <!-- 품목 숨김 버튼 -->
-                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
-                            </button>
-                        </li>
-                        <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
-                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                        <div class=${this.hideChilled ? 'sr-only' : ''}>
-                            ${Array.isArray(this.productChilled)
-                                ? this.productChilled.map(
-                                      (idx) =>
-                                          html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                  >ff</c-checkbox
-                                              >
-                                              <!-- 이미지는 다음과 같이 불러와야함-->
-                                              <img
-                                                  class="cart-product-image"
-                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                              />
-                                              <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
-                                              <span class="cart-product-price">
-                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                  ${(
-                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                  ).toLocaleString()}원</span
-                                              >
-                                              <!-- 품목 삭제 버튼 -->
-                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                              </button>
-                                          </div>`
-                                  )
-                                : ''}
-                        </div>
-                        <li>
-                            <div class="food-category-container">
-                                <img src="/assets/frozen.svg" />
-                                <span class="category-text">냉동 식품</span>
-                            </div>
-                            <button class="dropdown-btn" type="button">
-                                <!-- 품목 숨김 버튼 -->
-                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
-                            </button>
-                        </li>
-                        <!--분류해뒀던 냉동 타입 렌더링-->
-                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                        <div class=${this.hideFrozen ? 'sr-only' : ''}>
-                            ${Array.isArray(this.productFrozen)
-                                ? this.productFrozen.map(
-                                      (idx) =>
-                                          html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                  >ff</c-checkbox
-                                              >
-                                              <!-- 이미지는 다음과 같이 불러와야함-->
-                                              <img
-                                                  class="cart-product-image"
-                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                              />
-                                              <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
-                                              <span class="cart-product-price">
-                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                  ${(
-                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                  ).toLocaleString()}원</span
-                                              >
-                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                              </button>
-                                          </div>`
-                                  )
-                                : ''}
-                        </div>
-                        <li>
-                            <div class="food-category-container">
-                                <img src="/assets/temperature.svg" />
-                                <span class="category-text">상온 식품</span>
-                            </div>
-                            <button class="dropdown-btn" type="button">
-                                <!-- 품목 숨김 버튼 -->
-                                <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
-                            </button>
-                        </li>
-                        <!--분류해뒀던 상온 타입 렌더링-->
-                        <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                        <div class=${this.hideTemperature ? 'sr-only' : ''}>
-                            ${Array.isArray(this.productTemperature)
-                                ? this.productTemperature.map(
-                                      (idx) =>
-                                          html` <div class="cart-product" id=${idx['id']}>
-                                              <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                  >ff</c-checkbox
-                                              >
-                                              <!-- 이미지는 다음과 같이 불러와야함-->
-                                              <img
-                                                  class="cart-product-image"
-                                                  src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                              />
-                                              <span class="cart-product-title">${idx['name']}</span>
-                                              <inc-dec-btn id=${idx['id']} incartpage="true" @click=${this.handleUpdate}></inc-dec-btn>
-                                              <span class="cart-product-price">
-                                                  <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                  ${(
-                                                      Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                      JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                  ).toLocaleString()}원</span
-                                              >
-                                              <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                  <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                              </button>
-                                          </div>`
-                                  )
-                                : ''}
-                        </div>
-                        <li>
-                            <div class="product-check-container">
-                                <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
-                                    <span>전체선택</span>
-                                    <span
-                                        >(${Object.entries(itemCounter).reduce((acc, cur) => {
-                                            return (acc += +cur[1]);
-                                        }, 0)}/${Object.keys(itemCounter).length})
-                                        |
-                                    </span>
-                                </c-checkbox>
-                                <!-- 품목 삭제 버튼 -->
-                                <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="purchase-container">
-                        <section class="purchase-address">
-                            <h1 class="address-title">
-                                <img src="/assets/place-pin.svg" />
-                                <span>배송지</span>
-                            </h1>
-                            <p class="address-info">${this.user.address}</p>
-                            <p class="delivery-text">샛별배송</p>
-                            <!-- TODO:배송지변경 버튼 작동시키기 -->
-                            <button class="delivery-btn" type="button">배송지 변경</button>
-                        </section>
-                        <div class="purchase-price">
-                            <div class="purchase-price-detail">
-                                <div>
-                                    <span>상품금액</span>
-                                    <span>
-                                        <!--localStroage와 api를 연동하여 가격 합산-->
-                                        ${Array.isArray(this.productList)
-                                            ? Math.floor(
-                                                  this.productList.reduce((acc, cur) => {
-                                                      if (itemCounter[cur['id']]) {
-                                                          acc += cur['price'] * this.cartItems[`${cur['id']}`];
-                                                      }
-                                                      return acc;
-                                                  }, 0)
-                                              ).toLocaleString()
-                                            : 0} <b>원</b></span
-                                    >
+        // 데이터 불러오는 중 스피너 렌더링
+        if (this.loading) {
+            return html` <div class="loader"></div>`;
+        } else {
+            return html`
+                <!--장바구니라는 타이틀이 있어 section으로 마크업-->
+                <section class="cart-container">
+                    <h1 class="title-text">장바구니</h1>
+                    <!-- 모든 품목을 포함하는 container -->
+                    <div class="li-purchase-container">
+                        <ul class="li-container">
+                            <li>
+                                <div class="product-check-container">
+                                    <!-- 체크박스의 상태가 변경되면 이벤트 발생 -->
+                                    <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
+                                        <span>전체선택</span>
+                                        <span>
+                                            <!-- reduce로 전체 길이와 선택된 요소들을 계산 -->
+                                            (${Object.entries(itemCounter).reduce((acc, cur) => {
+                                                return (acc += +cur[1]);
+                                            }, 0)}/${Object.keys(itemCounter).length})
+                                            |
+                                        </span>
+                                    </c-checkbox>
+                                    <!-- 품목 삭제 버튼 -->
+                                    <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
                                 </div>
-                                <div>
-                                    <span>상품할인금액</span>
-                                    <span>
-                                        <!--localStroage와 api를 연동하여 할인하는 가격 합산-->
-                                        -${Array.isArray(this.productList)
-                                            ? Math.floor(
-                                                  this.productList.reduce((acc, cur) => {
-                                                      if (itemCounter[cur['id']]) {
-                                                          acc += cur['price'] * cur['discount'] * 0.01 * this.cartItems[`${cur['id']}`];
-                                                      }
-                                                      return acc;
-                                                  }, 0)
-                                              ).toLocaleString()
-                                            : 0} <b>원</b></span
-                                    >
+                            </li>
+                            <li>
+                                <div class="food-category-container">
+                                    <img src="/assets/chilled.svg" />
+                                    <span class="category-text">냉장 식품</span>
                                 </div>
-                                <div>
-                                    <span>배송비</span>
-                                    <!-- 배송비 계산 총 가격이 20000원 초과라면 0원 아니라면 3000원 -->
-                                    <span
-                                        >${(Array.isArray(this.productList)
-                                            ? Math.floor(
-                                                  this.productList.reduce((acc, cur) => {
-                                                      if (itemCounter[cur['id']]) {
-                                                          acc +=
-                                                              (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
-                                                      }
-                                                      return acc;
-                                                  }, 0)
-                                              )
-                                            : 0) > 20000
-                                            ? 0
-                                            : '+3,000'} <b>원</b></span
-                                    >
+                                <button class="dropdown-btn" type="button">
+                                    <!-- 품목 숨김 버튼 -->
+                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
+                                </button>
+                                <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
+                                <div ?hidden=${this.hideChilled}>
+                                    ${Array.isArray(this.productChilled)
+                                        ? this.productChilled.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <!-- 품목 삭제 버튼 -->
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
                                 </div>
-                            </div>
-                            <div class="purchase-info">
-                                <div class="purchase-total-price">
-                                    <span>결제예정금액</span>
-                                    <span
-                                        ><b>
-                                            <!--localStroage와 api를 연동하여 총 가격 합산-->
-                                            ${((Array.isArray(this.productList)
+                            </li>
+                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
+                            <li>
+                                <div class="food-category-container">
+                                    <img src="/assets/frozen.svg" />
+                                    <span class="category-text">냉동 식품</span>
+                                </div>
+                                <button class="dropdown-btn" type="button">
+                                    <!-- 품목 숨김 버튼 -->
+                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
+                                </button>
+                                <!--분류해뒀던 냉동 타입 렌더링-->
+                                <div ?hidden=${this.hideFrozen}>
+                                    ${Array.isArray(this.productFrozen)
+                                        ? this.productFrozen.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
+                                </div>
+                            </li>
+                            <li>
+                                <div class="food-category-container">
+                                    <img src="/assets/temperature.svg" />
+                                    <span class="category-text">상온 식품</span>
+                                </div>
+                                <button class="dropdown-btn" type="button">
+                                    <!-- 품목 숨김 버튼 -->
+                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
+                                </button>
+                                <!--분류해뒀던 상온 타입 렌더링-->
+                                <div ?hidden=${this.hideTemperature}>
+                                    ${Array.isArray(this.productTemperature)
+                                        ? this.productTemperature.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
+                                </div>
+                            </li>
+                            <li>
+                                <div class="product-check-container">
+                                    <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>
+                                        <span>전체선택</span>
+                                        <span
+                                            >(${Object.entries(itemCounter).reduce((acc, cur) => {
+                                                return (acc += +cur[1]);
+                                            }, 0)}/${Object.keys(itemCounter).length})
+                                            |
+                                        </span>
+                                    </c-checkbox>
+                                    <!-- 품목 삭제 버튼 -->
+                                    <button type="button" @click=${this.deleteSelectList}>선택 삭제</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="purchase-container">
+                            <section class="purchase-address">
+                                <h1 class="address-title">
+                                    <img src="/assets/place-pin.svg" />
+                                    <span>배송지</span>
+                                </h1>
+                                <p class="address-info">${this.user.address}</p>
+                                <p class="delivery-text">샛별배송</p>
+                                <!-- TODO:배송지변경 버튼 작동시키기 -->
+                                <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
+                            </section>
+                            <div class="purchase-price">
+                                <div class="purchase-price-detail">
+                                    <div>
+                                        <span>상품금액</span>
+                                        <span>
+                                            <!--localStroage와 api를 연동하여 가격 합산-->
+                                            ${Array.isArray(this.productList)
+                                                ? Math.floor(
+                                                      this.productList.reduce((acc, cur) => {
+                                                          if (itemCounter[cur['id']]) {
+                                                              acc += cur['price'] * this.cartItems[`${cur['id']}`];
+                                                          }
+                                                          return acc;
+                                                      }, 0)
+                                                  ).toLocaleString()
+                                                : 0} <b>원</b></span
+                                        >
+                                    </div>
+                                    <div>
+                                        <span>상품할인금액</span>
+                                        <span>
+                                            <!--localStroage와 api를 연동하여 할인하는 가격 합산-->
+                                            -${Array.isArray(this.productList)
+                                                ? Math.floor(
+                                                      this.productList.reduce((acc, cur) => {
+                                                          if (itemCounter[cur['id']]) {
+                                                              acc += cur['price'] * cur['discount'] * 0.01 * this.cartItems[`${cur['id']}`];
+                                                          }
+                                                          return acc;
+                                                      }, 0)
+                                                  ).toLocaleString()
+                                                : 0} <b>원</b></span
+                                        >
+                                    </div>
+                                    <div>
+                                        <span>배송비</span>
+                                        <!-- 배송비 계산 총 가격이 20000원 초과라면 0원 아니라면 3000원 -->
+                                        <span
+                                            >${(Array.isArray(this.productList)
                                                 ? Math.floor(
                                                       this.productList.reduce((acc, cur) => {
                                                           if (itemCounter[cur['id']]) {
@@ -411,7 +481,18 @@ class Cart extends LitElement {
                                                       }, 0)
                                                   )
                                                 : 0) > 20000
-                                                ? Array.isArray(this.productList)
+                                                ? 0
+                                                : '+3,000'} <b>원</b></span
+                                        >
+                                    </div>
+                                </div>
+                                <div class="purchase-info">
+                                    <div class="purchase-total-price">
+                                        <span>결제예정금액</span>
+                                        <span
+                                            ><b>
+                                                <!--localStroage와 api를 연동하여 총 가격 합산-->
+                                                ${((Array.isArray(this.productList)
                                                     ? Math.floor(
                                                           this.productList.reduce((acc, cur) => {
                                                               if (itemCounter[cur['id']]) {
@@ -422,57 +503,70 @@ class Cart extends LitElement {
                                                               return acc;
                                                           }, 0)
                                                       )
-                                                    : 0
-                                                : (Array.isArray(this.productList)
-                                                      ? Math.floor(
-                                                            this.productList.reduce((acc, cur) => {
-                                                                if (itemCounter[cur['id']]) {
-                                                                    acc +=
-                                                                        (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                                        JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
-                                                                }
-                                                                return acc;
-                                                            }, 0)
-                                                        )
-                                                      : 0) + 3000
-                                            ).toLocaleString()} </b
-                                        >원</span
-                                    >
-                                </div>
-                                <div class="purchase-saving">
-                                    <span>적립</span>
-                                    <span
-                                        >최대
-                                        <!--결제하는 가격에서 0.1%를 계산후 반올림-->
-                                        ${Array.isArray(this.productList)
-                                            ? Math.round(
-                                                  this.productList.reduce((acc, cur) => {
-                                                      if (itemCounter[cur['id']]) {
-                                                          acc +=
-                                                              (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
-                                                              JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
-                                                      }
-                                                      return acc;
-                                                  }, 0) * 0.001
-                                              )
-                                            : 0}원
-                                        적립 일반 0.1%</span
-                                    >
+                                                    : 0) > 20000
+                                                    ? Array.isArray(this.productList)
+                                                        ? Math.floor(
+                                                              this.productList.reduce((acc, cur) => {
+                                                                  if (itemCounter[cur['id']]) {
+                                                                      acc +=
+                                                                          (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                          JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                                  }
+                                                                  return acc;
+                                                              }, 0)
+                                                          )
+                                                        : 0
+                                                    : (Array.isArray(this.productList)
+                                                          ? Math.floor(
+                                                                this.productList.reduce((acc, cur) => {
+                                                                    if (itemCounter[cur['id']]) {
+                                                                        acc +=
+                                                                            (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                            JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                                    }
+                                                                    return acc;
+                                                                }, 0)
+                                                            )
+                                                          : 0) + 3000
+                                                ).toLocaleString()} </b
+                                            >원</span
+                                        >
+                                    </div>
+                                    <div class="purchase-saving">
+                                        <span>적립</span>
+                                        <span
+                                            >최대
+                                            <!--결제하는 가격에서 0.1%를 계산후 반올림-->
+                                            ${Array.isArray(this.productList)
+                                                ? Math.round(
+                                                      this.productList.reduce((acc, cur) => {
+                                                          if (itemCounter[cur['id']]) {
+                                                              acc +=
+                                                                  (cur['price'] - cur['price'] * cur['discount'] * 0.01) *
+                                                                  JSON.parse(localStorage.getItem('cartItems'))[`${cur['id']}`];
+                                                          }
+                                                          return acc;
+                                                      }, 0) * 0.001
+                                                  )
+                                                : 0}원
+                                            적립 일반 0.1%</span
+                                        >
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <button type="button" class="purchase-confirm">주문하기</button>
-                        <div class="purchase-detail">
-                            쿠폰/적립금은 주문서에서 사용 가능합니다<br />
-                            [주문완료] 상태일 경우에만 주문 취소 가능합니다.<br />
-                            [마이컬리 > 주문내역 상세페이지] 에서 직접 취소하실 수 있습니다.<br />
-                            쿠폰, 적립금 사용 금액을 제외한 실 결제 금액 기준으로 최종 산정됩니다.<br />
-                            상품별로 적립금 지급 기준이 다를 수 있습니다. (상품 상세 페이지에서 확인 가능합니다)<br />
+                            <c-button type="submit" mode="fill" size="btn-sm" class="purchase-confirm" @click=${this.handleOrder}>주문하기</c-button>
+                            <div class="purchase-detail">
+                                쿠폰/적립금은 주문서에서 사용 가능합니다<br />
+                                [주문완료] 상태일 경우에만 주문 취소 가능합니다.<br />
+                                [마이컬리 > 주문내역 상세페이지] 에서 직접 취소하실 수 있습니다.<br />
+                                쿠폰, 적립금 사용 금액을 제외한 실 결제 금액 기준으로 최종 산정됩니다.<br />
+                                상품별로 적립금 지급 기준이 다를 수 있습니다. (상품 상세 페이지에서 확인 가능합니다)<br />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        `;
+                </section>
+            `;
+        }
     }
 }
 
