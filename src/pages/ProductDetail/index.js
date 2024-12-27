@@ -1,12 +1,12 @@
-import '@/layout/header.js';
-import '@/components/footer/footer.js';
-import '@/components/tab/tab.js';
 import '@/components/ProductDetailModal/ProductDetailModal.js';
-import { LitElement, html } from 'lit';
-import { pb } from '@/api/pockethost.js';
+import productDetailStyle from './ProductDetailStyle.js';
 import '@/components/ProductHeader/ProductHeader.js';
-import productDetailStyles from './ProductDetailStyles.js';
-import resetStyles from '@/styles/reset.js';
+import { pb } from '@/api/PocketHost.js';
+import resetCss from '@/styles/Reset.js';
+import '@/components/Footer/Footer.js';
+import { LitElement, html } from 'lit';
+import '@/components/Tab/Tab.js';
+import '@/layout/Header.js';
 
 class ProductDetail extends LitElement {
     static properties = {
@@ -18,7 +18,7 @@ class ProductDetail extends LitElement {
         qnaList: { type: Array, required: true },
     };
 
-    static styles = [resetStyles, productDetailStyles];
+    static styles = [resetCss, productDetailStyle];
 
     constructor() {
         super();
