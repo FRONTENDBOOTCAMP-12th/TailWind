@@ -31,8 +31,7 @@ class BubbleComponent extends LitElement {
         return this.isVisible
             ? html`
                   <div class="bubble">
-                      <slot name="image"></slot>
-                      <slot name="content"></slot>
+                      <slot></slot>
                   </div>
               `
             : null;

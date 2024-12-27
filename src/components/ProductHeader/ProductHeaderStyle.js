@@ -123,29 +123,34 @@ export default css`
             }
         }
 
-        .bubble-product-image {
-            width: 46px;
-            height: 60px;
-            object-fit: cover;
-        }
-
-        .bubble-content {
+        .bubble-content-box {
             display: flex;
-            flex-direction: column;
-            flex: 1;
-            justify-content: center;
+            gap: 12px;
 
-            .title {
-                font-size: 14px;
-                font-weight: 500;
-                color: #333;
-                margin: 0 0 8px 0;
+            .bubble-product-image {
+                width: 46px;
+                height: 60px;
+                object-fit: cover;
             }
 
-            .description {
-                font-size: 12px;
-                color: #666;
-                margin: 0;
+            .bubble-content {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                justify-content: center;
+
+                .title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #333;
+                    margin: 0 0 8px 0;
+                }
+
+                .description {
+                    font-size: 12px;
+                    color: #666;
+                    margin: 0;
+                }
             }
         }
     }

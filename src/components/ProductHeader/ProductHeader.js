@@ -118,10 +118,12 @@ class ProductHeader extends LitElement {
                         <c-button type="button" mode="outline">알림</c-button>
                         <c-button type="button" mode="fill" ?disabled=${this.totalPrice === 0} @click=${this.handleAddToCart}>장바구니 담기</c-button>
                         <c-bubble ?isVisible=${this.isVisible}>
-                            <img slot="image" class="bubble-product-image" src="${fileUrl + this.product.id + '/' + this.product.main_image}" />
-                            <div slot="content" class="bubble-content">
-                                <p class="title">${this.product.name}</p>
-                                <p class="description">장바구니에 상품을 담았습니다.</p>
+                            <div class="bubble-content-box">
+                                <img class="bubble-product-image" src="${fileUrl + this.product.id + '/' + this.product.main_image}" />
+                                <div class="bubble-content">
+                                    <p class="title">${this.product.name}</p>
+                                    <p class="description">장바구니에 상품을 담았습니다.</p>
+                                </div=>
                             </div>
                         </c-bubble>
                     </div>
