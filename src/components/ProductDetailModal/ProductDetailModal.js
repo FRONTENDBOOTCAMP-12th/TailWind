@@ -1,11 +1,11 @@
 // lit을 이용한 공통 모달 컴포넌트
+import modalStyle from './ProductDetailModalStyle.js';
+import { fileUrl } from '@/api/PocketHost.js';
+import '@/components/CheckBox/CheckBox.js';
+import resetCss from '@/styles/Reset.js';
+import { pb } from '@/api/PocketHost.js';
 import { html, LitElement } from 'lit';
-import { modalStyles } from './ProductDetailModalStyle';
-import resetStyles from '@/styles/reset.js';
-import '@/components/checkbox/checkbox.js';
-import '@/components/button/button.js';
-import { fileUrl } from '@/api/pockethost.js';
-import { pb } from '@/api/pockethost.js';
+import '@/components/Button/Button.js';
 
 class ProductDetailModal extends LitElement {
     static properties = {
@@ -15,7 +15,7 @@ class ProductDetailModal extends LitElement {
         registerBtnDisabled: { type: Boolean, attribute: true },
     };
 
-    static styles = [resetStyles, modalStyles];
+    static styles = [resetCss, modalStyle];
 
     constructor() {
         super();
