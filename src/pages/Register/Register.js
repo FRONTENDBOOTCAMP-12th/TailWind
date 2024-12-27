@@ -18,6 +18,7 @@ class Register extends LitElement {
             nameField: '',
             emailField: '',
             numberField: '',
+            addressField: '',
             genderField: '',
             birthField: {
                 year: '',
@@ -33,10 +34,8 @@ class Register extends LitElement {
     }
     connectedCallback() {
         super.connectedCallback();
-        //this.fetchData();
     }
 
-    //async fetchData() {}
     static get styles() {
         return [resetCss, registerStyle];
     }
@@ -77,7 +76,7 @@ class Register extends LitElement {
     }
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        //필수 입력 값 모두 입력력
+        //필수 입력 값 모두 입력
         if (!this.handleReuired()) {
             //필수 약관 모두 체크
             if (this.requiredChecked) {
@@ -88,6 +87,8 @@ class Register extends LitElement {
                         passwordConfirm: this.inputs['pwCheckField'],
                         name: this.inputs['nameField'],
                         email: this.inputs['emailField'],
+                        emailVisibility: true,
+                        address: this.inputs['addressField'],
                         phoneNumber: this.inputs['numberField'],
                         birth: this.inputs['birthDate'],
                         gender: [this.inputs['genderField']],
@@ -123,30 +124,34 @@ class Register extends LitElement {
 
     // 중복확인 함수
     async handleDuplication(e) {
-        const value = this.inputs[e.target.dataset.id];
-        const field = e.target.dataset.field;
+        const value = this.inputs[e.target.dataset.id]?.trim(); //입력값
+        const field = e.target.dataset.field; //필드명
+        const fieldId = e.target.dataset.id; //아이디명
 
         //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
         if (this.hint) {
             try {
                 // 중복 값이 있는지 확인하는 값 가져오기
+
                 const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+
                 //힌트 메세지 태그 가져오기
-                const vdMessage = this.renderRoot.querySelector('#idField').shadowRoot.querySelector('.error-message');
+                const vdMessage = this.renderRoot.querySelector(`#${fieldId}`).shadowRoot.querySelector('.error-message');
 
                 //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
-                if (!(result.items.length === 0)) {
+                if (result.items.length > 0) {
                     //중복이 있다는 힌트 메세지로 변경 시켜주기
-                    vdMessage.style.color = 'var(--info---error)';
-                    vdMessage.style.display = 'block';
-                    vdMessage.textContent = '같은 아이디가 이미 존재합니다';
+                    // vdMessage.style.color = 'var(--info---error)';
+                    // vdMessage.style.display = 'block';
+                    // vdMessage.textContent = '이미 존재하는 값입니다';
+                    alert('있음');
 
                     return true;
                 } else {
-                    vdMessage.style.color = 'dodgerblue';
-                    vdMessage.style.display = 'block';
-                    vdMessage.textContent = '사용 가능한 아이디입니다';
-
+                    // vdMessage.style.color = 'dodgerblue';
+                    // vdMessage.style.display = 'block';
+                    // vdMessage.textContent = '사용 가능합니다';
+                    alert('없음');
                     return false;
                 }
             } catch {
@@ -214,6 +219,23 @@ class Register extends LitElement {
 
         //필수 체크라고 되어있는 박스가 모두 체크 되었으면 true를 반환
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
+    }
+
+    //주소 찾기 함수
+    handleFindAddr() {
+        new daum.Postcode({
+            oncomplete: (data) => {
+                // 선택된 주소 처리
+                let addr = '';
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                this.inputs['addressField'] = addr;
+            },
+        }).open();
     }
 
     //html 구조
@@ -302,7 +324,7 @@ class Register extends LitElement {
                     <span class="input-line">
                         <c-label required>주소</c-label>
                         <div class="address-container">
-                            <c-button>주소 찾기</c-button>
+                            <c-button @click="${this.handleFindAddr}">주소 찾기</c-button>
                             배송지에 따라 상품 정보가 달라질 수 있습니다.
                         </div>
                     </span>
