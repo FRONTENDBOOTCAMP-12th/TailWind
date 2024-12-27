@@ -14,6 +14,10 @@ export default css`
             display: flex;
             gap: 2.9375rem;
         }
+
+        .product-wrap {
+            width: 100%;
+        }
     }
 
     .product-list {

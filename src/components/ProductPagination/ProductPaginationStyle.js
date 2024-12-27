@@ -8,15 +8,14 @@ export default css`
         border: 1px solid #e1e1e1;
 
         & li {
-            text-align: center;
-            line-height: 36px;
-            width: 34px;
-            height: 34px;
-            color: var(--content);
-            font-size: 12px;
-
-            & a {
-                text-decoration: none;
+            & button {
+                text-align: center;
+                line-height: 36px;
+                width: 34px;
+                height: 34px;
+                color: var(--content);
+                font-size: 12px;
+                cursor: pointer;
             }
         }
 
