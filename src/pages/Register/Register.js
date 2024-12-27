@@ -94,6 +94,7 @@ class Register extends LitElement {
                     })
                     .then(() => {
                         alert('완료!!');
+                        window.location.href = '/src/pages/login/index.html';
                     })
                     .catch(() => {
                         alert('실패!!');
