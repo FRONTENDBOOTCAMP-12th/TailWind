@@ -6,7 +6,7 @@ export default css`
         gap: 90px;
 
         .product-image {
-            width: 400px;
+            width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #f8f8f8;

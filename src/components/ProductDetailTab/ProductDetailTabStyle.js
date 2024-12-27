@@ -31,6 +31,13 @@ export default css`
         flex-direction: column;
         gap: 40px;
 
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #f8f8f8;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
