@@ -6,7 +6,6 @@ import '@/components/Button/Button.js';
 import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
 import Swal from 'sweetalert2';
-import { gsap } from 'gsap';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -93,12 +92,6 @@ class Cart extends LitElement {
 
     handleShowHideFrozen() {
         this.hideFrozen = !this.hideFrozen;
-        const target = this.renderRoot.querySelector('.product-frozen');
-        console.log(target);
-        gsap.to(target, {
-            display: 'none',
-            height: 0,
-        });
     }
 
     handleShowHideChilled() {
@@ -179,6 +172,7 @@ class Cart extends LitElement {
         }
     }
 
+    // 수량 변경에 따른 localStorage의 데이터 변경
     storeCartItems(e) {
         const id = e.target.closest('div').id;
         const newValue = e.detail.itemQuantity;
@@ -193,8 +187,9 @@ class Cart extends LitElement {
         this.requestUpdate();
     }
 
+    // 주문하기 버튼 클릭시 띄워주는 팝업창
     handleOrder() {
-        console.log(itemCounter);
+        // 주문을 확인하는 팝업
         Swal.fire({
             title: '주문하시겠습니까?',
             showCancelButton: true,
@@ -206,14 +201,18 @@ class Cart extends LitElement {
             imageHeight: 200,
             imageWidth: 200,
         }).then(async (result) => {
+            // 확인을 누르면 발생하는 이벤트
             if (result.isConfirmed) {
+                // 선택한 물품을 담는 변수
                 const deliveryItem = {};
+                // 선택을 했다면 객체에 담기
                 for (const value of Object.keys(this.cartItems)) {
                     if (itemCounter[value]) {
                         deliveryItem[value] = this.cartItems[value];
                     }
                 }
 
+                // 만약 선택된 물품이 없다면 에러 팝업
                 if (Object.keys(deliveryItem).length === 0) {
                     Swal.fire({
                         title: '현재 선택된 상품이 없습니다!',
@@ -221,6 +220,7 @@ class Cart extends LitElement {
                         timer: 3000,
                     });
                 } else {
+                    // 주문을 확정하면 확정됐다는 팝업과 동시에 localStorage삭제, 유저 정보 등록
                     Swal.fire({
                         title: '주문이 완료되었습니다!',
                         icon: 'success',
@@ -245,6 +245,7 @@ class Cart extends LitElement {
     }
 
     render() {
+        // 데이터 불러오는 중 스피너 렌더링
         if (this.loading) {
             return html` <div class="loader"></div>`;
         } else {
@@ -283,7 +284,6 @@ class Cart extends LitElement {
                                 </button>
                             </li>
                             <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
-                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                             <div ?hidden=${this.hideChilled}>
                                 ${Array.isArray(this.productChilled)
                                     ? this.productChilled.map(
@@ -317,6 +317,7 @@ class Cart extends LitElement {
                                       )
                                     : ''}
                             </div>
+                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                             <li>
                                 <div class="food-category-container">
                                     <img src="/assets/frozen.svg" />
@@ -328,8 +329,7 @@ class Cart extends LitElement {
                                 </button>
                             </li>
                             <!--분류해뒀던 냉동 타입 렌더링-->
-                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
-                            <div class="product-frozen">
+                            <div ?hidden=${this.hideFrozen}>
                                 ${Array.isArray(this.productFrozen)
                                     ? this.productFrozen.map(
                                           (idx) =>
@@ -372,7 +372,6 @@ class Cart extends LitElement {
                                 </button>
                             </li>
                             <!--분류해뒀던 상온 타입 렌더링-->
-                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                             <div ?hidden=${this.hideTemperature}>
                                 ${Array.isArray(this.productTemperature)
                                     ? this.productTemperature.map(
