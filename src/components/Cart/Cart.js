@@ -65,6 +65,7 @@ class Cart extends LitElement {
         // pockethost를 통해 통신
 
         // localStorage에 해당하는 key값만 추출
+        // loading spinner 사용을 위한 try catch
         try {
             this.loading = true;
             this.productList = await pb.collection('product').getFullList({ filter: filter });
@@ -84,9 +85,7 @@ class Cart extends LitElement {
         this.productTemperature = this.productList.filter((index) => index.package_type === '상온');
     }
 
-    // 값의 수량이 변할때마다 렌더링되도록 유도
-
-    // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
+    // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리) -> gsap 애니메이션 활용
     handleShowHideTemperautre() {
         this.hideTemperature = !this.hideTemperature;
 
@@ -103,6 +102,7 @@ class Cart extends LitElement {
         }
     }
 
+    // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리) -> gsap 애니메이션 활용
     handleShowHideFrozen() {
         this.hideFrozen = !this.hideFrozen;
         const target = this.renderRoot.querySelector('.frozen-container');
@@ -118,6 +118,7 @@ class Cart extends LitElement {
         }
     }
 
+    // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리) -> gsap 애니메이션 활용
     handleShowHideChilled() {
         this.hideChilled = !this.hideChilled;
         const target = this.renderRoot.querySelector('.chilled-container');
@@ -218,12 +219,14 @@ class Cart extends LitElement {
         this.handleUpdate();
     }
 
+    // 값의 변경에 따라 유동적으로 리렌더링 유도
     handleUpdate() {
         this.requestUpdate();
     }
 
     // 주문하기 버튼 클릭시 띄워주는 팝업창
     handleOrder() {
+        // 만약 로그인 되지 않은 상태라면 클릭 시 로그인 페이지로 이동
         if (!JSON.parse(localStorage.getItem('auth'))) {
             location.href = '/src/pages/Login/index.html';
         } else {
@@ -267,6 +270,7 @@ class Cart extends LitElement {
                             location.href = '/src/pages/MainPages/index.html';
                         });
 
+                        // userID에 물품의 id 와 수량을 담아 api에 저장
                         const userId = JSON.parse(localStorage.getItem('auth')).user.id;
 
                         const data = {
@@ -327,6 +331,7 @@ class Cart extends LitElement {
                                         ? this.productChilled.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
+                                                      <!-- 체크박스 컴포넌트에 overflow가 제대로 동작하지 않아 hidden을 부여 -->
                                                       <c-checkbox
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
@@ -359,7 +364,6 @@ class Cart extends LitElement {
                                         : ''}
                                 </div>
                             </li>
-                            <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                             <li class="frozen-container">
                                 <div class="food-category-container">
                                     <img src="/assets/frozen.svg" />
@@ -375,6 +379,7 @@ class Cart extends LitElement {
                                         ? this.productFrozen.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
+                                                      <!-- 체크박스 컴포넌트에 overflow가 제대로 동작하지 않아 hidden을 부여 -->
                                                       <c-checkbox
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
@@ -421,6 +426,7 @@ class Cart extends LitElement {
                                         ? this.productTemperature.map(
                                               (idx) =>
                                                   html` <div class="cart-product" id=${idx['id']}>
+                                                      <!-- 체크박스 컴포넌트에 overflow가 제대로 동작하지 않아 hidden을 부여 -->
                                                       <c-checkbox
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
@@ -539,7 +545,7 @@ class Cart extends LitElement {
                                         <span>결제예정금액</span>
                                         <span
                                             ><b>
-                                                <!--localStroage와 api를 연동하여 총 가격 합산-->
+                                                <!--localStroage와 api를 연동하여 총 가격 합산 배송비는 상황에 따라 추가(20000원 기준) -->
                                                 ${((Array.isArray(this.productList)
                                                     ? Math.floor(
                                                           this.productList.reduce((acc, cur) => {
@@ -602,6 +608,7 @@ class Cart extends LitElement {
                                     </div>
                                 </div>
                             </div>
+                            <!-- 만약 로그인 된 상태라면 주문하기를 아니라면 로그인 텍스트를 표시 -->
                             <c-button type="submit" mode="fill" size="btn-sm" class="purchase-confirm" @click=${this.handleOrder}
                                 >${localStorage.getItem('auth') ? '주문하기' : '로그인'}</c-button
                             >
