@@ -1,3 +1,4 @@
+import '@/components/ProductPagination/ProductPagination.js';
 import '@/components/ProductSorting/ProductSorting.js';
 import productListStyle from './ProductListStyle.js';
 import '@/components/ProductCard/ProductCard.js';
@@ -6,10 +7,10 @@ import { LitElement, html } from 'lit';
 import PocketBase from 'pocketbase';
 
 // getPbImageURL : 포켓베이스 이미지 가져오는 함수
-function getPbImageURL(item, fieldName) {
-    const baseURL = import.meta.env.VITE_API_URL;
-    return `${baseURL}/api/files/${item.collectionId}/${item.id}/${item[fieldName]}`;
-}
+// function getPbImageURL(item, fieldName) {
+//     const baseURL = import.meta.env.VITE_API_URL;
+//     return `${baseURL}/api/files/${item.collectionId}/${item.id}/${item[fieldName]}`;
+// }
 
 class ProductListPage extends LitElement {
     static get styles() {
@@ -85,24 +86,16 @@ class ProductListPage extends LitElement {
     render() {
         return html`
             <div class="container">
-                <h2 class="product-title">베스트</h2>
                 <div class="product-list-page">
-                    <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                    <h2 class="product-title">베스트</h2>
                     <div>
-                        <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
-                        <div class="product-list">
-                            ${this.filteredProducts.map(
-                                (product) => html`
-                                    <product-card
-                                        .src="${getPbImageURL(product, 'main_image')}"
-                                        .specialDesc="${product.delivery}"
-                                        .productName="${product.name}"
-                                        .discount="${product.discount}"
-                                        .price="${product.price}"
-                                        .desc="${product.description}"
-                                    ></product-card>
-                                `
-                            )}
+                        <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                        <div>
+                            <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
+                            <div class="product-list">
+                                ${this.filteredProducts.map((product) => html` <product-card idx=${JSON.stringify(product)}></product-card> `)}
+                            </div>
+                            <product-pagination></product-pagination>
                         </div>
                     </div>
                 </div>
