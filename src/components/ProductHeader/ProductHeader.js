@@ -1,9 +1,9 @@
+import productHeaderStyle from './ProductHeaderStyle.js';
+import '@/components/IncDecComponent/IncDecComponent.js';
+import { fileUrl } from '@/api/PocketHost.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import { fileUrl } from '@/api/pockethost.js';
-import productHeaderStyles from './ProductHeaderStyles.js';
-import '@/components/inc-dec-component/incDecComponent.js';
-import '@/components/button/button.js';
-import resetStyles from '@/styles/reset.js';
+import '@/components/Button/Button.js';
 
 class ProductHeader extends LitElement {
     static properties = {
@@ -16,7 +16,7 @@ class ProductHeader extends LitElement {
         this.totalPrice = 0;
     }
 
-    static styles = [resetStyles, productHeaderStyles];
+    static styles = [resetCss, productHeaderStyle];
 
     async connectedCallback() {
         super.connectedCallback();

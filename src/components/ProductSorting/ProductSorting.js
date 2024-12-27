@@ -1,6 +1,6 @@
+import ProductSortingStyle from './ProductSortingStyle.js';
+import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-import resetCss from '@/styles/reset.js';
-import ProductSortingStyle from '@/components/ProductSorting/ProductSortingStyle.js';
 
 class ProductSorting extends LitElement {
     static get styles() {
