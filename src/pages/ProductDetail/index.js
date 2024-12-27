@@ -55,7 +55,7 @@ class ProductDetail extends LitElement {
         const sortOrder = this.reviewSortOption === 'latest' ? '-' : '+'; // '-'는 내림차순
 
         const reviewList = await pb.collection('reviews').getList(this.currentReviewPage, 5, {
-            productId: this.productId,
+            filter: `productId = "${this.productId}"`,
             sort: `${sortOrder}created`,
             expand: 'author',
         });
@@ -65,7 +65,7 @@ class ProductDetail extends LitElement {
 
     async fetchQnaData() {
         const qnaList = await pb.collection('questions_answers').getList(this.currentQnaPage, 5, {
-            productId: this.productId,
+            filter: `productId = "${this.productId}"`,
             expand: 'author',
         });
         this.qnaList = qnaList.items;

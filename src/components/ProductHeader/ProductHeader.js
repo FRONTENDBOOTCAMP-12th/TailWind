@@ -9,11 +9,13 @@ class ProductHeader extends LitElement {
     static properties = {
         product: { type: Object, required: true },
         totalPrice: { type: Number, required: true },
+        itemQuantity: { type: Number, required: true },
     };
 
     constructor() {
         super();
         this.totalPrice = 0;
+        this.itemQuantity = 1;
     }
 
     static styles = [resetCss, productHeaderStyle];
@@ -21,17 +23,18 @@ class ProductHeader extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
         this.product = JSON.parse(localStorage.getItem('product'));
-        this.totalPrice = localStorage.getItem('itemQuantity') * this.product.price;
+        this.totalPrice = this.itemQuantity * this.product.price;
     }
 
-    handleChange() {
-        this.totalPrice = localStorage.getItem('itemQuantity') * this.product.price;
+    handleChange(e) {
+        this.itemQuantity = e.detail.itemQuantity;
+        this.totalPrice = this.itemQuantity * this.product.price;
         this.requestUpdate();
     }
 
     handleAddToCart() {
         const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-        cart.push({ [`${this.product.id}`]: localStorage.getItem('itemQuantity') });
+        cart.push({ [`${this.product.id}`]: this.itemQuantity });
         localStorage.setItem('cartItems', JSON.stringify(cart));
     }
 
@@ -90,7 +93,8 @@ class ProductHeader extends LitElement {
                                 <div class="product-option-box">
                                     <div class="product-option-name">상품선택</div>
                                     <div class="product-option-value">
-                                        <inc-dec-btn @change=${this.handleChange}></inc-dec-btn>${this.product.price.toLocaleString()}원
+                                        <inc-dec-btn .itemQuantity=${this.itemQuantity} @quantity-change=${this.handleChange}></inc-dec-btn
+                                        >${this.product.price.toLocaleString()}원
                                     </div>
                                 </div>
                             </td>
