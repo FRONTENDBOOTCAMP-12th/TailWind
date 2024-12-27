@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const modalStyles = css`
+export default css`
     /* 모달 컴포넌트 스타일*/
     .modal {
         position: fixed;
