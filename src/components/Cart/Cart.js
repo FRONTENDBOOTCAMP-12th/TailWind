@@ -282,41 +282,41 @@ class Cart extends LitElement {
                                     <!-- 품목 숨김 버튼 -->
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
                                 </button>
+                                <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
+                                <div ?hidden=${this.hideChilled}>
+                                    ${Array.isArray(this.productChilled)
+                                        ? this.productChilled.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <!-- 품목 삭제 버튼 -->
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
+                                </div>
                             </li>
-                            <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
-                            <div ?hidden=${this.hideChilled}>
-                                ${Array.isArray(this.productChilled)
-                                    ? this.productChilled.map(
-                                          (idx) =>
-                                              html` <div class="cart-product" id=${idx['id']}>
-                                                  <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                      >ff</c-checkbox
-                                                  >
-                                                  <!-- 이미지는 다음과 같이 불러와야함-->
-                                                  <img
-                                                      class="cart-product-image"
-                                                      src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                                  />
-                                                  <span class="cart-product-title">${idx['name']}</span>
-                                                  <inc-dec-btn
-                                                      .itemQuantity=${this.cartItems[idx['id']]}
-                                                      @quantity-change=${this.storeCartItems}
-                                                  ></inc-dec-btn>
-                                                  <span class="cart-product-price">
-                                                      <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                      ${(
-                                                          Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                          JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                      ).toLocaleString()}원</span
-                                                  >
-                                                  <!-- 품목 삭제 버튼 -->
-                                                  <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                      <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                                  </button>
-                                              </div>`
-                                      )
-                                    : ''}
-                            </div>
                             <!-- 접근성 고려하여 화면에 표시되지 않더라도 알 수 있게 sr-only로 처리 -->
                             <li>
                                 <div class="food-category-container">
@@ -327,40 +327,40 @@ class Cart extends LitElement {
                                     <!-- 품목 숨김 버튼 -->
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
                                 </button>
+                                <!--분류해뒀던 냉동 타입 렌더링-->
+                                <div ?hidden=${this.hideFrozen}>
+                                    ${Array.isArray(this.productFrozen)
+                                        ? this.productFrozen.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
+                                </div>
                             </li>
-                            <!--분류해뒀던 냉동 타입 렌더링-->
-                            <div ?hidden=${this.hideFrozen}>
-                                ${Array.isArray(this.productFrozen)
-                                    ? this.productFrozen.map(
-                                          (idx) =>
-                                              html` <div class="cart-product" id=${idx['id']}>
-                                                  <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                      >ff</c-checkbox
-                                                  >
-                                                  <!-- 이미지는 다음과 같이 불러와야함-->
-                                                  <img
-                                                      class="cart-product-image"
-                                                      src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                                  />
-                                                  <span class="cart-product-title">${idx['name']}</span>
-                                                  <inc-dec-btn
-                                                      .itemQuantity=${this.cartItems[idx['id']]}
-                                                      @quantity-change=${this.storeCartItems}
-                                                  ></inc-dec-btn>
-                                                  <span class="cart-product-price">
-                                                      <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                      ${(
-                                                          Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                          JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                      ).toLocaleString()}원</span
-                                                  >
-                                                  <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                      <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                                  </button>
-                                              </div>`
-                                      )
-                                    : ''}
-                            </div>
                             <li>
                                 <div class="food-category-container">
                                     <img src="/assets/temperature.svg" />
@@ -370,40 +370,40 @@ class Cart extends LitElement {
                                     <!-- 품목 숨김 버튼 -->
                                     <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
                                 </button>
+                                <!--분류해뒀던 상온 타입 렌더링-->
+                                <div ?hidden=${this.hideTemperature}>
+                                    ${Array.isArray(this.productTemperature)
+                                        ? this.productTemperature.map(
+                                              (idx) =>
+                                                  html` <div class="cart-product" id=${idx['id']}>
+                                                      <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
+                                                          >ff</c-checkbox
+                                                      >
+                                                      <!-- 이미지는 다음과 같이 불러와야함-->
+                                                      <img
+                                                          class="cart-product-image"
+                                                          src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                      />
+                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <inc-dec-btn
+                                                          .itemQuantity=${this.cartItems[idx['id']]}
+                                                          @quantity-change=${this.storeCartItems}
+                                                      ></inc-dec-btn>
+                                                      <span class="cart-product-price">
+                                                          <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
+                                                          ${(
+                                                              Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
+                                                              JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
+                                                          ).toLocaleString()}원</span
+                                                      >
+                                                      <button class="product-delete-btn" type="button" @click=${this.deleteList}>
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                      </button>
+                                                  </div>`
+                                          )
+                                        : ''}
+                                </div>
                             </li>
-                            <!--분류해뒀던 상온 타입 렌더링-->
-                            <div ?hidden=${this.hideTemperature}>
-                                ${Array.isArray(this.productTemperature)
-                                    ? this.productTemperature.map(
-                                          (idx) =>
-                                              html` <div class="cart-product" id=${idx['id']}>
-                                                  <c-checkbox ?checked=${itemCounter[idx['id']]} @checkbox-change=${this.handleChangeCount}
-                                                      >ff</c-checkbox
-                                                  >
-                                                  <!-- 이미지는 다음과 같이 불러와야함-->
-                                                  <img
-                                                      class="cart-product-image"
-                                                      src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
-                                                  />
-                                                  <span class="cart-product-title">${idx['name']}</span>
-                                                  <inc-dec-btn
-                                                      .itemQuantity=${this.cartItems[idx['id']]}
-                                                      @quantity-change=${this.storeCartItems}
-                                                  ></inc-dec-btn>
-                                                  <span class="cart-product-price">
-                                                      <!--할인된 금액으로 결정되며 localStorage에 저장된 갯수만큼 현재 품목의 가격을 나타냄-->
-                                                      ${(
-                                                          Math.floor(idx['price'] - idx['price'] * idx['discount'] * 0.01) *
-                                                          JSON.parse(localStorage.getItem('cartItems'))[`${idx['id']}`]
-                                                      ).toLocaleString()}원</span
-                                                  >
-                                                  <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                      <img class="cart-product-delete" src="/assets/product-cancel.svg" />
-                                                  </button>
-                                              </div>`
-                                      )
-                                    : ''}
-                            </div>
                             <li>
                                 <div class="product-check-container">
                                     <c-checkbox ?checked=${checkAll['state']} @checkbox-change=${this.handleAllProuct}>

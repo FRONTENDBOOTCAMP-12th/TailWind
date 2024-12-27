@@ -26,8 +26,8 @@ export default css`
 
                 li {
                     display: flex;
+                    flex-wrap: wrap;
                     align-items: center;
-                    height: 3.5rem;
                     justify-content: space-between;
 
                     .product-check-container {
@@ -36,6 +36,8 @@ export default css`
                         justify-content: center;
                         font-size: var(--label---medium);
                         font-weight: 600;
+                        height: 3.5rem;
+                        align-items: center;
 
                         button {
                             cursor: pointer;
@@ -43,6 +45,7 @@ export default css`
                     }
 
                     .food-category-container {
+                        height: 3.5rem;
                         display: flex;
                         gap: 0.75rem;
                         align-items: center;
