@@ -5,6 +5,7 @@ import { pb } from '@/api/PocketHost.js';
 import '@/components/Button/Button.js';
 import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
+import Swal from 'sweetalert2';
 import { gsap } from 'gsap';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
@@ -86,7 +87,7 @@ class Cart extends LitElement {
     // 값의 수량이 변할때마다 렌더링되도록 유도
 
     // 각각의 토글 버튼(각각의 항목을 숨김,보임 처리)
-    handleShowHideTemperautre(e) {
+    handleShowHideTemperautre() {
         this.hideTemperature = !this.hideTemperature;
     }
 
@@ -190,6 +191,57 @@ class Cart extends LitElement {
 
     handleUpdate() {
         this.requestUpdate();
+    }
+
+    handleOrder() {
+        console.log(itemCounter);
+        Swal.fire({
+            title: '주문하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonText: '주문하기',
+            cancelButtonText: '취소하기',
+            confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: 'var(--gray--500)',
+            imageUrl: `/public/logo.svg`,
+            imageHeight: 200,
+            imageWidth: 200,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const deliveryItem = {};
+                for (const value of Object.keys(this.cartItems)) {
+                    if (itemCounter[value]) {
+                        deliveryItem[value] = this.cartItems[value];
+                    }
+                }
+
+                if (Object.keys(deliveryItem).length === 0) {
+                    Swal.fire({
+                        title: '현재 선택된 상품이 없습니다!',
+                        icon: 'error',
+                        timer: 3000,
+                    });
+                } else {
+                    Swal.fire({
+                        title: '주문이 완료되었습니다!',
+                        icon: 'success',
+                        timer: 3000,
+                    }).then(() => {
+                        location.href = '/';
+                    });
+
+                    const userId = JSON.parse(localStorage.getItem('auth')).user.id;
+
+                    const data = {
+                        user: userId,
+                        order_list: JSON.stringify(deliveryItem),
+                    };
+
+                    await pb.collection('delivery').create(data);
+
+                    localStorage.removeItem('cartItems');
+                }
+            }
+        });
     }
 
     render() {
@@ -503,7 +555,7 @@ class Cart extends LitElement {
                                     </div>
                                 </div>
                             </div>
-                            <c-button type="button" mode="fill" size="btn-sm" class="purchase-confirm">주문하기</c-button>
+                            <c-button type="submit" mode="fill" size="btn-sm" class="purchase-confirm" @click=${this.handleOrder}>주문하기</c-button>
                             <div class="purchase-detail">
                                 쿠폰/적립금은 주문서에서 사용 가능합니다<br />
                                 [주문완료] 상태일 경우에만 주문 취소 가능합니다.<br />
