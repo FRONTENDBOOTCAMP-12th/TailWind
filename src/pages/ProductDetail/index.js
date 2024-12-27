@@ -5,7 +5,7 @@ import { pb } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
 import '@/components/Footer/Footer.js';
 import { LitElement, html } from 'lit';
-import '@/components/Tab/Tab.js';
+import '@/components/ProductDetailTab/ProductDetailTab.js';
 import '@/layout/Header.js';
 
 class ProductDetail extends LitElement {
@@ -118,7 +118,7 @@ class ProductDetail extends LitElement {
                 ? html`
                       <div class="product-detail-container">
                           <product-header></product-header>
-                          <c-tab
+                          <product-detail-tab
                               @open-modal="${this.handleModal}"
                               @page-change="${this.handlePageChange}"
                               @sort-change="${this.handleSort}"
@@ -128,7 +128,7 @@ class ProductDetail extends LitElement {
                               .currentQnaPage=${this.currentQnaPage}
                               .totalReviewPages=${this.totalReviewPages}
                               .totalQnaPages=${this.totalQnaPages}
-                          ></c-tab>
+                          ></product-detail-tab>
                       </div>
                   `
                 : html` <div>로딩중...</div> `}

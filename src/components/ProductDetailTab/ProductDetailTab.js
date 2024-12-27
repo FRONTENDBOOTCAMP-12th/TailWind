@@ -2,9 +2,9 @@ import { fileUrl } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
 import '@/components/Button/Button.js';
-import tabStyle from './TabStyle.js';
+import tabStyle from './ProductDetailTabStyle.js';
 
-class Tab extends LitElement {
+class ProductDetailTab extends LitElement {
     static styles = [resetCss, tabStyle];
 
     static properties = {
@@ -233,4 +233,4 @@ class Tab extends LitElement {
     }
 }
 
-customElements.define('c-tab', Tab);
+customElements.define('product-detail-tab', ProductDetailTab);
