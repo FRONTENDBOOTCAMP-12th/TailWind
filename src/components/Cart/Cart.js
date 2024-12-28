@@ -31,10 +31,7 @@ class Cart extends LitElement {
     constructor() {
         super();
         // 임시 유저 설정
-        this.user = {
-            address: '서울 중랑구 면목로 42길 11 (행운빌딩) 603호',
-            id: 'abc123',
-        };
+        this.user = JSON.parse(localStorage.getItem('auth')) ?? { user: { address: '로그인 해주시기 바랍니다' } };
         this.loading = true;
     }
 
@@ -270,11 +267,9 @@ class Cart extends LitElement {
                             location.href = '/src/pages/MainPages/index.html';
                         });
 
-                        // userID에 물품의 id 와 수량을 담아 api에 저장
-                        const userId = JSON.parse(localStorage.getItem('auth')).user.id;
-
+                        // data에 정보를 저장해서 api 전송
                         const data = {
-                            user: userId,
+                            user: this.user.user.id,
                             order_list: JSON.stringify(deliveryItem),
                         };
 
@@ -488,7 +483,7 @@ class Cart extends LitElement {
                                     <img src="/assets/place-pin.svg" />
                                     <span>배송지</span>
                                 </h2>
-                                <p class="address-info">${this.user.address}</p>
+                                <p class="address-info">${this.user.user.address ?? ''}</p>
                                 <p class="delivery-text">샛별배송</p>
                                 <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
                             </section>
