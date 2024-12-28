@@ -7,12 +7,156 @@
         <link rel="stylesheet" href="/src/styles/main.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="/main.js"></script>
+        <link rel="stylesheet" href="/src/pages/mainpages/index.css" />
     </head>
     <body>
         <c-header></c-header>
+        <div id="app"></div>
+        <hr />
+        <!-- 대표 상품 노출 -->
+        <!-- 스와이퍼 기능 통하여 1번, 2번 반복 예정 -->
+        <!-- 약 3초후 자동으로 이미지가 넘어가게 변경 -->
+        <!-- 화살표 버튼을 추가하여 이미지 전환 기능 추가 -->
+        <!-- 해당 이미지 클릭시 페이지 이동 설정 -->
 
-        <product-swiper></product-swiper>
-        <div id="app">3조 마켓 칼리 메인 페이지</div>
+        <div class="mainbanner"><img class="swiper-slide" src="/assets/main-banner-1.png" alt="이 주의 특가 한 눈에 보기" />></div>
+
+        <hr />
+        <!-- 추천 상품 -->
+        <!-- 아이템 이미지를 getout으로 받아오기 -->
+        <!-- 해당 아이템을 눌렀을때 링크로 이동하기 -->
+        <!-- 할인율이 0일 경우, discount class가 안보이게 설정  -->
+        <!-- 뱃지? 추가 해야 함 ex) 칼리 only, 한정 수량 등 -->
+        <div>
+            <h3>이 상품 어때요?</h3>
+            <!-- 상품정보는 componets의 product-card를 get 예정 -->
+            <ul class="itembox">
+                <li>
+                    <img src="/item1.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/item2.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/item1.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/item2.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <hr />
+        <!-- 배너 -->
+        <!-- 하이퍼 링크 나중에 추가하기 -->
+        <div class="banner2">
+            <img src="/assets/medium-banner.png" alt="10월 컬리마켓 할인 적립률 up + 3종 쿠폰팩" />
+        </div>
+
+        <hr />
+
+        <div>
+            <h3>놓치면 후회 할 가격</h3>
+            <!-- 상품정보는 componets의 product-card를 get 예정 -->
+            <ul class="itembox">
+                <li>
+                    <img src="/item1.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/item2.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/item1.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/item2.png" />
+                    <div class="iteminfo">
+                        <p class="itembrand">[풀무원]</p>
+                        <p class="itemname">탱탱쫄면 (4개입)</p>
+                        <div class="discount">
+                            <p class="discountrate">20%</p>
+                            <p class="discountprice">3,000원</p>
+                        </div>
+                        <p class="itemprice">5,000원</p>
+                        <p class="itemexplanation">풀무원의 탱탱하고 맛있는 쫄면</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <hr />
+
         <x-footer></x-footer>
     </body>
 </html>
