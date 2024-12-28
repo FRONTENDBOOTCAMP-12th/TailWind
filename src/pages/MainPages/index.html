@@ -5,9 +5,11 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <link rel="stylesheet" href="/src/styles/main.css" />
+        <link rel="stylesheet" href="./index.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="/main.js"></script>
-        <link rel="stylesheet" href="/src/pages/mainpages/index.css" />
+        <!-- 스와이퍼 삭제 예정 -->
+        <script type="module" src="/src/components/swiper/swiper.js"></script>
     </head>
     <body>
         <c-header></c-header>
@@ -19,7 +21,18 @@
         <!-- 화살표 버튼을 추가하여 이미지 전환 기능 추가 -->
         <!-- 해당 이미지 클릭시 페이지 이동 설정 -->
 
-        <div class="mainbanner"><img class="swiper-slide" src="/assets/main-banner-1.png" alt="이 주의 특가 한 눈에 보기" />></div>
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+        <!-- Swiper JS -->
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+        <div class="mainbanner">
+            <div class="swiper">
+                <product-swiper>
+                    <!-- <div class="swiper-pagination"></div> -->
+                </product-swiper>
+            </div>
+        </div>
 
         <hr />
         <!-- 추천 상품 -->
@@ -32,7 +45,7 @@
             <!-- 상품정보는 componets의 product-card를 get 예정 -->
             <ul class="itembox">
                 <li>
-                    <img src="/item1.png" />
+                    <img src="/public/item1.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -45,7 +58,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/item2.png" />
+                    <img src="/public/item2.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -59,7 +72,7 @@
                 </li>
 
                 <li>
-                    <img src="/item1.png" />
+                    <img src="/public/item1.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -72,7 +85,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/item2.png" />
+                    <img src="/public/item2.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -90,7 +103,7 @@
         <!-- 배너 -->
         <!-- 하이퍼 링크 나중에 추가하기 -->
         <div class="banner2">
-            <img src="/assets/medium-banner.png" alt="10월 컬리마켓 할인 적립률 up + 3종 쿠폰팩" />
+            <img src="/public/assets/medium-banner.png" alt="10월 컬리마켓 할인 적립률 up + 3종 쿠폰팩" />
         </div>
 
         <hr />
@@ -100,7 +113,7 @@
             <!-- 상품정보는 componets의 product-card를 get 예정 -->
             <ul class="itembox">
                 <li>
-                    <img src="/item1.png" />
+                    <img src="/public/item1.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -113,7 +126,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/item2.png" />
+                    <img src="/public/item2.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -127,7 +140,7 @@
                 </li>
 
                 <li>
-                    <img src="/item1.png" />
+                    <img src="/public/item1.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
@@ -140,7 +153,7 @@
                     </div>
                 </li>
                 <li>
-                    <img src="/item2.png" />
+                    <img src="/public/item2.png" />
                     <div class="iteminfo">
                         <p class="itembrand">[풀무원]</p>
                         <p class="itemname">탱탱쫄면 (4개입)</p>
