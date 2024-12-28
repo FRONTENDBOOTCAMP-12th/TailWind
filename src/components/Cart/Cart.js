@@ -295,7 +295,7 @@ class Cart extends LitElement {
             return html`
                 <!--장바구니라는 타이틀이 있어 section으로 마크업-->
                 <section class="cart-container">
-                    <h1 class="title-text">장바구니</h1>
+                    <h2 class="title-text">장바구니</h2>
                     <!-- 모든 품목을 포함하는 container -->
                     <div class="li-purchase-container">
                         <ul class="li-container">
@@ -317,20 +317,23 @@ class Cart extends LitElement {
                                 </div>
                             </li>
                             <li class="chilled-container">
-                                <div class="food-category-container">
-                                    <img src="/assets/chilled.svg" />
-                                    <span class="category-text">냉장 식품</span>
+                                <div class="category-bar">
+                                    <div class="food-category-container">
+                                        <img src="/assets/chilled.svg" />
+                                        <span class="category-text">냉장 식품</span>
+                                    </div>
+                                    <button class="dropdown-btn" type="button">
+                                        <!-- 품목 숨김 버튼 -->
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
+                                    </button>
                                 </div>
-                                <button class="dropdown-btn" type="button">
-                                    <!-- 품목 숨김 버튼 -->
-                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
-                                </button>
                                 <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
+
                                 <div>
                                     ${Array.isArray(this.productChilled)
                                         ? this.productChilled.map(
-                                              (idx) =>
-                                                  html` <div class="cart-product" id=${idx['id']}>
+                                              (idx) => html`
+                                                  <div class="cart-product" id=${idx['id']}>
                                                       <!-- 체크박스 컴포넌트에 overflow가 제대로 동작하지 않아 hidden을 부여 -->
                                                       <c-checkbox
                                                           ?checked=${itemCounter[idx['id']]}
@@ -359,20 +362,23 @@ class Cart extends LitElement {
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
                                                           <img class="cart-product-delete" src="/assets/product-cancel.svg" />
                                                       </button>
-                                                  </div>`
+                                                  </div>
+                                              `
                                           )
                                         : ''}
                                 </div>
                             </li>
                             <li class="frozen-container">
-                                <div class="food-category-container">
-                                    <img src="/assets/frozen.svg" />
-                                    <span class="category-text">냉동 식품</span>
+                                <div class="category-bar">
+                                    <div class="food-category-container">
+                                        <img src="/assets/frozen.svg" />
+                                        <span class="category-text">냉동 식품</span>
+                                    </div>
+                                    <button class="dropdown-btn" type="button">
+                                        <!-- 품목 숨김 버튼 -->
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
+                                    </button>
                                 </div>
-                                <button class="dropdown-btn" type="button">
-                                    <!-- 품목 숨김 버튼 -->
-                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
-                                </button>
                                 <!--분류해뒀던 냉동 타입 렌더링-->
                                 <div>
                                     ${Array.isArray(this.productFrozen)
@@ -412,14 +418,16 @@ class Cart extends LitElement {
                                 </div>
                             </li>
                             <li class="temperature-container">
-                                <div class="food-category-container">
-                                    <img src="/assets/temperature.svg" />
-                                    <span class="category-text">상온 식품</span>
+                                <div class="category-bar">
+                                    <div class="food-category-container">
+                                        <img src="/assets/temperature.svg" />
+                                        <span class="category-text">상온 식품</span>
+                                    </div>
+                                    <button class="dropdown-btn" type="button">
+                                        <!-- 품목 숨김 버튼 -->
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
+                                    </button>
                                 </div>
-                                <button class="dropdown-btn" type="button">
-                                    <!-- 품목 숨김 버튼 -->
-                                    <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
-                                </button>
                                 <!--분류해뒀던 상온 타입 렌더링-->
                                 <div>
                                     ${Array.isArray(this.productTemperature)
@@ -476,13 +484,12 @@ class Cart extends LitElement {
                         </ul>
                         <div class="purchase-container">
                             <section class="purchase-address">
-                                <h1 class="address-title">
+                                <h2 class="address-title">
                                     <img src="/assets/place-pin.svg" />
                                     <span>배송지</span>
-                                </h1>
+                                </h2>
                                 <p class="address-info">${this.user.address}</p>
                                 <p class="delivery-text">샛별배송</p>
-                                <!-- TODO:배송지변경 버튼 작동시키기 -->
                                 <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
                             </section>
                             <div class="purchase-price">
