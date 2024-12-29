@@ -4,6 +4,7 @@ import { register } from 'swiper/element/bundle';
 import '@/components/ProductCard/ProductCard.js';
 import resetCss from '@/styles/reset.js';
 import { pb } from '@/api/PocketHost.js';
+import { state } from './SwiperState.js';
 
 register();
 
@@ -20,6 +21,7 @@ class ProductSwiper extends LitElement {
         super();
         this.isLoading = true;
         this.sort = 'price';
+        state.state = !state.state;
     }
 
     connectedCallback() {
@@ -28,13 +30,15 @@ class ProductSwiper extends LitElement {
     }
 
     async fetchData() {
+        pb.autoCancellation(false);
+
         try {
             const data = await pb.collection('product').getList(1, 12, {
                 sort: `${this.sort}`,
             });
             this.products = [...data.items];
-        } catch {
-            console.log('error');
+        } catch (error) {
+            console.log(error);
         } finally {
             this.isLoading = false;
         }
