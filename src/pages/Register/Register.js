@@ -3,7 +3,7 @@ import resetCss from '@/styles/reset.js';
 import { pb } from '@/api/PocketHost.js';
 import { LitElement, html } from 'lit';
 import { handleFindAddr } from '@/api/AddressApi.js';
-
+import swal from 'sweetalert2';
 class Register extends LitElement {
     static properties = {
         isFormValid: { type: Boolean },
@@ -71,7 +71,7 @@ class Register extends LitElement {
     }
     //필수 입력 값이 모두 입력되었는지 확인
     handleReuired() {
-        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField'];
+        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField', ' addressField'];
 
         return fields.some((field) => this.inputs[field] === '');
     }
@@ -95,16 +95,35 @@ class Register extends LitElement {
                         gender: [this.inputs['genderField']],
                     })
                     .then(() => {
-                        alert('완료!!');
+                        swal.fire({
+                            title: '회원가입 성공!',
+                            text: '환영합니다',
+                            icon: 'success',
+                            confirmButtonText: '확인',
+                        }).then(() => {
+                            this.handleNavigate('/src/pages/Login/index.html');
+                        });
                     })
                     .catch(() => {
-                        alert('실패!!');
+                        swal.fire({
+                            title: '회원가입 실패!',
+                            text: '입력란을 확인해주세요',
+                            icon: 'error',
+                        });
                     });
             } else {
-                alert('필수 약관에 동의해주세요');
+                swal.fire({
+                    title: '필수 이용약관 동의해주세요',
+                    //  text: '입력란을 확인해주세요',
+                    icon: 'warning',
+                });
             }
         } else {
-            alert('필수입력값을 입력하세요');
+            swal.fire({
+                title: '필수 입력란을 확인해주세요',
+                text: '입력란을 모두 입력해주세요',
+                icon: 'warning',
+            });
         }
     }
 
@@ -145,7 +164,11 @@ class Register extends LitElement {
                     // vdMessage.style.color = 'var(--info---error)';
                     // vdMessage.style.display = 'block';
                     // vdMessage.textContent = '이미 존재하는 값입니다';
-                    alert('있음');
+                    swal.fire({
+                        title: '이미 존재하는 값입니다',
+                        text: '다시 입력해주세요',
+                        icon: 'info',
+                    });
 
                     return true;
                 } else {
@@ -227,6 +250,10 @@ class Register extends LitElement {
         handleFindAddr(this.inputs);
     }
 
+    //페이지 이동 함수수
+    handleNavigate(url) {
+        location.href = url;
+    }
     //html 구조
     render() {
         return html`

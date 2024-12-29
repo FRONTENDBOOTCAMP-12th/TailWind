@@ -3,6 +3,7 @@ import headerStyle from './HeaderStyle.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
 import { pb } from '@/api/PocketHost.js';
+import swal from 'sweetalert2';
 class Header extends LitElement {
     static properties = {
         isAuth: { type: Boolean },
@@ -42,30 +43,63 @@ class Header extends LitElement {
     }
 
     handleLogout() {
-        if (confirm('로그아웃 하시겠습니까?')) {
-            localStorage.removeItem('auth');
-            pb.authStore.clear();
-            location.reload();
-            alert('로그아웃');
-        } else {
-            alert('취소 되었습니다');
-        }
-    }
-
-    async handleDelete() {
-        if (confirm('정말 탈퇴 하시겠습니까?')) {
-            try {
-                await pb.collection('users').delete(this.user.id);
+        swal.fire({
+            title: '로그아웃',
+            text: '로그아웃 하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary)',
+            confirmButtonText: '로그아웃',
+            cancelButtonText: '취소',
+        }).then(({ isConfirmed }) => {
+            if (isConfirmed) {
                 localStorage.removeItem('auth');
                 pb.authStore.clear();
                 location.reload();
-                alert('회원탈퇴가 되었습니다');
-            } catch {
-                alert('실패');
             }
-        } else {
-            alert('취소 되었습니다');
-        }
+        });
+    }
+
+    async handleDelete() {
+        swal.fire({
+            title: '회원탈퇴',
+            text: '정말 탈퇴 하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary)',
+            confirmButtonText: '탈퇴하기',
+            cancelButtonText: '취소',
+        }).then(async ({ isConfirmed }) => {
+            if (isConfirmed) {
+                try {
+                    await pb.collection('users').delete(this.user.id);
+                    localStorage.removeItem('auth');
+                    pb.authStore.clear();
+                    location.reload();
+                    swal.fire({
+                        title: '회원탈퇴 완료',
+                        text: '다음에 또 만나요',
+                        icon: 'success',
+                    });
+                } catch (error) {
+                    alert('회원탈퇴 실패');
+                }
+            }
+        });
+
+        // if (confirm('정말 탈퇴 하시겠습니까?')) {
+        //     try {
+        //         await pb.collection('users').delete(this.user.id);
+        //         localStorage.removeItem('auth');
+        //         pb.authStore.clear();
+        //         location.reload();
+        //         alert('회원탈퇴가 되었습니다');
+        //     } catch {
+        //         alert('실패');
+        //     }
+        // } else {
+        //     alert('취소 되었습니다');
+        // }
     }
     render() {
         return html`
