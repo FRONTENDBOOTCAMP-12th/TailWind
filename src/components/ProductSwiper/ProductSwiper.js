@@ -4,7 +4,7 @@ import { register } from 'swiper/element/bundle';
 import '@/components/ProductCard/ProductCard.js';
 import resetCss from '@/styles/reset.js';
 import { pb } from '@/api/PocketHost.js';
-import { state } from './SwiperState.js';
+
 register();
 
 class ProductSwiper extends LitElement {
@@ -28,22 +28,17 @@ class ProductSwiper extends LitElement {
     }
 
     async fetchData() {
-        if (state.state) {
-            try {
-                const data = await pb.collection('product').getList(1, 12, {
-                    sort: `${this.sort}`,
-                });
-                this.products = [...data.items];
-            } catch {
-                alert('에러');
-                console.log(error);
-            } finally {
-                this.isLoading = false;
-                state.state = false;
-            }
-        } else {
-            setTimeout(() => {}, 1000);
+        try {
+            const data = await pb.collection('product').getList(1, 12, {
+                sort: `${this.sort}`,
+            });
+            this.products = [...data.items];
+        } catch {
+            console.log('error');
+        } finally {
+            this.isLoading = false;
         }
+        setTimeout(() => {}, 1000);
     }
 
     get swiperContainer() {
