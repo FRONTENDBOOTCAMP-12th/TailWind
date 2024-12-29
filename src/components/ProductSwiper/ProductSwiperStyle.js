@@ -51,8 +51,8 @@ export default css`
         align-items: center;
         justify-content: center;
 
-        .custom-prev,
-        .custom-next {
+        .prev-btn,
+        .next-btn {
             position: absolute;
             top: 12rem;
             display: flex;
@@ -73,12 +73,12 @@ export default css`
             }
         }
 
-        .custom-prev {
+        .prev-btn {
             display: none;
             left: 24.375rem;
         }
 
-        .custom-next {
+        .next-btn {
             right: 25rem;
         }
     }
