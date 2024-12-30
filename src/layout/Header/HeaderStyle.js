@@ -43,6 +43,31 @@ export default css`
 
             .sign-up {
                 color: var(--primary);
+                .user-menu {
+                    position: relative;
+
+                    .user-list {
+                        z-index: 1;
+                        display: none;
+                        margin-left: 5px;
+                        margin-top: 5px;
+                        position: absolute;
+                        width: 100%;
+                        background-color: white;
+                        border: 1px solid var(--content);
+                        & li {
+                            padding: 8px;
+                        }
+                        & li + li::before {
+                            content: none;
+                        }
+                    }
+                }
+                .user-menu.isActive {
+                    .user-list {
+                        display: block;
+                    }
+                }
             }
 
             .customer {
@@ -90,46 +115,6 @@ export default css`
 
                 & a {
                     text-decoration: none;
-                }
-            }
-
-            .search-bar {
-                position: relative;
-                width: 25rem;
-
-                .inp-search {
-                    padding: 0.8125rem 3.125rem 0.8125rem 1.25rem;
-                    width: 100%;
-                    height: 3.75rem;
-                    border: 1px solid var(--primary);
-                    border-radius: 0.25rem;
-                    font-size: var(--paragraph---medium);
-                    font-weight: 400;
-
-                    & ::placeholder {
-                        color: var(--gray--400);
-                    }
-                }
-
-                .btn-search {
-                    position: absolute;
-                    right: 1.25rem;
-                    top: 50%;
-                    transform: translatey(-50%);
-                    padding: 0;
-                    width: 2.25rem;
-                    height: 2.25rem;
-                    background-image: image-set(
-                        url(/assets/ico-header-search.png),
-                        url(/assets/ico-header-search1x.webp) 1x,
-                        url(/assets/ico-header-search2x.webp) 2x
-                    );
-                    background-position: center;
-                    background-size: 100%;
-                    background-repeat: no-repeat;
-                    background-color: var(--color-white);
-                    border: none;
-                    cursor: pointer;
                 }
             }
 
