@@ -22,6 +22,7 @@ class ProductDetail extends LitElement {
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
         reviewSortOption: { type: String },
+        noticeList: { type: Array },
     };
 
     static styles = [resetCss, productDetailStyle];
@@ -40,6 +41,7 @@ class ProductDetail extends LitElement {
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
         this.reviewSortOption = 'latest';
+        this.noticeList = [];
     }
 
     connectedCallback() {
@@ -76,10 +78,15 @@ class ProductDetail extends LitElement {
 
     async fetchData() {
         try {
-            await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData()]);
+            await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData(), this.fetchNoticeData()]);
         } catch (error) {
             console.error('데이터 로드 실패', error);
         }
+    }
+
+    async fetchNoticeData() {
+        const noticeList = await pb.collection('notices').getFullList();
+        this.noticeList = noticeList;
     }
 
     handleModal(event) {
@@ -136,6 +143,7 @@ class ProductDetail extends LitElement {
                               @sort-change="${this.handleSort}"
                               .reviewList=${this.reviewList}
                               .qnaList=${this.qnaList}
+                              .noticeList=${this.noticeList}
                               .currentReviewPage=${this.currentReviewPage}
                               .currentQnaPage=${this.currentQnaPage}
                               .totalReviewPages=${this.totalReviewPages}
