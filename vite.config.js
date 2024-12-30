@@ -12,7 +12,7 @@ export default defineConfig({
                 main: resolve(__dirname, 'index.html'),
                 register: resolve(__dirname, 'src/pages/register/index.html'),
                 login: resolve(__dirname, 'src/pages/login/index.html'),
-                productList: resolve(__dirname, 'src/pages/product-list/index.html'),
+                productList: resolve(__dirname, 'src/pages/productList/index.html'),
                 productDetail: resolve(__dirname, 'src/pages/ProductDetail/index.html'),
                 cart: resolve(__dirname, 'src/pages/cart/index.html'),
             },
