@@ -9,7 +9,7 @@ export default css`
     }
 
     swiper-container {
-        width: 65.625rem;
+        width: 65vw;
         margin-top: 1.75rem;
         margin-bottom: 2.5rem;
     }
@@ -75,11 +75,11 @@ export default css`
 
         .prev-btn {
             display: none;
-            left: 24.375rem;
+            left: 15vw;
         }
 
         .next-btn {
-            right: 25rem;
+            right: 16.5vw;
         }
     }
 `;
