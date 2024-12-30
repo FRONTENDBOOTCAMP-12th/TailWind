@@ -3,10 +3,10 @@ import productDetailStyle from './ProductDetailStyle.js';
 import '@/components/ProductHeader/ProductHeader.js';
 import { pb } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
-import '@/components/Footer/Footer.js';
+import '@/layout/Footer/Footer.js';
 import { LitElement, html } from 'lit';
 import '@/components/ProductDetailTab/ProductDetailTab.js';
-import '@/layout/Header.js';
+import '@/layout/Header/Header.js';
 
 class ProductDetail extends LitElement {
     static properties = {
