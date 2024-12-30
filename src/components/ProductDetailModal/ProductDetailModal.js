@@ -13,6 +13,7 @@ class ProductDetailModal extends LitElement {
         modalTitle: { type: String, attribute: true },
         isQuestion: { type: Boolean, attribute: true },
         registerBtnDisabled: { type: Boolean, attribute: true },
+        userInfo: { type: Object },
     };
 
     static styles = [resetCss, modalStyle];
@@ -26,6 +27,7 @@ class ProductDetailModal extends LitElement {
         this.product = JSON.parse(localStorage.getItem('product'));
         this.productImage = fileUrl + this.product.id + '/' + this.product.main_image;
         this.productName = this.product.name;
+        this.userInfo = JSON.parse(localStorage.getItem('auth'));
     }
 
     get titleInput() {
@@ -49,7 +51,7 @@ class ProductDetailModal extends LitElement {
                 contents: this.contentInput.value,
                 isSecret: this.isSecret,
                 productId: this.product.id,
-                author: '22447xjk6th363a',
+                author: this.userInfo.user.id,
             };
             await pb.collection('questions_answers').create(data);
         } else {
@@ -58,7 +60,7 @@ class ProductDetailModal extends LitElement {
                 title: this.titleInput.value,
                 contents: this.contentInput.value,
                 productId: this.product.id,
-                author: '22447xjk6th363a',
+                author: this.userInfo.user.id,
             };
             await pb.collection('reviews').create(data);
         }
