@@ -1,4 +1,5 @@
 import '@/components/Header/CategoryList.js';
+import '@/components/Search/Search.js';
 import headerStyle from './HeaderStyle.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
@@ -132,11 +133,12 @@ class Header extends LitElement {
                                 <a href="/">뷰티칼리</a>
                             </li>
                         </ul>
-                        <div class="search-bar">
+                        <search-bar></search-bar>
+                        <!-- <div class="search-bar">
                             <label for="search" class="sr-only">상품 검색</label>
                             <input type="search" id="search" class="inp-search" placeholder="검색어를 입력해주세요" />
                             <button type="button" class="btn-search" aria-label="검색하기"></button>
-                        </div>
+                        </div> -->
                         <ul class="util-menu">
                             <li>
                                 <a href="/">
