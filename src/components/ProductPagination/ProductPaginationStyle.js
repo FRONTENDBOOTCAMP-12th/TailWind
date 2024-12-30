@@ -16,6 +16,10 @@ export default css`
                 color: var(--content);
                 font-size: 0.75rem;
                 cursor: pointer;
+
+                &.active {
+                    font-weight: 900;
+                }
             }
         }
         å & li + li {
