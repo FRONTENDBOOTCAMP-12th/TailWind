@@ -1,22 +1,37 @@
+import { html, LitElement } from 'lit';
 import resetCss from '@/styles/Reset.js';
 import popupStyle from './PopUpStyle.js';
-import { LitElement, html } from 'lit';
 
 class Popup extends LitElement {
     static styles = [resetCss, popupStyle];
+    constructor() {
+        super();
+        this.isHidden = localStorage.getItem('dontShowPopupToday') === 'true';
+    }
+
+    closePopup() {
+        this.isHidden = true;
+        this.requestUpdate();
+    }
+
+    dontShowToday() {
+        this.closePopup();
+        localStorage.setItem('dontShowPopupToday', 'true');
+    }
+
     render() {
         return html`
             <div class="popup">
-                <div class="popup-text">
+                <div class="popup-content">
                     <p>
                         해당 사이트는 <br />가시안이며 비 상업적 취업을 위한<br />
                         포트폴리오 용으로만 사용하기 위해<br />
-                        제작된 사이트 입니다.
+                        제작된 사이트입니다.
                     </p>
-                </div>
-                <div class="popup-close">
-                    <button class="todaypopup-close" type="button">오늘 하루 안 보기</button>
-                    <button class="nowpopup-close" type="button">닫기</button>
+                    <div class="button-container">
+                        <button @click=${this.dontShowToday}>오늘 하루 안 보기</button>
+                        <button @click=${this.closePopup}>닫기</button>
+                    </div>
                 </div>
             </div>
         `;
