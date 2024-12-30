@@ -7,6 +7,7 @@ import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
 import Swal from 'sweetalert2';
 import { gsap } from 'gsap';
+import '@/components/Spinner/Spinner.js';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -282,14 +283,10 @@ class Cart extends LitElement {
         }
     }
 
-    openAddAddress() {
-        window.open('/src/pages/Cart/AddAddress.html', '_blank', 'width=550,height=550,left=200,top=200, scrollbar=yes');
-    }
-
     render() {
         // 데이터 불러오는 중 스피너 렌더링
         if (this.loading) {
-            return html` <div class="loader"></div>`;
+            return html` <c-spinner></c-spinner>`;
         } else {
             return html`
                 <!--장바구니라는 타이틀이 있어 section으로 마크업-->
@@ -489,7 +486,7 @@ class Cart extends LitElement {
                                 </h2>
                                 <p class="address-info">${this.user.user.address ?? ''}</p>
                                 <p class="delivery-text">샛별배송</p>
-                                <c-button type="button" mode="outline" size="btn-sm" @click=${this.openAddAddress}>배송지 변경</c-button>
+                                <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
                             </section>
                             <div class="purchase-price">
                                 <div class="purchase-price-detail">
