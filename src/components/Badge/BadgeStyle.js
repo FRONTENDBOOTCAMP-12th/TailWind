@@ -15,11 +15,11 @@ export default css`
         color: black;
         border-radius: 1px;
         text-transform: uppercase;
+        margin-right: 0.75rem;
 
-        &.success {
+        &.best {
             background-color: var(--secondary);
             color: white;
-            margin-right: 0.75rem;
         }
 
         &.normal {
