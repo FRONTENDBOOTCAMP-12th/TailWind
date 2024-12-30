@@ -1,2 +1,2 @@
-import '@/layout/Header/header.js';
-import '@/layout/footer/footer.js';
+import '@/layout/Header/Header.js';
+import '@/layout/Footer/Footer.js';
