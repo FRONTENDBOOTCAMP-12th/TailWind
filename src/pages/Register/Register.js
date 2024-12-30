@@ -248,12 +248,7 @@ class Register extends LitElement {
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
     }
 
-    //주소 찾기 함수
-    handleFindAddr() {
-        handleFindAddr(this.inputs);
-    }
-
-    //페이지 이동 함수수
+    //페이지 이동 함수
     handleNavigate(url) {
         location.href = url;
     }
@@ -343,7 +338,7 @@ class Register extends LitElement {
                     <span class="input-line">
                         <c-label required>주소</c-label>
                         <div class="address-container">
-                            <c-button @click="${this.handleFindAddr}">주소 찾기</c-button>
+                            <c-button @click="${() => handleFindAddr(this.inputs)}">주소 찾기</c-button>
                             배송지에 따라 상품 정보가 달라질 수 있습니다.
                         </div>
                     </span>
