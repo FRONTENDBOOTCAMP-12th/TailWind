@@ -10,11 +10,22 @@ class Badge extends LitElement {
 
     constructor() {
         super();
-        this.type = 'info';
+        this.type = 'normal';
+    }
+
+    textContent() {
+        switch (this.type) {
+            case 'best':
+                return '베스트';
+            case 'normal':
+                return '일반';
+            default:
+                return '공지';
+        }
     }
 
     render() {
-        return html` <span class="badge ${this.type}"><slot></slot></span> `;
+        return html` <span class="badge ${this.type}">${this.textContent()}</span> `;
     }
 }
 

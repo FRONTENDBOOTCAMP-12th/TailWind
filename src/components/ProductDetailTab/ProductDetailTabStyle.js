@@ -41,16 +41,40 @@ export default css`
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            border-top: 1px solid var(--black);
+
+            }
 
             th,
             td {
-                border: 1px solid #ccc;
-            }
-            th,
-            td {
-                padding: 10px;
+                padding: 17px;
                 text-align: left;
+                border-bottom: 1px solid var(--gray--300);
+            }
+
+            th {
+                text-align: center;
+                border-top: 2px solid var(--black);
+                border-bottom: 1px solid var(--black);
+            }
+
+            .review-author {
+                font-size: 0.75rem;
+                font-weight: 600;
+                vertical-align: top;
+                width: 15%;
+            }
+
+            .review-content-wrapper {
+                font-size: 0.75rem;
+                font-weight: 400;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                .review-title, .review-date {
+                    color: var(--gray--400);
+                }
             }
         }
 
@@ -91,13 +115,13 @@ export default css`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            background-color: #f9f9f9;
-            margin: 24px 0 12px 0;
+            padding-bottom: 12px;
+            margin: 24px 0 0 0;
+            font-weight: 600;
 
             .total-count {
-                font-size: 14px;
-                color: #333;
+                font-size: 0.75rem;
+                color: var(--content);
             }
 
             .sort-options {
@@ -105,38 +129,51 @@ export default css`
                 gap: 12px;
                 align-items: center;
                 font-size: 14px;
-                color: #666;
+                color: var(--gray--300);
 
                 .divider {
-                    color: #e0e0e0;
+                    color: var(--gray--300);
                 }
 
                 button {
                     cursor: pointer;
 
                     &.active {
-                        color: #333;
-                        font-weight: 500;
+                        color: var(--content);
                     }
                 }
             }
         }
 
-        .qna-row {
+        .qna-row, .notice-row {
             cursor: pointer;
 
             &:hover {
                 background-color: #f5f5f5;
             }
 
-            .qna-content {
-                background-color: #f9f9f9;
+            td:not(:first-child) {
+                text-align: center;
+                color: var(--gray--400);
+            }
+
+            td:first-child {
+                width: 60%;
+            }
+
+            .secret {
+                color: var(--gray--400);
             }
         }
 
-        .qna-content td {
-            padding: 20px;
+        .expanded-content {
+            background-color: #f9f9f9;
+
+            td {
+                padding: 20px;
+            }
         }
+
 
         .question,
         .answer {
@@ -154,10 +191,11 @@ export default css`
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            color: white;
         }
 
         .q-icon {
-            background-color: #e0e0e0;
+            background-color: var(--secondary);
         }
 
         .a-icon {

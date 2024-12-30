@@ -27,7 +27,7 @@ class ProductDetailModal extends LitElement {
         this.product = JSON.parse(localStorage.getItem('product'));
         this.productImage = fileUrl + this.product.id + '/' + this.product.main_image;
         this.productName = this.product.name;
-        this.userInfo = JSON.parse(localStorage.getItem('auth'));
+        this.auth = JSON.parse(localStorage.getItem('pocketbase_auth'));
     }
 
     get titleInput() {
@@ -51,7 +51,7 @@ class ProductDetailModal extends LitElement {
                 contents: this.contentInput.value,
                 isSecret: this.isSecret,
                 productId: this.product.id,
-                author: this.userInfo.user.id,
+                author: this.auth.record.id,
             };
             await pb.collection('questions_answers').create(data);
         } else {
@@ -60,7 +60,7 @@ class ProductDetailModal extends LitElement {
                 title: this.titleInput.value,
                 contents: this.contentInput.value,
                 productId: this.product.id,
-                author: this.userInfo.user.id,
+                author: this.auth.record.id,
             };
             await pb.collection('reviews').create(data);
         }

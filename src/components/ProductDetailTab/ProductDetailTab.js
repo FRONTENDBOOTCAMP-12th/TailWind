@@ -3,6 +3,7 @@ import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
 import '@/components/Button/Button.js';
 import tabStyle from './ProductDetailTabStyle.js';
+import '@/components/Badge/Badge.js';
 
 class ProductDetailTab extends LitElement {
     static styles = [resetCss, tabStyle];
@@ -16,7 +17,7 @@ class ProductDetailTab extends LitElement {
         currentQnaPage: { type: Number },
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
-        expandedQnaId: { type: String },
+        expandedId: { type: String },
         sortOption: { type: String },
         reviewNoticeList: { type: Array },
         qnaNoticeList: { type: Array },
@@ -33,7 +34,7 @@ class ProductDetailTab extends LitElement {
         this.currentQnaPage = 1;
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
-        this.expandedQnaId = null;
+        this.expandedId = null;
         this.sortOption = 'latest'; // 'latest' 또는 'recommended'
         this.reviewNoticeList = [];
         this.qnaNoticeList = [];
@@ -89,8 +90,8 @@ class ProductDetailTab extends LitElement {
         this.dispatchEvent(event);
     }
 
-    toggleQnaExpand(qnaId) {
-        this.expandedQnaId = this.expandedQnaId === qnaId ? null : qnaId;
+    toggleExpand(id) {
+        this.expandedId = this.expandedId === id ? null : id;
     }
 
     handleSort(option) {
@@ -168,20 +169,34 @@ class ProductDetailTab extends LitElement {
                 <tbody>
                     ${this.filteredReviewNoticeList.map(
                         (notice) => html`
-                            <tr>
-                                <td>공지</td>
-                                <td>${notice.title}</td>
-                                <td>${notice.contents}</td>
+                            <tr class="notice-row ${this.expandedId === notice.id ? 'expanded' : ''}" @click="${() => this.toggleExpand(notice.id)}">
+                                <td colspan="2"><c-badge type="info"></c-badge> ${notice.title}</td>
                             </tr>
+                            ${this.expandedId === notice.id
+                                ? html`
+                                      <tr class="expanded-content">
+                                          <td colspan="2">
+                                              <div class="question">
+                                                  <p>${notice.contents}</p>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  `
+                                : ''}
                         `
                     )}
                     ${this.reviewList.length !== 0
                         ? this.reviewList.map(
                               (review) => html`
                                   <tr>
-                                      <td>${review.expand.author.name}</td>
-                                      <td>${review.title}</td>
-                                      <td>${review.contents}</td>
+                                      <td class="review-author">
+                                          <c-badge type="${review.isBest ? 'best' : 'normal'}"></c-badge>${review.expand.author.name}
+                                      </td>
+                                      <td class="review-content-wrapper">
+                                          <h4 class="review-title">${review.title}</h4>
+                                          <div class="review-contents">${review.contents}</div>
+                                          <div class="review-date">${new Date(review.created).toLocaleDateString()}</div>
+                                      </td>
                                   </tr>
                               `
                           )
@@ -220,35 +235,46 @@ class ProductDetailTab extends LitElement {
                 <tbody>
                     ${this.filteredQnaNoticeList.map(
                         (notice) => html`
-                            <tr>
-                                <td>공지 ${notice.title}</td>
+                            <tr class="notice-row ${this.expandedId === notice.id ? 'expanded' : ''}" @click="${() => this.toggleExpand(notice.id)}">
+                                <td><c-badge type="info"></c-badge> ${notice.title}</td>
                                 <td>운영자</td>
                                 <td>${new Date(notice.created).toLocaleDateString()}</td>
                                 <td>-</td>
                             </tr>
+                            ${this.expandedId === notice.id
+                                ? html`
+                                      <tr class="expanded-content">
+                                          <td colspan="4">
+                                              <div class="question">
+                                                  <p>${notice.contents}</p>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  `
+                                : ''}
                         `
                     )}
                     ${this.qnaList.map(
                         (qna) => html`
                             ${this.user?.record.id !== qna.expand.author.id && qna.isSecret
-                                ? html`<tr>
-                                      <td>비밀글입니다</td>
+                                ? html`<tr class="qna-row">
+                                      <td class="secret">비밀글입니다</td>
                                       <td>${qna.expand.author.name}</td>
                                       <td>${new Date(qna.created).toLocaleDateString()}</td>
                                       <td>${qna.status || '답변대기'}</td>
                                   </tr>`
                                 : html`<tr
-                                          class="qna-row ${this.expandedQnaId === qna.id ? 'expanded' : ''}"
-                                          @click="${() => this.toggleQnaExpand(qna.id)}"
+                                          class="qna-row ${this.expandedId === qna.id ? 'expanded' : ''}"
+                                          @click="${() => this.toggleExpand(qna.id)}"
                                       >
                                           <td>${qna.title}</td>
                                           <td>${qna.expand.author.name}</td>
                                           <td>${new Date(qna.created).toLocaleDateString()}</td>
                                           <td>${qna.status || '답변대기'}</td>
                                       </tr>
-                                      ${this.expandedQnaId === qna.id
+                                      ${this.expandedId === qna.id
                                           ? html`
-                                                <tr class="qna-content">
+                                                <tr class="expanded-content">
                                                     <td colspan="4">
                                                         <div class="question">
                                                             <span class="q-icon">Q</span>
