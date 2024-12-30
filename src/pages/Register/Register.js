@@ -71,7 +71,7 @@ class Register extends LitElement {
     }
     //필수 입력 값이 모두 입력되었는지 확인
     handleReuired() {
-        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField', ' addressField'];
+        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField', 'addressField'];
 
         return fields.some((field) => this.inputs[field] === '');
     }
@@ -167,7 +167,7 @@ class Register extends LitElement {
                     swal.fire({
                         title: '이미 존재하는 값입니다',
                         text: '다시 입력해주세요',
-                        icon: 'info',
+                        icon: 'warning',
                     });
 
                     return true;
@@ -175,7 +175,10 @@ class Register extends LitElement {
                     // vdMessage.style.color = 'dodgerblue';
                     // vdMessage.style.display = 'block';
                     // vdMessage.textContent = '사용 가능합니다';
-                    alert('없음');
+                    swal.fire({
+                        title: '사용 가능한 값입니다',
+                        icon: 'info',
+                    });
                     return false;
                 }
             } catch {
