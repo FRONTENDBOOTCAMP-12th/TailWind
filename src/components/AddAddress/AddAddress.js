@@ -1,9 +1,10 @@
-import { LitElement, html } from 'lit';
-import resetCss from '@/styles/Reset.js';
-import AddAdddressStyle from './AddAddressStyle.js';
-import { pb } from '@/api/PocketHost.js';
-import '@/components/CheckBox/CheckBox.js';
 import { handleFindAddr } from '@/api/AddressApi.js';
+import AddAdddressStyle from './AddAddressStyle.js';
+import '@/components/CheckBox/CheckBox.js';
+import resetCss from '@/styles/Reset.js';
+import { pb } from '@/api/PocketHost.js';
+import '@/components/Spinner/Spinner.js';
+import { LitElement, html } from 'lit';
 
 class AddAddress extends LitElement {
     static styles = [resetCss, AddAdddressStyle];
@@ -13,6 +14,7 @@ class AddAddress extends LitElement {
         user: { type: Object },
         userAddress: { type: Array },
         inputs: { type: Object },
+        isLoading: { type: Boolean },
     };
 
     constructor() {
@@ -20,6 +22,7 @@ class AddAddress extends LitElement {
         this.auth = JSON.parse(localStorage.getItem('auth')).user;
         this.user = this.userAddress = [];
         this.inputs = { addressField: '' };
+        this.isLoading = true;
     }
 
     connectedCallback() {
@@ -36,6 +39,8 @@ class AddAddress extends LitElement {
             });
         } catch (err) {
             console.error(err);
+        } finally {
+            this.isLoading = false;
         }
     }
 
@@ -43,7 +48,7 @@ class AddAddress extends LitElement {
         const new_address = e.target.textContent;
         this.auth.address = new_address;
 
-        // window.close();
+        window.close();
         this.requestUpdate();
     }
 
@@ -53,21 +58,25 @@ class AddAddress extends LitElement {
     }
 
     render() {
-        return html`
-            <h2 class="address-title">배송지 목록</h2>
-            <div class="address-container">
-                <c-checkbox ?checked=${true} @checkbox-change=${this.handleChangeAddress} class="address-info"
-                    >&nbsp;&nbsp;${this.user.address}<br />&nbsp;&nbsp;(기본 배송지)</c-checkbox
-                >
-                ${this.userAddress.map((idx) => {
-                    return html` <c-checkbox @checkbox-change=${this.handleChangeAddress} class="address-info"
-                        >&nbsp;&nbsp;${idx.user_address}</c-checkbox
-                    >`;
-                })}
-            </div>
+        if (this.isLoading) {
+            return html`<c-spinner></c-spinner>`;
+        } else {
+            return html`
+                <h2 class="address-title">배송지 목록</h2>
+                <div class="address-container">
+                    <c-checkbox ?checked=${true} @checkbox-change=${this.handleChangeAddress} class="address-info"
+                        >&nbsp;&nbsp;${this.user.address}<br />&nbsp;&nbsp;(기본 배송지)</c-checkbox
+                    >
+                    ${this.userAddress.map((idx) => {
+                        return html` <c-checkbox @checkbox-change=${this.handleChangeAddress} class="address-info"
+                            >&nbsp;&nbsp;${idx.user_address}</c-checkbox
+                        >`;
+                    })}
+                </div>
 
-            <button type="button" class="add-address-btn" @click=${this.handleAddAddress}>+ 새 배송지 추가</button>
-        `;
+                <button type="button" class="add-address-btn" @click=${this.handleAddAddress}>+ 새 배송지 추가</button>
+            `;
+        }
     }
 }
 
