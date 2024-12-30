@@ -28,8 +28,9 @@ class ProductCard extends LitElement {
         this.isModalOpen = true;
     }
 
-    closeModal() {
+    closeModal(e) {
         this.isModalOpen = false;
+        e.target.hidePopover();
     }
 
     // HTML 렌더 부분
@@ -44,10 +45,23 @@ class ProductCard extends LitElement {
                         @click=${this.handleClick}
                     />
                     <!-- 모달 오픈을 위한 버튼 -->
-                    <button type="button" aria-label="장바구니에 추가하기" class="save-item" @click=${this.handleOpenCartModal}></button>
+                    <button
+                        type="button"
+                        popovertarget="popup"
+                        popovertargetaction="toggle"
+                        aria-label="장바구니에 추가하기"
+                        class="save-item"
+                        @click=${this.handleOpenCartModal}
+                    ></button>
 
                     <!-- 장바구니 담기 모달 컴포넌트 -->
-                    <add-cart ?isModalOpen=${this.isModalOpen} idx=${JSON.stringify(this.idx)} @modal-close=${this.closeModal}></add-cart>
+                    <add-cart
+                        popover
+                        id="popup"
+                        ?isModalOpen=${this.isModalOpen}
+                        idx=${JSON.stringify(this.idx)}
+                        @modal-close=${this.closeModal}
+                    ></add-cart>
                 </div>
 
                 <!-- 제품 상세 페이지 연결 링크 -->
