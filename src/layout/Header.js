@@ -2,10 +2,29 @@ import '@/components/Header/CategoryList.js';
 import headerStyle from './HeaderStyle.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
-
+import { pb } from '@/api/PocketHost.js';
 class Header extends LitElement {
+    static properties = {
+        isAuth: { type: Boolean },
+        user: { type: Object },
+    };
+
     static get styles() {
         return [resetCss, headerStyle];
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        this.fetchData();
+    }
+
+    fetchData() {
+        //로컬 스토리지에 저장되어있는 회원정보 가져오기
+        const auth = JSON.parse(localStorage.getItem('auth') ?? '{}');
+
+        const { isAuth, user } = auth;
+        this.isAuth = isAuth;
+        this.user = user;
     }
 
     handleCategory(e) {
@@ -21,16 +40,45 @@ class Header extends LitElement {
             buttonCt.classList.remove('isActive');
         }
     }
+
+    handleLogout() {
+        if (confirm('로그아웃 하시겠습니까?')) {
+            localStorage.removeItem('auth');
+            pb.authStore.clear();
+            location.reload();
+            alert('로그아웃');
+        } else {
+            alert('취소 되었습니다');
+        }
+    }
+
+    async handleDelete() {
+        if (confirm('정말 탈퇴 하시겠습니까?')) {
+            try {
+                await pb.collection('users').delete(this.user.id);
+                localStorage.removeItem('auth');
+                pb.authStore.clear();
+                location.reload();
+                alert('회원탈퇴가 되었습니다');
+            } catch {
+                alert('실패');
+            }
+        } else {
+            alert('취소 되었습니다');
+        }
+    }
     render() {
         return html`
             <header class="header">
                 <div class="header-inner">
                     <ul class="header-top">
                         <li class="sign-up">
-                            <a href="/src/pages/register/index.html">회원가입</a>
+                            ${!this.isAuth ? html`<a href="/src/pages/register/index.html">회원가입</a>` : html`<span>${this.user.name} 님</span>`}
                         </li>
                         <li>
-                            <a href="/src/pages/login/index.html">로그인</a>
+                            ${!this.isAuth
+                                ? html` <a href="/src/pages/login/index.html">로그인</a>`
+                                : html`<span @click=${this.handleLogout}>로그아웃 /</span> <span @click=${this.handleDelete}>회원탈퇴</span>`}
                         </li>
                         <li class="customer">
                             <a href="/">고객센터</a>

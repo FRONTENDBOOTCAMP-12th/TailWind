@@ -1,15 +1,10 @@
+import '@/components/ProductPagination/ProductPagination.js';
 import '@/components/ProductSorting/ProductSorting.js';
 import productListStyle from './ProductListStyle.js';
 import '@/components/ProductCard/ProductCard.js';
 import '@/components/SideMenu/SideMenu.js';
 import { LitElement, html } from 'lit';
 import PocketBase from 'pocketbase';
-
-// getPbImageURL : 포켓베이스 이미지 가져오는 함수
-function getPbImageURL(item, fieldName) {
-    const baseURL = import.meta.env.VITE_API_URL;
-    return `${baseURL}/api/files/${item.collectionId}/${item.id}/${item[fieldName]}`;
-}
 
 class ProductListPage extends LitElement {
     static get styles() {
@@ -19,14 +14,22 @@ class ProductListPage extends LitElement {
     static properties = {
         products: { type: Array },
         filteredProducts: { type: Array },
+        paginatedProducts: { type: Array },
         selectedCategories: { type: Array },
+        currentPage: { type: Number },
+        itemsPerPage: { type: Number },
+        activeSortOrder: { type: String }, // 현재 활성화된 정렬 상태
     };
 
     constructor() {
         super();
         this.products = [];
         this.filteredProducts = [];
+        this.paginatedProducts = [];
         this.selectedCategories = [];
+        this.currentPage = 1;
+        this.itemsPerPage = 15;
+        this.activeSortOrder = 'newest'; // 기본 정렬은 신상품순
     }
 
     async fetchProducts() {
@@ -34,11 +37,33 @@ class ProductListPage extends LitElement {
         const data = await pb.collection('product').getFullList();
         this.products = data.map((item) => ({
             ...item,
-            created: new Date(item.created), // 신상품 순으로 정렬하기 위해 날짜 형식으로 변환
+            created: new Date(item.created), // 날짜 변환
         }));
+
         this.filteredProducts = [...this.products];
-        // 기본 정렬 처리 (신상품순)
-        this.handleSortChange({ detail: { order: 'newest' } });
+
+        // 초기 정렬
+        this.applySorting();
+        this.updatePaginatedProducts();
+    }
+
+    applySorting() {
+        // 할인된 가격 계산 함수
+        const getDiscountedPrice = (product) => product.price * (1 - (product.discount || 0) / 100);
+
+        if (this.activeSortOrder === 'newest') {
+            this.filteredProducts.sort((a, b) => b.created - a.created);
+        } else if (this.activeSortOrder === 'low-to-high') {
+            this.filteredProducts.sort((a, b) => getDiscountedPrice(a) - getDiscountedPrice(b));
+        } else if (this.activeSortOrder === 'high-to-low') {
+            this.filteredProducts.sort((a, b) => getDiscountedPrice(b) - getDiscountedPrice(a));
+        }
+    }
+
+    updatePaginatedProducts() {
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
     }
 
     handleCategoryChange(e) {
@@ -58,23 +83,30 @@ class ProductListPage extends LitElement {
             // 전체 상품
             this.filteredProducts = [...this.products];
         }
+
+        // 현재 활성화된 정렬 적용
+        this.applySorting();
+
+        // 첫 페이지로 이동
+        this.currentPage = 1;
+        this.updatePaginatedProducts();
     }
 
     handleSortChange(e) {
         const { order } = e.detail;
+        this.activeSortOrder = order; // 활성화된 정렬 상태 업데이트
 
-        // 할인된 가격 계산 함수
-        const getDiscountedPrice = (product) => product.price * (1 - (product.discount || 0) / 100);
+        // 정렬 적용
+        this.applySorting();
 
-        if (order === 'newest') {
-            this.filteredProducts = [...this.filteredProducts].sort((a, b) => b.created - a.created);
-        } else if (order === 'low-to-high') {
-            this.filteredProducts = [...this.filteredProducts].sort((a, b) => getDiscountedPrice(a) - getDiscountedPrice(b));
-        } else if (order === 'high-to-low') {
-            this.filteredProducts = [...this.filteredProducts].sort((a, b) => getDiscountedPrice(b) - getDiscountedPrice(a));
-        }
+        // 첫 페이지로 이동
+        this.currentPage = 1;
+        this.updatePaginatedProducts();
+    }
 
-        this.requestUpdate();
+    handlePageChange(e) {
+        this.currentPage = e.detail.page;
+        this.updatePaginatedProducts();
     }
 
     connectedCallback() {
@@ -85,24 +117,21 @@ class ProductListPage extends LitElement {
     render() {
         return html`
             <div class="container">
-                <h2 class="product-title">베스트</h2>
                 <div class="product-list-page">
-                    <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                    <h2 class="product-title">베스트</h2>
                     <div>
-                        <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
-                        <div class="product-list">
-                            ${this.filteredProducts.map(
-                                (product) => html`
-                                    <product-card
-                                        .src="${getPbImageURL(product, 'main_image')}"
-                                        .specialDesc="${product.delivery}"
-                                        .productName="${product.name}"
-                                        .discount="${product.discount}"
-                                        .price="${product.price}"
-                                        .desc="${product.description}"
-                                    ></product-card>
-                                `
-                            )}
+                        <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                        <div class="product-wrap">
+                            <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
+                            <div class="product-list">
+                                ${this.paginatedProducts.map((product) => html`<product-card idx=${JSON.stringify(product)}></product-card>`)}
+                            </div>
+                            <product-pagination
+                                .totalItems="${this.filteredProducts.length}"
+                                .itemsPerPage="${this.itemsPerPage}"
+                                .currentPage="${this.currentPage}"
+                                @page-change="${this.handlePageChange}"
+                            ></product-pagination>
                         </div>
                     </div>
                 </div>

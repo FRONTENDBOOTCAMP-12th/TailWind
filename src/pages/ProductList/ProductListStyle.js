@@ -1,12 +1,23 @@
 import { css } from 'lit';
 
 export default css`
+    .container {
+        margin-bottom: 5rem;
+    }
+
     .product-list-page {
-        display: flex;
         margin: 0 auto;
-        gap: 2.9375rem;
         width: 65.625rem;
         padding: 0 3.125rem;
+
+        > div {
+            display: flex;
+            gap: 2.9375rem;
+        }
+
+        .product-wrap {
+            width: 100%;
+        }
     }
 
     .product-list {

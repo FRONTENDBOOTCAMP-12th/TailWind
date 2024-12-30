@@ -6,7 +6,7 @@ export default css`
         gap: 90px;
 
         .product-image {
-            width: 400px;
+            width: 100%;
             height: 100%;
             object-fit: contain;
             background-color: #f8f8f8;
@@ -117,8 +117,40 @@ export default css`
 
             .product-btn-box {
                 display: flex;
+                position: relative;
                 justify-content: end;
                 gap: 12px;
+            }
+        }
+
+        .bubble-content-box {
+            display: flex;
+            gap: 12px;
+
+            .bubble-product-image {
+                width: 46px;
+                height: 60px;
+                object-fit: cover;
+            }
+
+            .bubble-content {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                justify-content: center;
+
+                .title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #333;
+                    margin: 0 0 8px 0;
+                }
+
+                .description {
+                    font-size: 12px;
+                    color: #666;
+                    margin: 0;
+                }
             }
         }
     }
