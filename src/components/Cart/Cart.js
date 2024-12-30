@@ -282,6 +282,10 @@ class Cart extends LitElement {
         }
     }
 
+    openAddAddress() {
+        window.open('/src/pages/Cart/AddAddress.html', '_blank', 'width=550,height=550,left=200,top=200, scrollbar=yes');
+    }
+
     render() {
         // 데이터 불러오는 중 스피너 렌더링
         if (this.loading) {
@@ -485,7 +489,7 @@ class Cart extends LitElement {
                                 </h2>
                                 <p class="address-info">${this.user.user.address ?? ''}</p>
                                 <p class="delivery-text">샛별배송</p>
-                                <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
+                                <c-button type="button" mode="outline" size="btn-sm" @click=${this.openAddAddress}>배송지 변경</c-button>
                             </section>
                             <div class="purchase-price">
                                 <div class="purchase-price-detail">
