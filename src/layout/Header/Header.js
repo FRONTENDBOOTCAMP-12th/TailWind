@@ -1,4 +1,5 @@
 import '@/components/Header/CategoryList.js';
+import '@/components/Search/Search.js';
 import headerStyle from './HeaderStyle.js';
 import resetCss from '@/styles/Reset.js';
 import { LitElement, html } from 'lit';
@@ -86,20 +87,6 @@ class Header extends LitElement {
                 }
             }
         });
-
-        // if (confirm('정말 탈퇴 하시겠습니까?')) {
-        //     try {
-        //         await pb.collection('users').delete(this.user.id);
-        //         localStorage.removeItem('auth');
-        //         pb.authStore.clear();
-        //         location.reload();
-        //         alert('회원탈퇴가 되었습니다');
-        //     } catch {
-        //         alert('실패');
-        //     }
-        // } else {
-        //     alert('취소 되었습니다');
-        // }
     }
     render() {
         return html`
@@ -107,13 +94,17 @@ class Header extends LitElement {
                 <div class="header-inner">
                     <ul class="header-top">
                         <li class="sign-up">
-                            ${!this.isAuth ? html`<a href="/src/pages/register/index.html">회원가입</a>` : html`<span>${this.user.name} 님</span>`}
-                        </li>
-                        <li>
                             ${!this.isAuth
-                                ? html` <a href="/src/pages/login/index.html">로그인</a>`
-                                : html`<span @click=${this.handleLogout}>로그아웃 /</span> <span @click=${this.handleDelete}>회원탈퇴</span>`}
+                                ? html`<a href="/src/pages/register/index.html">회원가입</a>`
+                                : html`<div class="user-menu" @click="${this.handleCategory}">
+                                      <button>${this.user.name} 님 ▼</button>
+                                      <ul class="user-list">
+                                          <li><button type="button" @click=${this.handleLogout}>로그아웃</button></li>
+                                          <li><button type="button" @click=${this.handleDelete}>회원탈퇴</button></li>
+                                      </ul>
+                                  </div>`}
                         </li>
+                        <li>${!this.isAuth ? html` <a href="/src/pages/login/index.html">로그인</a>` : html`<span>환영합니다 !</span>`}</li>
                         <li class="customer">
                             <a href="/">고객센터</a>
                         </li>
@@ -132,11 +123,12 @@ class Header extends LitElement {
                                 <a href="/">뷰티칼리</a>
                             </li>
                         </ul>
-                        <div class="search-bar">
+                        <search-bar></search-bar>
+                        <!-- <div class="search-bar">
                             <label for="search" class="sr-only">상품 검색</label>
                             <input type="search" id="search" class="inp-search" placeholder="검색어를 입력해주세요" />
                             <button type="button" class="btn-search" aria-label="검색하기"></button>
-                        </div>
+                        </div> -->
                         <ul class="util-menu">
                             <li>
                                 <a href="/">
