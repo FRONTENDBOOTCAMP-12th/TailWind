@@ -36,8 +36,8 @@ class ProductDetailModal extends LitElement {
         return this.shadowRoot.querySelector('#modal-textarea');
     }
 
-    closeModal() {
-        this.dispatchEvent(new CustomEvent('modal-closed'));
+    closeModal(isQuestion = null) {
+        this.dispatchEvent(new CustomEvent('modal-closed', { detail: { isQuestion } }));
         this.resetValues();
     }
 
@@ -48,7 +48,7 @@ class ProductDetailModal extends LitElement {
                 title: this.titleInput.value,
                 contents: this.contentInput.value,
                 isSecret: this.isSecret,
-                productId: 'l8125u60nj73e27',
+                productId: this.product.id,
                 author: '22447xjk6th363a',
             };
             await pb.collection('questions_answers').create(data);
@@ -57,12 +57,12 @@ class ProductDetailModal extends LitElement {
             const data = {
                 title: this.titleInput.value,
                 contents: this.contentInput.value,
-                productId: 'l8125u60nj73e27',
+                productId: this.product.id,
                 author: '22447xjk6th363a',
             };
             await pb.collection('reviews').create(data);
         }
-        this.closeModal();
+        this.closeModal(this.isQuestion);
     }
 
     resetValues() {

@@ -2,12 +2,13 @@ import resetCss from '@/styles/Reset.js';
 import { pb } from '@/api/PocketHost.js';
 import loginStyle from './LoginStyle.js';
 import { LitElement, html } from 'lit';
+import swal from 'sweetalert2';
 
 class Login extends LitElement {
     static properties = {
         hint: { type: Boolean },
     };
-    
+
     constructor() {
         super();
         this.inputs = {
@@ -49,6 +50,10 @@ class Login extends LitElement {
         }
     }
 
+    //페이지 이동 함수
+    handleNavigate(url) {
+        location.href = url;
+    }
     //로그인 시도 함수
     async handleLogin() {
         if (this.hint) {
@@ -67,10 +72,20 @@ class Login extends LitElement {
                         token: token,
                     })
                 );
-                alert('성공');
-                location.href = '/index.html';
+                swal.fire({
+                    title: '로그인 성공!',
+                    text: '메인 페이지로 이동합니다',
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                }).then((res) => {
+                    this.handleNavigate('/index.html');
+                });
             } catch {
-                alert('실패');
+                swal.fire({
+                    title: '로그인 실패!',
+                    text: '다시 입력해주세요',
+                    icon: 'error',
+                });
             }
         } else {
             alert('제대로 입력하세요');
@@ -108,7 +123,9 @@ class Login extends LitElement {
                 </span>
 
                 <c-button type="submit" mode="fill" size="btn-md" @click="${this.handleLogin}">로그인</c-button>
-                <c-button type="link" mode="outline" size="btn-md">회원가입</c-button>
+                <c-button type="link" mode="outline" size="btn-md" @click="${() => this.handleNavigate('/src/pages/Register/index.html')}"
+                    >회원가입</c-button
+                >
             </div>
         </div>`;
     }
