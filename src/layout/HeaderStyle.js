@@ -43,6 +43,31 @@ export default css`
 
             .sign-up {
                 color: var(--primary);
+                .user-menu {
+                    position: relative;
+
+                    .user-list {
+                        z-index: 1;
+                        display: none;
+                        margin-left: 5px;
+                        margin-top: 5px;
+                        position: absolute;
+                        width: 100%;
+                        background-color: white;
+                        border: 1px solid var(--content);
+                        & li {
+                            padding: 8px;
+                        }
+                        & li + li::before {
+                            content: none;
+                        }
+                    }
+                }
+                .user-menu.isActive {
+                    .user-list {
+                        display: block;
+                    }
+                }
             }
 
             .customer {
