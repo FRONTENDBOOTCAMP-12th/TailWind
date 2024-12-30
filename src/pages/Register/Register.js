@@ -2,7 +2,8 @@ import registerStyle from './RegisterStyle.js';
 import resetCss from '@/styles/reset.js';
 import { pb } from '@/api/PocketHost.js';
 import { LitElement, html } from 'lit';
-
+import { handleFindAddr } from '@/api/AddressApi.js';
+import swal from 'sweetalert2';
 class Register extends LitElement {
     static properties = {
         isFormValid: { type: Boolean },
@@ -18,6 +19,7 @@ class Register extends LitElement {
             nameField: '',
             emailField: '',
             numberField: '',
+            addressField: '',
             genderField: '',
             birthField: {
                 year: '',
@@ -33,10 +35,8 @@ class Register extends LitElement {
     }
     connectedCallback() {
         super.connectedCallback();
-        //this.fetchData();
     }
 
-    //async fetchData() {}
     static get styles() {
         return [resetCss, registerStyle];
     }
@@ -71,13 +71,13 @@ class Register extends LitElement {
     }
     //필수 입력 값이 모두 입력되었는지 확인
     handleReuired() {
-        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField'];
+        const fields = ['idField', 'pwField', 'pwCheckField', 'nameField', 'emailField', 'numberField', 'addressField'];
 
         return fields.some((field) => this.inputs[field] === '');
     }
     //포켓 호스트에 값을 전송하는 함수
     handleRegister() {
-        //필수 입력 값 모두 입력력
+        //필수 입력 값 모두 입력
         if (!this.handleReuired()) {
             //필수 약관 모두 체크
             if (this.requiredChecked) {
@@ -88,22 +88,42 @@ class Register extends LitElement {
                         passwordConfirm: this.inputs['pwCheckField'],
                         name: this.inputs['nameField'],
                         email: this.inputs['emailField'],
+                        emailVisibility: true,
+                        address: this.inputs['addressField'],
                         phoneNumber: this.inputs['numberField'],
                         birth: this.inputs['birthDate'],
                         gender: [this.inputs['genderField']],
                     })
                     .then(() => {
-                        alert('완료!!');
-                        window.location.href = '/src/pages/login/index.html';
+                        swal.fire({
+                            title: '회원가입 성공!',
+                            text: '환영합니다',
+                            icon: 'success',
+                            confirmButtonText: '확인',
+                        }).then(() => {
+                            this.handleNavigate('/src/pages/Login/index.html');
+                        });
                     })
                     .catch(() => {
-                        alert('실패!!');
+                        swal.fire({
+                            title: '회원가입 실패!',
+                            text: '입력란을 확인해주세요',
+                            icon: 'error',
+                        });
                     });
             } else {
-                alert('필수 약관에 동의해주세요');
+                swal.fire({
+                    title: '필수 이용약관 동의해주세요',
+                    //  text: '입력란을 확인해주세요',
+                    icon: 'warning',
+                });
             }
         } else {
-            alert('필수입력값을 입력하세요');
+            swal.fire({
+                title: '필수 입력란을 확인해주세요',
+                text: '입력란을 모두 입력해주세요',
+                icon: 'warning',
+            });
         }
     }
 
@@ -124,30 +144,41 @@ class Register extends LitElement {
 
     // 중복확인 함수
     async handleDuplication(e) {
-        const value = this.inputs[e.target.dataset.id];
-        const field = e.target.dataset.field;
+        const value = this.inputs[e.target.dataset.id]?.trim(); //입력값
+        const field = e.target.dataset.field; //필드명
+        const fieldId = e.target.dataset.id; //아이디명
 
         //hint 값이 true 일경우 ==> 에러메시지 없이 제대로 입력했을 때
         if (this.hint) {
             try {
                 // 중복 값이 있는지 확인하는 값 가져오기
+
                 const result = await pb.collection('users').getList(1, 1, { filter: `${field} = '${value}'` });
+
                 //힌트 메세지 태그 가져오기
-                const vdMessage = this.renderRoot.querySelector('#idField').shadowRoot.querySelector('.error-message');
+                const vdMessage = this.renderRoot.querySelector(`#${fieldId}`).shadowRoot.querySelector('.error-message');
 
                 //있는 값이 있으면 길이가 0이 아닐 것이기 때문에
-                if (!(result.items.length === 0)) {
+                if (result.items.length > 0) {
                     //중복이 있다는 힌트 메세지로 변경 시켜주기
-                    vdMessage.style.color = 'var(--info---error)';
-                    vdMessage.style.display = 'block';
-                    vdMessage.textContent = '같은 아이디가 이미 존재합니다';
+                    // vdMessage.style.color = 'var(--info---error)';
+                    // vdMessage.style.display = 'block';
+                    // vdMessage.textContent = '이미 존재하는 값입니다';
+                    swal.fire({
+                        title: '이미 존재하는 값입니다',
+                        text: '다시 입력해주세요',
+                        icon: 'warning',
+                    });
 
                     return true;
                 } else {
-                    vdMessage.style.color = 'dodgerblue';
-                    vdMessage.style.display = 'block';
-                    vdMessage.textContent = '사용 가능한 아이디입니다';
-
+                    // vdMessage.style.color = 'dodgerblue';
+                    // vdMessage.style.display = 'block';
+                    // vdMessage.textContent = '사용 가능합니다';
+                    swal.fire({
+                        title: '사용 가능한 값입니다',
+                        icon: 'info',
+                    });
                     return false;
                 }
             } catch {
@@ -217,6 +248,10 @@ class Register extends LitElement {
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
     }
 
+    //페이지 이동 함수
+    handleNavigate(url) {
+        location.href = url;
+    }
     //html 구조
     render() {
         return html`
@@ -303,7 +338,7 @@ class Register extends LitElement {
                     <span class="input-line">
                         <c-label required>주소</c-label>
                         <div class="address-container">
-                            <c-button>주소 찾기</c-button>
+                            <c-button @click="${() => handleFindAddr(this.inputs)}">주소 찾기</c-button>
                             배송지에 따라 상품 정보가 달라질 수 있습니다.
                         </div>
                     </span>

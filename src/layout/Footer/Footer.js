@@ -168,4 +168,4 @@ class Footer extends LitElement {
     }
 }
 
-customElements.define('x-footer', Footer);
+customElements.define('c-footer', Footer);
