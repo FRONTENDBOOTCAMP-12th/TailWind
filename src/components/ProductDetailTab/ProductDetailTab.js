@@ -20,6 +20,7 @@ class ProductDetailTab extends LitElement {
         sortOption: { type: String },
         reviewNoticeList: { type: Array },
         qnaNoticeList: { type: Array },
+        user: { type: Object },
     };
 
     constructor() {
@@ -36,6 +37,7 @@ class ProductDetailTab extends LitElement {
         this.sortOption = 'latest'; // 'latest' 또는 'recommended'
         this.reviewNoticeList = [];
         this.qnaNoticeList = [];
+        this.user = JSON.parse(localStorage.getItem('pocketbase_auth'));
     }
 
     connectedCallback() {
@@ -228,32 +230,42 @@ class ProductDetailTab extends LitElement {
                     )}
                     ${this.qnaList.map(
                         (qna) => html`
-                            <tr class="qna-row ${this.expandedQnaId === qna.id ? 'expanded' : ''}" @click="${() => this.toggleQnaExpand(qna.id)}">
-                                <td>${qna.title}</td>
-                                <td>${qna.expand.author.name}</td>
-                                <td>${new Date(qna.created).toLocaleDateString()}</td>
-                                <td>${qna.status || '답변대기'}</td>
-                            </tr>
-                            ${this.expandedQnaId === qna.id
-                                ? html`
-                                      <tr class="qna-content">
-                                          <td colspan="4">
-                                              <div class="question">
-                                                  <span class="q-icon">Q</span>
-                                                  <p>${qna.contents}</p>
-                                              </div>
-                                              ${qna.answer
-                                                  ? html`
-                                                        <div class="answer">
-                                                            <span class="a-icon">A</span>
-                                                            <p>${qna.answer}</p>
-                                                        </div>
-                                                    `
-                                                  : ''}
-                                          </td>
+                            ${this.user?.record.id !== qna.expand.author.id && qna.isSecret
+                                ? html`<tr>
+                                      <td>비밀글입니다</td>
+                                      <td>${qna.expand.author.name}</td>
+                                      <td>${new Date(qna.created).toLocaleDateString()}</td>
+                                      <td>${qna.status || '답변대기'}</td>
+                                  </tr>`
+                                : html`<tr
+                                          class="qna-row ${this.expandedQnaId === qna.id ? 'expanded' : ''}"
+                                          @click="${() => this.toggleQnaExpand(qna.id)}"
+                                      >
+                                          <td>${qna.title}</td>
+                                          <td>${qna.expand.author.name}</td>
+                                          <td>${new Date(qna.created).toLocaleDateString()}</td>
+                                          <td>${qna.status || '답변대기'}</td>
                                       </tr>
-                                  `
-                                : ''}
+                                      ${this.expandedQnaId === qna.id
+                                          ? html`
+                                                <tr class="qna-content">
+                                                    <td colspan="4">
+                                                        <div class="question">
+                                                            <span class="q-icon">Q</span>
+                                                            <p>${qna.contents}</p>
+                                                        </div>
+                                                        ${qna.answer
+                                                            ? html`
+                                                                  <div class="answer">
+                                                                      <span class="a-icon">A</span>
+                                                                      <p>${qna.answer}</p>
+                                                                  </div>
+                                                              `
+                                                            : ''}
+                                                    </td>
+                                                </tr>
+                                            `
+                                          : ''}`}
                         `
                     )}
                 </tbody>
