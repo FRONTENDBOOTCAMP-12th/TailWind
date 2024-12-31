@@ -8,18 +8,24 @@
         <link rel="stylesheet" href="/src/styles/Reset.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="/main.js"></script>
-        <script type="module" src="/src/components/swiper/swiper.js"></script>
         <script type="module" src="/src/components/PopUp/PopUp.js"></script>
+        <script type="module" src="/src/components/swiper/swiper.js"></script>
+        <script type="module" src="/src/components/ProductSwiper/ProductSwiper.js"></script>
         <script type="module" src="/src/components/BannerMiddle/BannerMiddle.js"></script>
-        <link rel="stylesheet" href="/src/pages/mainpages/index.css" />
     </head>
     <body>
         <c-header></c-header>
         <div id="app"></div>
 
+        <hr />
+
         <pop-up></pop-up>
         <banner-swiper></banner-swiper>
+        <c-swiper>이 상품 어때요?</c-swiper>
         <banner-middle></banner-middle>
+        <c-swiper>놓치면 후회할 가격</c-swiper>
+
+        <hr />
 
         <c-footer></c-footer>
     </body>
