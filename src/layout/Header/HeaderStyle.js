@@ -117,37 +117,37 @@ export default css`
                     text-decoration: none;
                 }
             }
+        }
 
-            .util-menu {
-                display: flex;
-                column-gap: 1.25rem;
-                margin-left: auto;
+        .util-menu {
+            display: flex;
+            column-gap: 1.25rem;
+            margin-left: auto;
 
-                & li {
-                    position: relative;
-                }
+            & li {
+                position: relative;
+            }
 
-                & li a {
-                    display: block;
-                    width: 2.25rem;
-                    height: 2.25rem;
-                }
+            & li a {
+                display: block;
+                width: 2.25rem;
+                height: 2.25rem;
+            }
 
-                .cart-in {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    display: block;
-                    width: 0.8125rem;
-                    height: 0.8125rem;
-                    border-radius: 50%;
-                    background: var(--accent--yellow);
-                    color: var(--white);
-                    font-size: 0.75rem;
-                    line-height: 1.4;
-                    font-weight: 600;
-                    text-align: center;
-                }
+            .cart-in {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 0.8125rem;
+                height: 0.8125rem;
+                border-radius: 50%;
+                background: var(--accent--yellow);
+                color: var(--white);
+                font-size: 0.75rem;
+                line-height: 1.4;
+                font-weight: 600;
+                text-align: center;
             }
         }
 
@@ -235,6 +235,46 @@ export default css`
         /*tab으로 접근이 가능하도록 함  */
         .btn-category.isActive + .category-list {
             display: block;
+        }
+
+        /* default header */
+        &.default {
+            transition: visibility 0.3s ease-in-out;
+
+            &.noactive {
+                visibility: hidden;
+            }
+        }
+
+        /* sticky header */
+        &.sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            margin: 0 auto;
+            background-color: var(--white);
+            z-index: 20;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+
+            &.active {
+                transform: translateY(0);
+            }
+
+            .category-menu {
+                padding-bottom: 1.875rem;
+            }
+
+            .gnb-menu,
+            .util-menu {
+                padding-bottom: 0.875rem;
+            }
+
+            &search-bar::part(.inp-search) {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
         }
     }
 `;
