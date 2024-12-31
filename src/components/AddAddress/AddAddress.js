@@ -53,8 +53,7 @@ class AddAddress extends LitElement {
     }
 
     async handleAddAddress() {
-        console.log(this.auth.id);
-        handleFindAddr(this.inputs, '_self', this.auth.id);
+        handleFindAddr(this.inputs, this.auth.id);
     }
 
     render() {

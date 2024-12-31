@@ -490,7 +490,14 @@ class Cart extends LitElement {
                                 </h2>
                                 <p class="address-info">${this.user.user.address ?? ''}</p>
                                 <p class="delivery-text">샛별배송</p>
-                                <c-button type="button" mode="outline" size="btn-sm" @click=${this.openAddAddress}>배송지 변경</c-button>
+                                <c-button
+                                    type="button"
+                                    mode="outline"
+                                    size="btn-sm"
+                                    @click=${this.openAddAddress}
+                                    ?hidden=${localStorage.getItem('auth') ? false : true}
+                                    >배송지 변경</c-button
+                                >
                             </section>
                             <div class="purchase-price">
                                 <div class="purchase-price-detail">

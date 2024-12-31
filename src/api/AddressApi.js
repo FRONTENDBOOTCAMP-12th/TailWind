@@ -1,6 +1,6 @@
 import { pb } from '@/api/PocketHost.js';
 
-export function handleFindAddr(inputs, self = '_blank', userId) {
+export function handleFindAddr(inputs, userId) {
     new daum.Postcode({
         oncomplete: (data) => {
             // 선택된 주소 처리
@@ -26,7 +26,5 @@ export function handleFindAddr(inputs, self = '_blank', userId) {
                 }
             }
         },
-    }).open({
-        popupName: self,
-    });
+    }).open();
 }
