@@ -318,9 +318,9 @@ class Cart extends LitElement {
                                         <img src="/assets/chilled.svg" alt="" />
                                         <span class="category-text">냉장 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideChilled}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} alt="품목 숨기기" />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
@@ -370,9 +370,9 @@ class Cart extends LitElement {
                                         <img src="/assets/frozen.svg" alt="" />
                                         <span class="category-text">냉동 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideFrozen}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} alt="품목 숨기기" />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 냉동 타입 렌더링-->
@@ -419,9 +419,9 @@ class Cart extends LitElement {
                                         <img src="/assets/temperature.svg" alt="" />
                                         <span class="category-text">상온 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideTemperautre}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} alt="품목 숨기기" />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 상온 타입 렌더링-->
