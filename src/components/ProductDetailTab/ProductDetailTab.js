@@ -4,6 +4,8 @@ import { LitElement, html } from 'lit';
 import '@/components/Button/Button.js';
 import tabStyle from './ProductDetailTabStyle.js';
 import '@/components/Badge/Badge.js';
+import swal from 'sweetalert2';
+import { navigate } from '@/utils/utils.js';
 
 class ProductDetailTab extends LitElement {
     static styles = [resetCss, tabStyle];
@@ -64,23 +66,45 @@ class ProductDetailTab extends LitElement {
     }
 
     handleReviewClick() {
-        const event = new CustomEvent('open-modal', {
-            detail: {
-                title: '후기작성',
-                isQuestion: false,
-            },
-        });
-        this.dispatchEvent(event);
+        if (!this.user) {
+            swal.fire({
+                title: '로그인 후 이용해주세요',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            }).then(() => {
+                navigate('/src/pages/Login/index.html');
+            });
+            return;
+        } else {
+            const event = new CustomEvent('open-modal', {
+                detail: {
+                    title: '후기작성',
+                    isQuestion: false,
+                },
+            });
+            this.dispatchEvent(event);
+        }
     }
 
     handleQnAClick() {
-        const event = new CustomEvent('open-modal', {
-            detail: {
-                title: '문의하기',
-                isQuestion: true,
-            },
-        });
-        this.dispatchEvent(event);
+        if (!this.user) {
+            swal.fire({
+                title: '로그인 후 이용해주세요',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            }).then(() => {
+                navigate('/src/pages/Login/index.html');
+            });
+            return;
+        } else {
+            const event = new CustomEvent('open-modal', {
+                detail: {
+                    title: '문의하기',
+                    isQuestion: true,
+                },
+            });
+            this.dispatchEvent(event);
+        }
     }
 
     handlePageChange(type, page) {
