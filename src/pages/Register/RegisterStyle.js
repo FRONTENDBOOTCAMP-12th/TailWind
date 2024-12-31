@@ -88,9 +88,12 @@ export default css`
                 padding: 0.75rem 0;
                 align-items: center;
 
-                & p {
+                & button {
+                    cursor: pointer;
+                    width: 60px;
                     color: var(--primary);
                     font-size: var(--paragraph---small);
+                    background: url(/assets/Arrow.svg) right top 0px / 6px auto no-repeat;
                 }
             }
         }
