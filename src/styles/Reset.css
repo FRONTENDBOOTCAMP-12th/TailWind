@@ -176,3 +176,20 @@ textarea {
     /* Remove the default vertical scrollbar in IE 11 */
     overflow: auto;
 }
+.swal2-confirm,
+.swal2-cancel,
+.swal2-close,
+.swal2-styled,
+.swal2-deny,
+.swal-close {
+    border: none;
+    padding: 1rem;
+    color: var(--white);
+    font-size: var(--label---medium);
+    margin-inline: 0.5rem;
+    background-color: var(--primary);
+
+    &:hover {
+        outline: 2px solid var(--gray--200);
+    }
+}

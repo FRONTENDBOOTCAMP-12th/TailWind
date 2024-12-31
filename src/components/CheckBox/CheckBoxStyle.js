@@ -19,6 +19,7 @@ export default css`
         position: absolute;
         width: 24px;
         height: 24px;
+        pointer-events: none;
 
         circle {
             fill: #fff;
