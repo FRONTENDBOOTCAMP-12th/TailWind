@@ -39,8 +39,8 @@ class ProductHeader extends LitElement {
 
     handleAddToCart() {
         try {
-            const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-            cart.push({ [`${this.product.id}`]: this.itemQuantity });
+            const cart = JSON.parse(localStorage.getItem('cartItems')) || {};
+            cart[`${this.product.id}`] = this.itemQuantity;
             localStorage.setItem('cartItems', JSON.stringify(cart));
             this.isVisible = true;
         } catch (e) {
