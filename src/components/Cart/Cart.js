@@ -284,7 +284,7 @@ class Cart extends LitElement {
     }
 
     openAddAddress() {
-        window.open('/src/pages/Cart/AddAddress.html', 'delivery-popup', 'width=550,height=550,left=200,top=200, scrollbar=yes', false);
+        window.open('/src/pages/AddAddress/index.html', 'delivery-popup', 'width=550,height=550,left=200,top=200, scrollbar=yes', false);
     }
 
     render() {
