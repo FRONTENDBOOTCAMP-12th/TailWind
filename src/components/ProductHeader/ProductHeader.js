@@ -63,7 +63,6 @@ class ProductHeader extends LitElement {
                     <div class="product-price">${this.product.price.toLocaleString()}</div>
 
                     ${this.benefitCheck()}
-                    <p class="delivery-info">${this.product.delivery}</p>
                     <table class="product-info-table">
                         <tr>
                             <th>배송</th>
