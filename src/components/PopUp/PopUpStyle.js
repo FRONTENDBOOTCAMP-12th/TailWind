@@ -12,6 +12,7 @@ export default css`
         background-color: var(--gray--300);
         justify-content: center;
         align-items: center;
+        z-index: 100;
     }
 
     .popup-content {
