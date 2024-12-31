@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { register } from 'swiper/element/bundle';
-import reset from '@/styles/reset.js';
+import reset from '@/styles/Reset.js';
 import { SwiperStyles } from './swiperStyle.js';
 
 register();
