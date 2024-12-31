@@ -315,12 +315,12 @@ class Cart extends LitElement {
                             <li class="chilled-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/chilled.svg" />
+                                        <img src="/assets/chilled.svg" alt="" />
                                         <span class="category-text">냉장 식품</span>
                                     </div>
                                     <button class="dropdown-btn" type="button">
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
@@ -341,6 +341,7 @@ class Cart extends LitElement {
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -356,7 +357,7 @@ class Cart extends LitElement {
                                                       >
                                                       <!-- 품목 삭제 버튼 -->
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>
                                               `
@@ -367,12 +368,12 @@ class Cart extends LitElement {
                             <li class="frozen-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/frozen.svg" />
+                                        <img src="/assets/frozen.svg" alt="" />
                                         <span class="category-text">냉동 식품</span>
                                     </div>
                                     <button class="dropdown-btn" type="button">
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 냉동 타입 렌더링-->
@@ -392,6 +393,7 @@ class Cart extends LitElement {
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -406,7 +408,7 @@ class Cart extends LitElement {
                                                           ).toLocaleString()}원</span
                                                       >
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>`
                                           )
@@ -416,12 +418,12 @@ class Cart extends LitElement {
                             <li class="temperature-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/temperature.svg" />
+                                        <img src="/assets/temperature.svg" alt="" />
                                         <span class="category-text">상온 식품</span>
                                     </div>
                                     <button class="dropdown-btn" type="button">
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
+                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 상온 타입 렌더링-->
@@ -441,6 +443,7 @@ class Cart extends LitElement {
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -455,7 +458,7 @@ class Cart extends LitElement {
                                                           ).toLocaleString()}원</span
                                                       >
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>`
                                           )
@@ -481,7 +484,7 @@ class Cart extends LitElement {
                         <div class="purchase-container">
                             <section class="purchase-address">
                                 <h2 class="address-title">
-                                    <img src="/assets/place-pin.svg" />
+                                    <img src="/assets/place-pin.svg" alt="" />
                                     <span>배송지</span>
                                 </h2>
                                 <p class="address-info">${this.user.user.address ?? ''}</p>
