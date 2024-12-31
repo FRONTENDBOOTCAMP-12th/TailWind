@@ -12,6 +12,7 @@ class ProductHeader extends LitElement {
         totalPrice: { type: Number, required: true },
         itemQuantity: { type: Number, required: true },
         isVisible: { type: Boolean, required: true },
+        isLogin: { type: Boolean, required: true },
     };
 
     constructor() {
@@ -19,6 +20,7 @@ class ProductHeader extends LitElement {
         this.totalPrice = 0;
         this.itemQuantity = 1;
         this.isVisible = false;
+        this.isLogin = localStorage.getItem('pocketbase_auth');
     }
 
     static styles = [resetCss, productHeaderStyle];
@@ -60,10 +62,7 @@ class ProductHeader extends LitElement {
 
                     <div class="product-price">${this.product.price.toLocaleString()}</div>
 
-                    <p class="delivery-info">로그인 후, 적립 혜택이 제공됩니다.</p>
-                    <!-- TODO: 로그인 상태에 따라 다르게 표시 -->
-                    <p class="delivery-info">${this.product.delivery}</p>
-                    <!-- TODO: 로그인 상태에 따라 다르게 표시 -->
+                    ${this.benefitCheck()}
                     <table class="product-info-table">
                         <tr>
                             <th>배송</th>
@@ -111,7 +110,7 @@ class ProductHeader extends LitElement {
                     </table>
                     <div class="product-total-price-box">
                         <div class="product-total-price">총 상품 금액:<span>${this.totalPrice.toLocaleString()}</span>원</div>
-                        <div>로그인 후, 적립 혜택 제공</div>
+                        ${this.benefitCheck()}
                     </div>
                     <div class="product-btn-box">
                         <c-button type="button" mode="outline">찜하기</c-button>
@@ -130,6 +129,13 @@ class ProductHeader extends LitElement {
                 </div>
             </div>
         `;
+    }
+
+    benefitCheck() {
+        if (this.isLogin) {
+            return this.product.benefit ? html`<p class="delivery-info">${this.product.benefit}</p>` : html``;
+        }
+        return html`<p class="delivery-info">로그인 후, 적립 혜택이 제공됩니다.</p>`;
     }
 }
 

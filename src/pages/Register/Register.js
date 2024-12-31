@@ -4,6 +4,8 @@ import { pb } from '@/api/PocketHost.js';
 import { LitElement, html } from 'lit';
 import { handleFindAddr } from '@/api/AddressApi.js';
 import swal from 'sweetalert2';
+import { navigate } from '@/utils/utils.js';
+
 class Register extends LitElement {
     static properties = {
         isFormValid: { type: Boolean },
@@ -101,7 +103,7 @@ class Register extends LitElement {
                             icon: 'success',
                             confirmButtonText: '확인',
                         }).then(() => {
-                            this.handleNavigate('/src/pages/Login/index.html');
+                            navigate('/src/pages/Login/index.html');
                         });
                     })
                     .catch(() => {
@@ -248,10 +250,6 @@ class Register extends LitElement {
         this.requiredChecked = Array.from(requiredCk).every((checkbox) => checkbox.checked);
     }
 
-    //페이지 이동 함수
-    handleNavigate(url) {
-        location.href = url;
-    }
     //html 구조
     render() {
         return html`
