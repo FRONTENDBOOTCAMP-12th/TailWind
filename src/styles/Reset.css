@@ -187,7 +187,7 @@ textarea {
     color: var(--white);
     font-size: var(--label---medium);
     margin-inline: 0.5rem;
-    background-color: var(--gray--500);
+    background-color: var(--primary);
 
     &:hover {
         outline: 2px solid var(--gray--200);
