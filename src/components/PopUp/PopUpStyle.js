@@ -9,14 +9,13 @@ export default css`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8); /* 배경을 검은색으로 설정 */
+        background-color: var(--gray--300);
         justify-content: center;
         align-items: center;
     }
 
-    /* 팝업 박스 스타일 */
     .popup-content {
-        background-color: black;
+        background-color: var(--black);
         width: 440px;
         height: 672px;
         display: flex;
@@ -28,42 +27,39 @@ export default css`
         overflow: auto;
     }
 
-    /* 텍스트를 가로 세로 중앙 정렬 */
     .popup-content p {
         margin-top: 20px;
         margin-bottom: 20px;
-        flex-grow: 1; /* 텍스트가 중앙에 위치하도록 성장 */
+        flex-grow: 1;
         display: flex;
-        justify-content: center; /* 세로 중앙 정렬 */
-        align-items: center; /* 가로 중앙 정렬 */
-        font-size: 20px; /* 글자 크기 크게 설정 */
-        letter-spacing: 2px; /* 자간을 조금 더 넓게 설정 */
-        color: white; /* 글자 색을 하얀색으로 변경 */
+        justify-content: center;
+        align-items: center;
+        font-size: 1.25rem;
+        letter-spacing: 0.125rem;
+        color: var(--white);
     }
 
     /* 버튼 스타일 */
     .popup-content button {
-        width: 1200%; /* 버튼의 너비를 100%로 설정 (팝업 너비에 맞게) */
-        height: 86px; /* 버튼의 높이를 86px로 설정 */
+        width: 100%;
+        height: 5.375rem;
         /* margin-top: 20px; */
         cursor: pointer;
-        background-color: #d3d3d3; /* 배경을 회색으로 설정 */
-        color: black; /* 글자 색을 검은색으로 설정 */
+        background-color: var(--gray--100);
+        color: black;
         border: none;
-        border-radius: 5px;
-        font-size: 18px;
+        border-radius: 0.3125rem;
+        font-size: 1.125rem;
         display: flex;
-        justify-content: center; /* 가로 중앙 정렬 */
-        align-items: center; /* 세로 중앙 정렬 */
+        justify-content: center;
+        align-items: center;
         transition: background-color 0.3s ease;
     }
 
-    /* 버튼 호버 효과 */
     .popup-content button:hover {
-        background-color: #a9a9a9; /* 호버 시 배경이 짙은 회색으로 변경 */
+        background-color: var(--gray--100);
     }
 
-    /* 하단 버튼들을 왼쪽과 오른쪽에 배치 */
     .button-container {
         display: flex;
         width: 100%;
@@ -71,6 +67,6 @@ export default css`
     }
 
     .button-container button {
-        width: 49.8%; /* 버튼을 각각 왼쪽, 오른쪽으로 배치 */
+        width: 49.8%;
     }
 `;

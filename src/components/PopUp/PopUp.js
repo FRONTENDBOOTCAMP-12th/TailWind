@@ -2,18 +2,26 @@ import { html, LitElement } from 'lit';
 import resetCss from '@/styles/Reset.js';
 import popupStyle from './PopUpStyle.js';
 
-class Popup extends LitElement {
+class PopUp extends LitElement {
     static styles = [resetCss, popupStyle];
+
     constructor() {
         super();
+        this.isHidden = false;
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
         this.isHidden = localStorage.getItem('dontShowPopupToday') === 'true';
     }
 
+    // 팝업 닫기
     closePopup() {
         this.isHidden = true;
         this.requestUpdate();
     }
 
+    // 오늘 하루 안 보기
     dontShowToday() {
         this.closePopup();
         localStorage.setItem('dontShowPopupToday', 'true');
@@ -21,7 +29,7 @@ class Popup extends LitElement {
 
     render() {
         return html`
-            <div class="popup">
+            <div class="popup" style="display: ${this.isHidden ? 'none' : 'flex'};">
                 <div class="popup-content">
                     <p>
                         해당 사이트는 <br />가시안이며 비 상업적 취업을 위한<br />
@@ -38,4 +46,6 @@ class Popup extends LitElement {
     }
 }
 
-customElements.define('pop-up', Popup);
+customElements.define('pop-up', PopUp);
+
+console.log(1);
