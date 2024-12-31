@@ -15,10 +15,7 @@ export default defineConfig({
                 productList: resolve(__dirname, 'src/pages/ProductList/index.html'),
                 productDetail: resolve(__dirname, 'src/pages/ProductDetail/index.html'),
                 cart: resolve(__dirname, 'src/pages/Cart/index.html'),
-<<<<<<< HEAD
-=======
                 searchResult: resolve(__dirname, 'src/pages/SearchResult/index.html'),
->>>>>>> dev
             },
         },
     },
