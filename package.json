@@ -17,6 +17,7 @@
         "gsap": "^3.12.5",
         "lit": "^3.2.1",
         "pocketbase": "^0.23.0",
-        "sweetalert2": "^11.15.3"
+        "sweetalert2": "^11.15.3",
+        "swiper": "^11.1.15"
     }
 }
