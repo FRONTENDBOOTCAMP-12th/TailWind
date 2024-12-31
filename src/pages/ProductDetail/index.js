@@ -7,6 +7,7 @@ import '@/layout/Footer/Footer.js';
 import { LitElement, html } from 'lit';
 import '@/components/ProductDetailTab/ProductDetailTab.js';
 import '@/layout/Header/Header.js';
+import '@/components/Spinner/Spinner.js';
 
 class ProductDetail extends LitElement {
     static properties = {
@@ -151,7 +152,7 @@ class ProductDetail extends LitElement {
                           ></product-detail-tab>
                       </div>
                   `
-                : html` <div>로딩중...</div> `}
+                : html`<c-spinner></c-spinner>`}
         `;
     }
 }
