@@ -335,8 +335,7 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideChilled}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
@@ -387,8 +386,7 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideFrozen}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
@@ -437,8 +435,7 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideTemperature}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
