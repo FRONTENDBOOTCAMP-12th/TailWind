@@ -3,10 +3,11 @@ import productDetailStyle from './ProductDetailStyle.js';
 import '@/components/ProductHeader/ProductHeader.js';
 import { pb } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
-import '@/components/Footer/Footer.js';
+import '@/layout/Footer/Footer.js';
 import { LitElement, html } from 'lit';
 import '@/components/ProductDetailTab/ProductDetailTab.js';
-import '@/layout/Header.js';
+import '@/layout/Header/Header.js';
+import '@/components/Spinner/Spinner.js';
 
 class ProductDetail extends LitElement {
     static properties = {
@@ -22,6 +23,7 @@ class ProductDetail extends LitElement {
         totalReviewPages: { type: Number },
         totalQnaPages: { type: Number },
         reviewSortOption: { type: String },
+        noticeList: { type: Array },
     };
 
     static styles = [resetCss, productDetailStyle];
@@ -40,6 +42,7 @@ class ProductDetail extends LitElement {
         this.totalReviewPages = 0;
         this.totalQnaPages = 0;
         this.reviewSortOption = 'latest';
+        this.noticeList = [];
     }
 
     connectedCallback() {
@@ -76,10 +79,15 @@ class ProductDetail extends LitElement {
 
     async fetchData() {
         try {
-            await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData()]);
+            await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData(), this.fetchNoticeData()]);
         } catch (error) {
             console.error('데이터 로드 실패', error);
         }
+    }
+
+    async fetchNoticeData() {
+        const noticeList = await pb.collection('notices').getFullList();
+        this.noticeList = noticeList;
     }
 
     handleModal(event) {
@@ -136,6 +144,7 @@ class ProductDetail extends LitElement {
                               @sort-change="${this.handleSort}"
                               .reviewList=${this.reviewList}
                               .qnaList=${this.qnaList}
+                              .noticeList=${this.noticeList}
                               .currentReviewPage=${this.currentReviewPage}
                               .currentQnaPage=${this.currentQnaPage}
                               .totalReviewPages=${this.totalReviewPages}
@@ -143,7 +152,7 @@ class ProductDetail extends LitElement {
                           ></product-detail-tab>
                       </div>
                   `
-                : html` <div>로딩중...</div> `}
+                : html`<c-spinner></c-spinner>`}
         `;
     }
 }

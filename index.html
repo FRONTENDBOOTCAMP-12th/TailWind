@@ -4,9 +4,11 @@
         <title>Vite Pure css</title>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-        <link rel="stylesheet" href="/src/styles/main.css" />
+        <link rel="stylesheet" href="/src/styles/Main.css" />
+        <link rel="stylesheet" href="/src/styles/Reset.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script type="module" src="/main.js"></script>
+        <script type="module" src="/src/components/BannerMiddle/BannerMiddle.js"></script>
         <link rel="stylesheet" href="/src/pages/mainpages/index.css" />
     </head>
     <body>
@@ -86,15 +88,7 @@
                 </li>
             </ul>
         </div>
-        <hr />
-        <!-- 배너 -->
-        <!-- 하이퍼 링크 나중에 추가하기 -->
-        <div class="banner2">
-            <img src="/assets/medium-banner.png" alt="10월 컬리마켓 할인 적립률 up + 3종 쿠폰팩" />
-        </div>
-
-        <hr />
-
+        <banner-middle></banner-middle>
         <div>
             <h3>놓치면 후회 할 가격</h3>
             <!-- 상품정보는 componets의 product-card를 get 예정 -->
@@ -157,6 +151,6 @@
 
         <hr />
 
-        <x-footer></x-footer>
+        <c-footer></c-footer>
     </body>
 </html>
