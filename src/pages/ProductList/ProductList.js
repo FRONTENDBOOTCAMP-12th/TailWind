@@ -107,6 +107,11 @@ class ProductListPage extends LitElement {
     handlePageChange(e) {
         this.currentPage = e.detail.page;
         this.updatePaginatedProducts();
+
+        // 스크롤을 최상단으로 이동
+        window.scrollTo({
+            top: 0,
+        });
     }
 
     connectedCallback() {
