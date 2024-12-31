@@ -9,6 +9,7 @@ export const SwiperStyles = css`
         align-items: center;
         width: 120rem;
         height: 23.125rem;
+        z-inex: 100;
 
         & img {
             max-width: 100%;

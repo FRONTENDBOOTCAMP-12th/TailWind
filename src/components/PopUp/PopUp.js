@@ -47,5 +47,3 @@ class PopUp extends LitElement {
 }
 
 customElements.define('pop-up', PopUp);
-
-console.log(1);
