@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit';
 import productSwiperStyle from './ProductSwiperStyle.js';
 import { register } from 'swiper/element/bundle';
 import '@/components/ProductCard/ProductCard.js';
-import resetCss from '@/styles/reset.js';
+import resetCss from '@/styles/Reset.js';
 import { pb } from '@/api/PocketHost.js';
 
 register();
