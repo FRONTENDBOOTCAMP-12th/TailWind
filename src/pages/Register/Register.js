@@ -374,19 +374,18 @@ class Register extends LitElement {
                         </span>
                         <span class="part-check">
                             <c-checkbox @checkbox-change=${this.handleReCheck} required>이용약관 동의(필수)</c-checkbox>
-                            <p>약관보기</p>
+                            <button>약관보기</button>
                         </span>
                         <span class="part-check"
                             ><c-checkbox @checkbox-change=${this.handleReCheck} required>개인정보 수집 · 이용 동의 (필수)</c-checkbox>
-                            <p>약관보기</p></span
+                            <button>약관보기</button></span
                         >
                         <span class="part-check"
-                            ><c-checkbox>무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)</c-checkbox>
-                            <p>약관보기</p></span
+                            ><c-checkbox>무료배송, 할인쿠폰 등 혜택/정보 수신 동의(선택)</c-checkbox> <button>약관보기</button></span
                         >
                         <span class="part-check"
                             ><c-checkbox @checkbox-change=${this.handleReCheck} required>본인은 만 14세 이상입니다. (필수)</c-checkbox>
-                            <p>약관보기</p></span
+                            <button>약관보기</button></span
                         >
                     </div>
                 </div>
