@@ -1,5 +1,5 @@
 import registerStyle from './RegisterStyle.js';
-import resetCss from '@/styles/reset.js';
+import resetCss from '@/styles/Reset.js';
 import { pb } from '@/api/PocketHost.js';
 import { LitElement, html } from 'lit';
 import { handleFindAddr } from '@/api/AddressApi.js';
