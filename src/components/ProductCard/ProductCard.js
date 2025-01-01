@@ -1,3 +1,4 @@
+import createAriaText from '@/components/AriaText/AriaText.js';
 import productCardStyle from './ProductCardStyle.js';
 import { fileUrl } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
@@ -68,7 +69,8 @@ class ProductCard extends LitElement {
                 <a href="/src/pages/ProductDetail/index.html?id=${this.idx['id']}" class="text-container">
                     <!-- 접근성을 고려햐여 할인된 가격과 원래 가격, 할인율이 각각 무엇에 해당하는지 명시 -->
                     <span class="special-desc">${this.idx['category']}</span>
-                    <h2 class="title">${this.idx['name']}</h2>
+                    <h3 class="title" aria-hidden="true">${this.idx['name']}</h3>
+                    <p class="sr-only">${createAriaText(this.idx['name'])}</p>
                     <div>
                         <!-- 할인율이 0이라면 불필요한 요소이므로 hidden처리 -->
                         <!-- sr-only 처리를 하여 screen reader가 읽을 수 있도록 유도 -->
@@ -92,7 +94,7 @@ class ProductCard extends LitElement {
 
                     <!-- 각각의 요소들이 true인 상태일때만 보이게 설정 -->
                     <div class="product-tag">
-                        <span ?hidden=${this.idx['karlyOnly']}>Karly Only</span>
+                        <span ?hidden=${this.idx['karlyOnly']}>NatureKart Only</span>
                         <span ?hidden=${this.idx['limitedQuantity']}>한정 수량</span>
                     </div>
                 </a>
