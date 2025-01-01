@@ -3,6 +3,7 @@ import '@/components/ProductSorting/ProductSorting.js';
 import productListStyle from './ProductListStyle.js';
 import '@/components/ProductCard/ProductCard.js';
 import '@/components/SideMenu/SideMenu.js';
+import '@/components/Spinner/Spinner.js';
 import { LitElement, html } from 'lit';
 import PocketBase from 'pocketbase';
 
@@ -19,6 +20,7 @@ class ProductListPage extends LitElement {
         currentPage: { type: Number },
         itemsPerPage: { type: Number },
         activeSortOrder: { type: String }, // 현재 활성화된 정렬 상태
+        loading: { type: Boolean },
     };
 
     constructor() {
@@ -30,17 +32,28 @@ class ProductListPage extends LitElement {
         this.currentPage = 1;
         this.itemsPerPage = 15;
         this.activeSortOrder = 'newest'; // 기본 정렬은 신상품순
+        this.loading = true;
     }
 
     async fetchProducts() {
-        const pb = new PocketBase(import.meta.env.VITE_API_URL);
-        const data = await pb.collection('product').getFullList();
-        this.products = data.map((item) => ({
-            ...item,
-            created: new Date(item.created), // 날짜 변환
-        }));
+        // loading spinner 사용을 위한 try catch
+        try {
+            this.loading = true;
+            const pb = new PocketBase(import.meta.env.VITE_API_URL);
+            const data = await pb.collection('product').getFullList();
+            this.products = data.map((item) => ({
+                ...item,
+                created: new Date(item.created), // 날짜 변환
+            }));
 
-        this.filteredProducts = [...this.products];
+            this.filteredProducts = [...this.products];
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setTimeout(() => {
+                this.loading = false;
+            }, 500);
+        }
 
         // 초기 정렬
         this.applySorting();
@@ -120,28 +133,35 @@ class ProductListPage extends LitElement {
     }
 
     render() {
-        return html`
-            <div class="container">
-                <div class="product-list-page">
-                    <h2 class="product-title">베스트</h2>
-                    <div>
-                        <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
-                        <div class="product-wrap">
-                            <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
-                            <div class="product-list">
-                                ${this.paginatedProducts.map((product) => html`<product-card idx=${JSON.stringify(product)}></product-card>`)}
+        if (this.loading) {
+            return html` <c-spinner></c-spinner>`;
+        } else {
+            return html`
+                <div class="container">
+                    <div class="product-list-page">
+                        <h2 class="product-title">베스트</h2>
+                        <div>
+                            <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                            <div class="product-wrap">
+                                <product-sorting
+                                    .productsNum="${this.filteredProducts.length}"
+                                    @sort-change="${this.handleSortChange}"
+                                ></product-sorting>
+                                <div class="product-list">
+                                    ${this.paginatedProducts.map((product) => html`<product-card idx=${JSON.stringify(product)}></product-card>`)}
+                                </div>
+                                <product-pagination
+                                    .totalItems="${this.filteredProducts.length}"
+                                    .itemsPerPage="${this.itemsPerPage}"
+                                    .currentPage="${this.currentPage}"
+                                    @page-change="${this.handlePageChange}"
+                                ></product-pagination>
                             </div>
-                            <product-pagination
-                                .totalItems="${this.filteredProducts.length}"
-                                .itemsPerPage="${this.itemsPerPage}"
-                                .currentPage="${this.currentPage}"
-                                @page-change="${this.handlePageChange}"
-                            ></product-pagination>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
     }
 }
 
