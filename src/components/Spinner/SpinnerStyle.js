@@ -8,11 +8,10 @@ export default css`
         border: 5px solid var(--white);
         border-bottom-color: var(--primary);
         border-radius: 50%;
-        display: inline-block;
         box-sizing: border-box;
         animation: rotation 1s linear infinite;
-        margin-left: 50vw;
-        margin-block: 300px;
+        margin-block: 35vh;
+        margin-inline: auto;
     }
 
     @keyframes rotation {
