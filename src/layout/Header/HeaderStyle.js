@@ -184,7 +184,7 @@ export default css`
             position: relative;
 
             .category-menu {
-                padding: 1rem 0;
+                padding: 2rem 0;
                 padding-right: 3rem;
             }
             .btn-category {
@@ -291,6 +291,10 @@ export default css`
 
             &.active {
                 transform: translateY(0);
+            }
+
+            .category-menu {
+                padding-block: 1rem;
             }
 
             .category-menu {
