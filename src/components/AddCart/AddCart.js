@@ -90,7 +90,11 @@ class AddCart extends LitElement {
                         </div>
                         <div class="saving-container">
                             <span class="saving">적립</span>
-                            <span class="saving-info">구매시 5원 적립</span>
+                            <span class="saving-info"
+                                >구매시
+                                ${Math.floor((this.idx['price'] - this.idx['price'] * this.idx['discount'] * 0.01) * this.itemQuantity * 0.001)}원
+                                적립</span
+                            >
                         </div>
                     </section>
                     <div class="add-confirm-container">
