@@ -143,18 +143,11 @@ class ProductDetailTab extends LitElement {
             <div class="tab-content">
                 <section id="description">
                     ${this.product.description_images.map(
-                        (img) => html`
-                            <img class="product-image" loading="lazy" src="${fileUrl + this.product.id + '/' + img}" alt="${this.product.name}" />
-                        `
+                        (img) => html` <img class="product-image" loading="lazy" src="${fileUrl + this.product.id + '/' + img}" alt="" /> `
                     )}
                 </section>
                 <section id="info">
-                    <img
-                        class="product-image"
-                        loading="lazy"
-                        src="${fileUrl + this.product.id + '/' + this.product.info_images}"
-                        alt="${this.product.name}"
-                    />
+                    <img class="product-image" loading="lazy" src="${fileUrl + this.product.id + '/' + this.product.info_images}" alt="" />
                 </section>
                 <section id="review">${this.renderReviewTable()}</section>
                 <section id="qna">${this.renderQnATable()}</section>
