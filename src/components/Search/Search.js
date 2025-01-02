@@ -9,11 +9,13 @@ class SearchBar extends LitElement {
 
     static properties = {
         inputValue: { type: String },
+        classType: { type: String },
     };
 
     constructor() {
         super();
         this.inputValue = '';
+        this.classType = '';
     }
 
     connectedCallback() {
@@ -29,6 +31,7 @@ class SearchBar extends LitElement {
 
     handleInput(e) {
         this.inputValue = e.target.value; // 검색 입력 값 업데이트
+        console.log(this.classType);
     }
 
     handleKeydown(e) {
@@ -53,10 +56,10 @@ class SearchBar extends LitElement {
                     @input=${this.handleInput}
                     @keydown=${this.handleKeydown}
                     id="search"
-                    class="inp-search"
+                    class="inp-search ${this.classType}"
                     placeholder="검색어를 입력해주세요"
                 />
-                <button type="button" class="btn-search" aria-label="검색하기" @click=${this.handleSearch}></button>
+                <button type="button" class="btn-search ${this.classType}" aria-label="검색하기" @click=${this.handleSearch}></button>
             </div>
         `;
     }
