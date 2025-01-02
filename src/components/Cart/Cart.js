@@ -1,3 +1,4 @@
+import { createAriaText } from '@/utils/util.js';
 import '@/components/IncDecComponent/IncDecComponent.js';
 import '@/components/CheckBox/CheckBox.js';
 import '@/components/Spinner/Spinner.js';
@@ -339,14 +340,16 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideChilled}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
@@ -390,14 +393,16 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideFrozen}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
@@ -439,14 +444,16 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideTemperature}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
