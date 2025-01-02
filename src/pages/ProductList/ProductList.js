@@ -50,9 +50,7 @@ class ProductListPage extends LitElement {
         } catch (err) {
             console.error(err);
         } finally {
-            setTimeout(() => {
-                this.loading = false;
-            }, 500);
+            this.loading = false;
         }
 
         // 초기 정렬

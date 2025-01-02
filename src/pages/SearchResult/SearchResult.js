@@ -46,9 +46,7 @@ class SearchResult extends LitElement {
         } catch (err) {
             console.error(err);
         } finally {
-            setTimeout(() => {
-                this.loading = false;
-            }, 500);
+            this.loading = false;
         }
     }
 
