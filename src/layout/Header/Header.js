@@ -158,10 +158,10 @@ class Header extends LitElement {
                         </h1>
                         <ul class="karly-menu">
                             <li class="active">
-                                <a href="/">마켓칼리</a>
+                                <a href="/">마켓</a>
                             </li>
                             <li>
-                                <a href="/">뷰티칼리</a>
+                                <a href="/">뷰티</a>
                             </li>
                         </ul>
                         <search-bar></search-bar>
