@@ -220,7 +220,7 @@ class Header extends LitElement {
                                 <a href="">특가/혜택</a>
                             </li>
                         </ul>
-                        <search-bar></search-bar>
+                        <search-bar classType="sticky"></search-bar>
                         <ul class="util-menu">
                             <li>
                                 <a href="/">

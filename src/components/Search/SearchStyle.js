@@ -4,6 +4,8 @@ export default css`
     .search-bar {
         position: relative;
         width: 25rem;
+        display: flex;
+        justify-content: center;
 
         .inp-search {
             padding: 0.8125rem 3.125rem 0.8125rem 1.25rem;
@@ -16,6 +18,10 @@ export default css`
 
             & ::placeholder {
                 color: var(--gray--400);
+            }
+
+            &.sticky {
+                width: 80%;
             }
         }
 
@@ -38,6 +44,10 @@ export default css`
             background-color: var(--color-white);
             border: none;
             cursor: pointer;
+
+            &.sticky {
+                right: 3.125rem;
+            }
         }
     }
 `;
