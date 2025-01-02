@@ -52,7 +52,9 @@ class ProductHeader extends LitElement {
     render() {
         return html`
             <div class="product-header">
-                <img class="product-image" src="${fileUrl + this.product.id + '/' + this.product.main_image}" alt="${this.product.name}" />
+                <img class="product-image" src="${fileUrl + this.product.id + '/' + this.product.main_image}" alt="${
+                    this.product.name
+                } 대표 이미지" />
 
                 <div class="product-info-wrapper">
                     <div class="delivery-type">${this.product.delivery}</div>

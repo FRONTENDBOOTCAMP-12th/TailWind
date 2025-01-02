@@ -7,7 +7,6 @@ import '@/layout/Footer/Footer.js';
 import { LitElement, html } from 'lit';
 import '@/components/ProductDetailTab/ProductDetailTab.js';
 import '@/layout/Header/Header.js';
-import '@/components/Spinner/Spinner.js';
 
 class ProductDetail extends LitElement {
     static properties = {
@@ -24,6 +23,7 @@ class ProductDetail extends LitElement {
         totalQnaPages: { type: Number },
         reviewSortOption: { type: String },
         noticeList: { type: Array },
+        loading: { type: Boolean },
     };
 
     static styles = [resetCss, productDetailStyle];
@@ -43,6 +43,7 @@ class ProductDetail extends LitElement {
         this.totalQnaPages = 0;
         this.reviewSortOption = 'latest';
         this.noticeList = [];
+        this.loading = true;
     }
 
     connectedCallback() {
@@ -80,6 +81,7 @@ class ProductDetail extends LitElement {
     async fetchData() {
         try {
             await Promise.all([this.fetchProductData(), this.fetchReviewData(), this.fetchQnaData(), this.fetchNoticeData()]);
+            this.loading = false;
         } catch (error) {
             console.error('데이터 로드 실패', error);
         }
@@ -128,15 +130,32 @@ class ProductDetail extends LitElement {
 
     render() {
         return html`
-            ${this.product && this.reviewList && this.qnaList
-                ? html`
-                      <product-detail-modal
-                          ?isOpen=${this.modalOpen}
-                          modalTitle=${this.modalTitle}
-                          ?isQuestion=${this.isQuestion}
-                          @modal-closed="${this.handleModalClosed}"
-                      ></product-detail-modal>
-                      <div class="product-detail-container">
+            <div class="product-detail-container">
+                ${this.loading
+                    ? html`
+                          <div class="skeleton-container">
+                              <!-- ProductHeader 스켈레톤 -->
+                              <div class="header-skeleton">
+                                  <div class="image-skeleton"></div>
+                                  <div class="info-skeleton">
+                                      <div class="title-skeleton"></div>
+                                      <div class="price-skeleton"></div>
+                                      <div class="description-skeleton"></div>
+                                  </div>
+                              </div>
+
+                              <!-- ProductDetailTab 스켈레톤 -->
+                              <div class="tab-skeleton">
+                                  <div class="tab-buttons-skeleton">
+                                      <div class="tab-button-skeleton"></div>
+                                      <div class="tab-button-skeleton"></div>
+                                      <div class="tab-button-skeleton"></div>
+                                  </div>
+                                  <div class="tab-content-skeleton"></div>
+                              </div>
+                          </div>
+                      `
+                    : html`
                           <product-header></product-header>
                           <product-detail-tab
                               @open-modal="${this.handleModal}"
@@ -150,9 +169,17 @@ class ProductDetail extends LitElement {
                               .totalReviewPages=${this.totalReviewPages}
                               .totalQnaPages=${this.totalQnaPages}
                           ></product-detail-tab>
-                      </div>
-                  `
-                : html`<c-spinner></c-spinner>`}
+                      `}
+            </div>
+
+            ${this.modalOpen
+                ? html`<product-detail-modal
+                      ?isOpen=${this.modalOpen}
+                      modalTitle=${this.modalTitle}
+                      ?isQuestion=${this.isQuestion}
+                      @modal-closed="${this.handleModalClosed}"
+                  ></product-detail-modal>`
+                : null}
         `;
     }
 }
