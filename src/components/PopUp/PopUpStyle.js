@@ -5,11 +5,8 @@ export default css`
     .popup {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--gray--300);
+        top: 40px;
+        left: 170px;
         justify-content: center;
         align-items: center;
         z-index: 100;
