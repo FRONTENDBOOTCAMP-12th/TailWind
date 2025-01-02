@@ -154,7 +154,11 @@ class Header extends LitElement {
                                         <source srcset="/assets/ico-header-cart1x.webp 1x, /assets/ico-header-cart2x.webp 2x" />
                                         <img src="/assets/ico-header-cart.png" alt="장바구니" />
                                     </picture>
-                                    <em class="cart-in" aria-live="assertive" aria-atomic="true" aria-label="장바구니에 담긴 상품 개수"
+                                    <em
+                                        class="cart-in ${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length === 0 ? 'sr-only' : ''}"
+                                        aria-live="assertive"
+                                        aria-atomic="true"
+                                        aria-label="장바구니에 담긴 상품 개수"
                                         >${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length}</em
                                     >
                                 </a>
