@@ -11,6 +11,7 @@ export default css`
         padding-block: 0.5rem;
         color: var(--content);
         font-weight: 600;
+        transition: transform 0.1s ease;
 
         & img {
             width: 1.5rem;
@@ -31,6 +32,7 @@ export default css`
     a:focus {
         background-color: var(--gray--100);
         color: var(--primary);
+        transform: scale(1.02);
 
         & img {
             filter: hue-rotate(0deg);
