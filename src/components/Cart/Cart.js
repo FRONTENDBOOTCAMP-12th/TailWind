@@ -266,7 +266,7 @@ class Cart extends LitElement {
                             icon: 'success',
                             timer: 3000,
                         }).then(() => {
-                            location.href = '/src/pages/MainPages/index.html';
+                            location.href = '/';
                         });
 
                         // data에 정보를 저장해서 api 전송
