@@ -1,4 +1,4 @@
-import createAriaText from '@/components/AriaText/AriaText.js';
+import { createAriaText } from '@/utils/util.js';
 import '@/components/IncDecComponent/IncDecComponent.js';
 import '@/components/CheckBox/CheckBox.js';
 import '@/components/Spinner/Spinner.js';

@@ -1,4 +1,4 @@
-import createAriaText from '@/components/AriaText/AriaText.js';
+import { createAriaText } from '@/utils/utils.js';
 import productCardStyle from './ProductCardStyle.js';
 import { fileUrl } from '@/api/PocketHost.js';
 import resetCss from '@/styles/Reset.js';
