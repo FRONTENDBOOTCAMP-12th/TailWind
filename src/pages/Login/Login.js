@@ -94,7 +94,6 @@ class Login extends LitElement {
 
     handleKeydown(e) {
         if (e.key === 'Enter') {
-            // Enter 키를 누르면 검색버튼이 실행되게 한다.
             this.handleLogin();
         }
     }
