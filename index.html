@@ -22,20 +22,12 @@
         <link rel="stylesheet" href="/src/styles/Reset.css" />
         <link rel="stylesheet" href="/src/styles/Main.css" />
         <script type="module" src="/main.js"></script>
-        <script type="module" src="/src/components/ProductSwiper/ProductSwiper.js"></script>
-        <script type="module" src="/src/components/BannerMiddle/BannerMiddle.js"></script>
-        <script type="module" src="/src/components/swiper/swiper.js"></script>
-        <script type="module" src="/src/components/PopUp/PopUp.js"></script>
     </head>
     <body>
         <c-header></c-header>
-        <div id="app"></div>
-
-        <pop-up></pop-up>
-        <banner-swiper></banner-swiper>
-        <c-swiper>이 상품 어때요?</c-swiper>
-        <banner-middle></banner-middle>
-        <c-swiper sort="-discount">놓치면 후회할 가격</c-swiper>
+        <div id="app">
+            <app-root></app-root>
+        </div>
 
         <hr />
 
