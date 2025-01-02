@@ -6,6 +6,7 @@ import tabStyle from './ProductDetailTabStyle.js';
 import '@/components/Badge/Badge.js';
 import swal from 'sweetalert2';
 import { navigate } from '@/utils/utils.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 class ProductDetailTab extends LitElement {
     static styles = [resetCss, tabStyle];
@@ -201,7 +202,7 @@ class ProductDetailTab extends LitElement {
                                       <tr class="expanded-content">
                                           <td colspan="2">
                                               <div class="question">
-                                                  <p>${notice.contents}</p>
+                                                  <p>${unsafeHTML(notice.contents)}</p>
                                               </div>
                                           </td>
                                       </tr>
@@ -218,7 +219,7 @@ class ProductDetailTab extends LitElement {
                                       </td>
                                       <td class="review-content-wrapper">
                                           <h4 class="review-title">${review.title}</h4>
-                                          <div class="review-contents">${review.contents}</div>
+                                          <div class="review-contents">${unsafeHTML(review.contents)}</div>
                                           <div class="review-date">${new Date(review.created).toLocaleDateString()}</div>
                                       </td>
                                   </tr>
@@ -270,7 +271,7 @@ class ProductDetailTab extends LitElement {
                                       <tr class="expanded-content">
                                           <td colspan="4">
                                               <div class="question">
-                                                  <p>${notice.contents}</p>
+                                                  <p>${unsafeHTML(notice.contents)}</p>
                                               </div>
                                           </td>
                                       </tr>
@@ -302,13 +303,13 @@ class ProductDetailTab extends LitElement {
                                                     <td colspan="4">
                                                         <div class="question">
                                                             <span class="q-icon">Q</span>
-                                                            <p>${qna.contents}</p>
+                                                            <p>${unsafeHTML(qna.contents)}</p>
                                                         </div>
                                                         ${qna.answer
                                                             ? html`
                                                                   <div class="answer">
                                                                       <span class="a-icon">A</span>
-                                                                      <p>${qna.answer}</p>
+                                                                      <p>${unsafeHTML(qna.answer)}</p>
                                                                   </div>
                                                               `
                                                             : ''}

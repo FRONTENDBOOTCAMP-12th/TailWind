@@ -124,7 +124,7 @@ html {
     /* Enable antialiasing */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: Pretendard, Pretendard, sans-serif;
+    font-family: Pretendard, sans-serif;
 }
 
 ol,
