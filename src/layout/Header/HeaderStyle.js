@@ -138,16 +138,17 @@ export default css`
                 position: absolute;
                 top: 0;
                 right: 0;
-                display: block;
-                width: 0.8125rem;
-                height: 0.8125rem;
+                display: flex;
+                width: 1rem;
+                height: 1rem;
                 border-radius: 50%;
                 background: var(--accent--yellow);
                 color: var(--white);
                 font-size: 0.75rem;
                 line-height: 1.4;
                 font-weight: 600;
-                text-align: center;
+                align-items: center;
+                justify-content: center;
             }
         }
 
