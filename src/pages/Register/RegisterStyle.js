@@ -94,9 +94,9 @@ export default css`
                     color: var(--primary);
                     font-size: var(--paragraph---small);
                     background: url(/assets/Arrow.svg) right top 0px / 6px auto no-repeat;
+                }
             }
         }
-
         & c-button[type='submit'] {
             padding: 2.5rem 0;
             width: 21.25rem;

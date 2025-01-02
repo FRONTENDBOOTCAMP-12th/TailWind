@@ -109,6 +109,7 @@ class Login extends LitElement {
                 <label for="pwField" class="sr-only">비밀번호</label>
                 <c-input
                     placeholder="비밀번호"
+                    inputType="password"
                     id="pwField"
                     @input="${this.handleInput}"
                     errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
