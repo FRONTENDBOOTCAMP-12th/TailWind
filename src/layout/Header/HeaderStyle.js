@@ -83,6 +83,9 @@ export default css`
             .header-logo a {
                 display: block;
                 width: 5.125rem;
+                img {
+                    width: 82px;
+                }
             }
 
             .karly-menu {
