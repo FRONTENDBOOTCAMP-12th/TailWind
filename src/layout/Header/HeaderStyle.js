@@ -270,10 +270,8 @@ export default css`
                 padding-bottom: 0.875rem;
             }
 
-            &search-bar::part(.inp-search) {
-                width: 50px;
-                height: 50px;
-                font-size: 16px;
+            .gnb-menu li {
+                width: 130px;
             }
         }
     }

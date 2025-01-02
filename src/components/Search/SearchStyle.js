@@ -3,13 +3,16 @@ import { css } from 'lit';
 export default css`
     .search-bar {
         position: relative;
-        width: 25rem;
         display: flex;
         justify-content: center;
 
+        &.sticky {
+            margin-bottom: 0.875rem;
+        }
+
         .inp-search {
             padding: 0.8125rem 3.125rem 0.8125rem 1.25rem;
-            width: 100%;
+            width: 25rem;
             height: 3.75rem;
             border: 1px solid var(--primary);
             border-radius: 0.25rem;
@@ -21,7 +24,10 @@ export default css`
             }
 
             &.sticky {
-                width: 80%;
+                margin-bottom: 0.875rem;
+                width: 14rem;
+                height: 46px;
+                font-size: 0.875rem;
             }
         }
 
@@ -46,7 +52,8 @@ export default css`
             cursor: pointer;
 
             &.sticky {
-                right: 3.125rem;
+                top: 1.375rem;
+                right: 0.7rem;
             }
         }
     }
