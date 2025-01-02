@@ -22,12 +22,12 @@ ID : littlestar58 / PW : likelion@123
 
 ### 조원 소개
 
-|     이름      |                   권태일                    |                 김나은                  |                   김지명                    |                       노종국                        |                이영범                 |
-| :-----------: | :-----------------------------------------: | :-------------------------------------: | :-----------------------------------------: | :-------------------------------------------------: | :-----------------------------------: |
-|     역할      |                    조장                     |                  조원                   |                    조원                     |                        조원                         |                 조원                  |
-| 컴포넌트 분배 |                    모달                     |                  푸터                   |                    헤더                     |                      상품카드                       |            팝업 & 사이드바            |
-|   개발 분배   |              상품 상세 페이지               |            로그인 & 회원가입            |              상품리스트 & 검색              |                      장바구니                       |              메인페이지               |
-|    github     | [workerKwon](https://github.com/workerKwon) | [betteree](https://github.com/betteree) | [jimyeong21](https://github.com/jimyeong21) | [Littlestar0508](https://github.com/Littlestar0508) | [lyb9030](https://github.com/lyb9030) |
+|       이름        |                   권태일                    |                 김나은                  |                   김지명                    |                       노종국                        |                이영범                 |
+| :---------------: | :-----------------------------------------: | :-------------------------------------: | :-----------------------------------------: | :-------------------------------------------------: | :-----------------------------------: |
+|       역할        |                    조장                     |                  조원                   |                    조원                     |                        조원                         |                 조원                  |
+| 컴포넌트 <br>분배 |                    모달                     |                  푸터                   |                    헤더                     |                      상품카드                       |          팝업 & <br>사이드바          |
+|   개발 <br>분배   |            상품 상세 <br>페이지             |         로그인 & <br> 회원가입          |           상품리스트 <br> & 검색            |                      장바구니                       |              메인페이지               |
+|      github       | [workerKwon](https://github.com/workerKwon) | [betteree](https://github.com/betteree) | [jimyeong21](https://github.com/jimyeong21) | [Littlestar0508](https://github.com/Littlestar0508) | [lyb9030](https://github.com/lyb9030) |
 
 ### 팀명
 
@@ -35,8 +35,18 @@ ID : littlestar58 / PW : likelion@123
 
 ### 프로젝트 내 목표
 
--   싸우는 것은 절대 허락되지 않는 조
--   깔끔하고 완성도 있는 페이지로 구현
+-   원활한 협업
+
+    -   서로를 존중하는 태도로 커뮤니케이션에 임할 것
+    -   적절한 소통과 의견조율을 통해 사이좋게 개발할 것
+
+-   웹 접근성 준수
+
+    -   차별없이 누구나 이용할 수 있는 웹 사이트를 구축할 것
+
+-   유효한 기능 개발
+    -   코드 품질 향상세 신경 쓸 것
+    -   정상적으로 동작하는 기능을 구현할 것
 
 ## 프로젝트 소개
 
@@ -57,16 +67,9 @@ ID : littlestar58 / PW : likelion@123
 
 ### 사용된 기술
 
-<img alt="git" src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-<img alt="github" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> 
-<img alt="figma" src="https://img.shields.io/badge/Figma-1572B6?style=for-the-badge&logo=figma&logoColor=white">
-<img alt="vscode" src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white">
+<img alt="git" src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img alt="github" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img alt="figma" src="https://img.shields.io/badge/Figma-1572B6?style=for-the-badge&logo=figma&logoColor=white"><img alt="vscode" src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white">
 
-<img alt="html5" src="https://img.shields.io/badge/html5-F05032?style=for-the-badge&logo=html5&logoColor=white">
-<img alt="lit" src="https://img.shields.io/badge/lit-F7DF1E?style=for-the-badge&logo=lit&logoColor=black">
- <img alt="css" src="https://img.shields.io/badge/css-181717?style=for-the-badge&logo=css3&logoColor=white"> 
- <img alt="javascript" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img alt="vite" src="https://img.shields.io/badge/vite-5c2d91?style=for-the-badge&logo=vite&logoColor=black">
+<img alt="html5" src="https://img.shields.io/badge/html5-F05032?style=for-the-badge&logo=html5&logoColor=white"><img alt="lit" src="https://img.shields.io/badge/lit-F7DF1E?style=for-the-badge&logo=lit&logoColor=black"> <img alt="css" src="https://img.shields.io/badge/css-181717?style=for-the-badge&logo=css3&logoColor=white"> <img alt="javascript" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><img alt="vite" src="https://img.shields.io/badge/vite-5c2d91?style=for-the-badge&logo=vite&logoColor=black">
 
 ### 시안
 
@@ -131,3 +134,9 @@ ID : littlestar58 / PW : likelion@123
      ┃ ┗ 📂SearchResult
      ┣ 📂Styles
      ┗ 📂Utils
+
+</details>
+
+### 사이트 맵
+
+???
