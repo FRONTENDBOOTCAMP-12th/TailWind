@@ -194,6 +194,9 @@ export default css`
                 border-inline: 1px solid var(--gray--100);
                 /* 배경색과 메뉴바 배경색이 같아 경게를 위해 추가 */
                 /* 추후 삭제 예정 */
+                max-height: 530px;
+                overflow-y: auto;
+                overflow-x: hidden;
             }
 
             .gnb-menu {
@@ -207,6 +210,11 @@ export default css`
 
                     & a {
                         text-decoration: none;
+
+                        &:hover {
+                            color: var(--primary);
+                            text-decoration: underline;
+                        }
                     }
                 }
             }

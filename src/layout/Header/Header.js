@@ -1,4 +1,4 @@
-import '@/components/Header/CategoryList.js';
+import '@/components/CategoryList/CategoryList.js';
 import '@/components/Search/Search.js';
 import headerStyle from './HeaderStyle.js';
 import resetCss from '@/styles/Reset.js';

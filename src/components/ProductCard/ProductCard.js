@@ -13,12 +13,14 @@ class ProductCard extends LitElement {
         idx: { type: Object, attribute: 'idx' },
         hidden: { type: Boolean },
         isModalOpen: { type: Boolean },
+        imageLoaded: { type: Boolean },
     };
 
     constructor() {
         super();
         this.hidden = false;
         this.isModalOpen = false;
+        this.imageLoaded = false;
     }
 
     // 스타일 지정
@@ -35,35 +37,53 @@ class ProductCard extends LitElement {
         e.target.hidePopover();
     }
 
+    connectedCallback() {
+        super.connectedCallback();
+        this.preloadImage();
+    }
+
+    preloadImage() {
+        const img = new Image();
+        img.onload = () => {
+            this.imageLoaded = true;
+            this.requestUpdate();
+        };
+        img.src = `${fileUrl}${this.idx.id}/${this.idx.main_image}`;
+    }
+
     // HTML 렌더 부분
     render() {
         return html`
             <section class="product-card-container">
                 <div class="img-container">
-                    <img
-                        src="${fileUrl + this.idx['id'] + '/' + this.idx['main_image']}"
-                        alt="${createAriaText(this.idx['name'])} 이미지"
-                        class="product-img"
-                        @click=${this.handleClick}
-                    />
-                    <!-- 모달 오픈을 위한 버튼 -->
-                    <button
-                        type="button"
-                        popovertarget="popup"
-                        popovertargetaction="toggle"
-                        aria-label="장바구니에 추가하기"
-                        class="save-item"
-                        @click=${this.handleOpenCartModal}
-                    ></button>
+                    ${!this.imageLoaded
+                        ? html`<div class="image-skeleton"></div>`
+                        : html`
+                              <img
+                                  src="${fileUrl + this.idx['id'] + '/' + this.idx['main_image']}"
+                                  alt="${createAriaText(this.idx['name'])} 이미지"
+                                  class="product-img"
+                                  @click=${this.handleClick}
+                              />
+                              <!-- 모달 오픈을 위한 버튼 -->
+                              <button
+                                  type="button"
+                                  popovertarget="popup"
+                                  popovertargetaction="toggle"
+                                  aria-label="장바구니에 추가하기"
+                                  class="save-item"
+                                  @click=${this.handleOpenCartModal}
+                              ></button>
 
-                    <!-- 장바구니 담기 모달 컴포넌트 -->
-                    <add-cart
-                        popover
-                        id="popup"
-                        ?isModalOpen=${this.isModalOpen}
-                        idx=${JSON.stringify(this.idx)}
-                        @modal-close=${this.closeModal}
-                    ></add-cart>
+                              <!-- 장바구니 담기 모달 컴포넌트 -->
+                              <add-cart
+                                  popover
+                                  id="popup"
+                                  ?isModalOpen=${this.isModalOpen}
+                                  idx=${JSON.stringify(this.idx)}
+                                  @modal-close=${this.closeModal}
+                              ></add-cart>
+                          `}
                 </div>
 
                 <!-- 제품 상세 페이지 연결 링크 -->
