@@ -15,6 +15,7 @@ export function handleFindAddr(inputs, userId) {
             // 외부로부터 받은 inputs 객체를 업데이트
             inputs['addressField'] = addr;
 
+            // 이메일 주소를 pockethost를 통해 업데이트
             if (userId) {
                 try {
                     pb.collection('user_address').create({
