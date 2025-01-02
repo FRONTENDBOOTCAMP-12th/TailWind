@@ -92,6 +92,12 @@ class Login extends LitElement {
         }
     }
 
+    handleKeydown(e) {
+        if (e.key === 'Enter') {
+            // Enter 키를 누르면 검색버튼이 실행되게 한다.
+            this.handleLogin();
+        }
+    }
     render() {
         return html` <div class="login-container">
             <h2 class="login-title">로그인</h2>
@@ -105,6 +111,7 @@ class Login extends LitElement {
                     errorMessage="숫자만 입력 불가능, 6자 이상"
                     .validation=${/^(?=.*\D).{6,}$/}
                     required
+                    @keydown="${this.handleKeydown}"
                 ></c-input>
                 <label for="pwField" class="sr-only">비밀번호</label>
                 <c-input
@@ -115,6 +122,7 @@ class Login extends LitElement {
                     errorMessage="특수문자 포함 최소 6자 이상 16자 이하의 영문"
                     .validation=${/^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,16}$/}
                     required
+                    @keydown="${this.handleKeydown}"
                 ></c-input>
 
                 <span class="find-st">
@@ -123,7 +131,7 @@ class Login extends LitElement {
                     <a href="/">비밀번호 찾기</a>
                 </span>
 
-                <c-button type="submit" mode="fill" size="btn-md" @click="${this.handleLogin}">로그인</c-button>
+                <c-button type="submit" mode="fill" size="btn-md" @click="${this.handleLogin}" @keydown="${this.handleKeydown}">로그인</c-button>
                 <c-button type="link" mode="outline" size="btn-md" @click="${() => this.handleNavigate('/src/pages/Register/index.html')}"
                     >회원가입</c-button
                 >
