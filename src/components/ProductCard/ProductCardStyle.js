@@ -10,6 +10,18 @@ export default css`
     .img-container {
         position: relative;
         width: 15.5626rem;
+        height: 324px;
+
+        .image-skeleton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
 
         .product-img {
             /* 해당 컴포넌트에 맞는 사이즈로 조정 */
@@ -113,6 +125,15 @@ export default css`
                 border-radius: 0.25rem;
                 color: var(--content);
             }
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
         }
     }
 `;

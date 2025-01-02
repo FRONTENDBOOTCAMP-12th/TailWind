@@ -131,35 +131,51 @@ class ProductListPage extends LitElement {
     }
 
     render() {
-        if (this.loading) {
-            return html` <c-spinner></c-spinner>`;
-        } else {
-            return html`
-                <div class="container">
-                    <div class="product-list-page">
-                        <h2 class="product-title">베스트</h2>
-                        <div>
-                            <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
-                            <div class="product-wrap">
-                                <product-sorting
-                                    .productsNum="${this.filteredProducts.length}"
-                                    @sort-change="${this.handleSortChange}"
-                                ></product-sorting>
-                                <div class="product-list">
-                                    ${this.paginatedProducts.map((product) => html`<product-card idx=${JSON.stringify(product)}></product-card>`)}
-                                </div>
-                                <product-pagination
-                                    .totalItems="${this.filteredProducts.length}"
-                                    .itemsPerPage="${this.itemsPerPage}"
-                                    .currentPage="${this.currentPage}"
-                                    @page-change="${this.handlePageChange}"
-                                ></product-pagination>
+        return html`
+            <div class="container">
+                <div class="product-list-page">
+                    <h2 class="product-title">베스트</h2>
+                    <div>
+                        <side-menu @category-change="${this.handleCategoryChange}"></side-menu>
+                        <div class="product-wrap">
+                            <product-sorting .productsNum="${this.filteredProducts.length}" @sort-change="${this.handleSortChange}"></product-sorting>
+                            <div class="product-list">
+                                ${this.loading
+                                    ? this.renderSkeletons()
+                                    : html`
+                                          ${this.paginatedProducts.map(
+                                              (product) => html`<product-card idx=${JSON.stringify(product)}></product-card>`
+                                          )}
+                                      `}
                             </div>
+                            <product-pagination
+                                .totalItems="${this.filteredProducts.length}"
+                                .itemsPerPage="${this.itemsPerPage}"
+                                .currentPage="${this.currentPage}"
+                                @page-change="${this.handlePageChange}"
+                            ></product-pagination>
                         </div>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
+    }
+
+    renderSkeletons() {
+        return Array(15)
+            .fill(0)
+            .map(
+                () => html`
+                    <div class="product-card-skeleton">
+                        <div class="image-skeleton"></div>
+                        <div class="content-skeleton">
+                            <div class="title-skeleton"></div>
+                            <div class="price-skeleton"></div>
+                            <div class="description-skeleton"></div>
+                        </div>
+                    </div>
+                `
+            );
     }
 }
 
