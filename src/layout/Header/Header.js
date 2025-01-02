@@ -50,6 +50,7 @@ class Header extends LitElement {
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: 'gray',
             confirmButtonText: '로그아웃',
             cancelButtonText: '취소',
         }).then(({ isConfirmed }) => {
@@ -68,6 +69,7 @@ class Header extends LitElement {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: 'gray',
             confirmButtonText: '탈퇴하기',
             cancelButtonText: '취소',
         }).then(async ({ isConfirmed }) => {

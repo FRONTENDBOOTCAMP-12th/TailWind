@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ko-KR">
     <head>
-        <title>Vite Pure css</title>
+        <title>네이처카트</title>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="태일윈드 네이처카트 메인 페이지입니다." />
         <!-- 필수 Open Graph 태그 -->
@@ -19,11 +20,10 @@
         <meta name="twitter:description" content="태일윈드 네이처카트 메인 페이지입니다." />
         <meta name="twitter:image" content="https://carly-tailwind.netlify.app/logo.svg" />
 
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/variable/pretendardvariable.min.css" />
         <link rel="stylesheet" href="/src/styles/Reset.css" />
         <link rel="stylesheet" href="/src/styles/Main.css" />
         <script type="module" src="/main.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/variable/pretendardvariable.min.css" />
         <script type="module" src="/src/components/ProductSwiper/ProductSwiper.js"></script>
         <script type="module" src="/src/components/BannerMiddle/BannerMiddle.js"></script>
         <script type="module" src="/src/components/swiper/swiper.js"></script>
@@ -39,7 +39,7 @@
         <banner-swiper></banner-swiper>
         <c-swiper>이 상품 어때요?</c-swiper>
         <banner-middle></banner-middle>
-        <c-swiper>놓치면 후회할 가격</c-swiper>
+        <c-swiper sort="-discount">놓치면 후회할 가격</c-swiper>
 
         <hr />
 

@@ -6,7 +6,7 @@ class Spinner extends LitElement {
     static styles = [resetCss, spinnerStyle];
 
     render() {
-        return html`<div class="loader"></div>`;
+        return html` <div class="loader"></div> `;
     }
 }
 
