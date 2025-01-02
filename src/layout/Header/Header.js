@@ -9,10 +9,16 @@ class Header extends LitElement {
     static properties = {
         isAuth: { type: Boolean },
         user: { type: Object },
+        cartItems: { type: Object },
     };
 
     static get styles() {
         return [resetCss, headerStyle];
+    }
+
+    constructor() {
+        super();
+        this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
     }
 
     connectedCallback() {
@@ -168,11 +174,11 @@ class Header extends LitElement {
                                         <img src="/assets/ico-header-cart.png" alt="장바구니" />
                                     </picture>
                                     <em
-                                        class="cart-in ${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length > 0 ? '' : 'sr-only'}"
+                                        class="cart-in ${Object.keys(this.cartItems).length > 0 ? '' : 'sr-only'}"
                                         aria-live="assertive"
                                         aria-atomic="true"
                                         aria-label="장바구니에 담긴 상품 개수"
-                                        >${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length}</em
+                                        >${Object.keys(this.cartItems).length}</em
                                     >
                                 </a>
                             </li>
@@ -253,11 +259,11 @@ class Header extends LitElement {
                                         <img src="/assets/ico-header-cart.png" alt="장바구니" />
                                     </picture>
                                     <em
-                                        class="cart-in ${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length > 0 ? '' : 'sr-only'}"
+                                        class="cart-in ${(Object.keys(this.cartItems).length ?? 0) > 0 ? '' : 'sr-only'}"
                                         aria-live="assertive"
                                         aria-atomic="true"
                                         aria-label="장바구니에 담긴 상품 개수"
-                                        >${Object.keys(JSON.parse(localStorage.getItem('cartItems'))).length}</em
+                                        >${Object.keys(this.cartItems).length}</em
                                     >
                                 </a>
                             </li>
