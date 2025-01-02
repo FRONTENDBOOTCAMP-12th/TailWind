@@ -67,9 +67,9 @@ ID : littlestar58 / PW : likelion@123
 
 ### 사용된 기술
 
-<img alt="git" src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img alt="github" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img alt="figma" src="https://img.shields.io/badge/Figma-1572B6?style=for-the-badge&logo=figma&logoColor=white"><img alt="vscode" src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white">
+<img alt="git" src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img alt="github" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img alt="figma" src="https://img.shields.io/badge/Figma-1572B6?style=for-the-badge&logo=figma&logoColor=white"> <img alt="vscode" src="https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white">
 
-<img alt="html5" src="https://img.shields.io/badge/html5-F05032?style=for-the-badge&logo=html5&logoColor=white"><img alt="lit" src="https://img.shields.io/badge/lit-F7DF1E?style=for-the-badge&logo=lit&logoColor=black"> <img alt="css" src="https://img.shields.io/badge/css-181717?style=for-the-badge&logo=css3&logoColor=white"> <img alt="javascript" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><img alt="vite" src="https://img.shields.io/badge/vite-5c2d91?style=for-the-badge&logo=vite&logoColor=black">
+<img alt="html5" src="https://img.shields.io/badge/html5-F05032?style=for-the-badge&logo=html5&logoColor=white"> <img alt="lit" src="https://img.shields.io/badge/lit-F7DF1E?style=for-the-badge&logo=lit&logoColor=black"> <img alt="css" src="https://img.shields.io/badge/css-181717?style=for-the-badge&logo=css3&logoColor=white"> <img alt="javascript" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img alt="vite" src="https://img.shields.io/badge/vite-5c2d91?style=for-the-badge&logo=vite&logoColor=black">
 
 ### 시안
 
@@ -137,6 +137,78 @@ ID : littlestar58 / PW : likelion@123
 
 </details>
 
-### 사이트 맵
+### 주요 기능 구성
 
-???
+<img src="./public/assets/md-map.png" width="800">
+
+### 주요 기능 시현
+
+| 제목         | 상세설명                                                                                                                                                              |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 주제         | [메인페이지-팝업창]()                                                                                                                                                 |
+| 동작 화면    | <img src="./public/assets/md-popup.gif"  width="500">                                                                                                                 |
+| 기능 및 구현 | - 홈페이지 접속시 팝업창이 자동으로 노출 <br> - 닫기를 누를 경우 팝업창이 정상적으로 닫아 짐 <br> - 하루 안 보기를 누르면 홈페이지를 새로고침 해도 팝업이 나오지 않음 |
+
+<br>
+
+| 제목         | 상세설명                                                     |
+| ------------ | ------------------------------------------------------------ |
+| 주제         | [메인페이지-스와이퍼]()                                      |
+| 동작 화면    | <img src="./public/assets/md-swiper.gif"  width="500">       |
+| 기능 및 구현 | - 메인 배너 스와이퍼 작동 <br> - 상품 카테고리 스와이퍼 작동 |
+
+<br>
+
+| 제목         | 상세설명                                                                          |
+| ------------ | --------------------------------------------------------------------------------- |
+| 주제         | [메인페이지-검색]()                                                               |
+| 동작 화면    | <img src="./public/assets/md-search.gif"  width="500">                            |
+| 기능 및 구현 | - 메인 검색창에서 제품 검색 가능 <br> - 검색된 제품 클릭하여 상세페이지 접속 가능 |
+
+<br>
+
+| 제목         | 상세설명                                                                                                                                 |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 주제         | [상품페이지-정렬]()                                                                                                                      |
+| 동작 화면    | <img src="./public/assets/md-sorting.gif"  width="500">                                                                                  |
+| 기능 및 구현 | - 상품의 다음 페이지로 이동 가능 <br> - 상단의 신상품순, 낮은가격순, 높은가격순 정렬 가능 <br> - 카테고리 필터의 원하는 필터만 노출 가능 |
+
+<br>
+
+| 제목         | 상세설명                                                                                                                                  |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 주제         | [상품페이지-상세내역]()                                                                                                                   |
+| 동작 화면    | <img src="./public/assets/md-details.gif"  width="500">                                                                                   |
+| 기능 및 구현 | - 상품 갯수 변동에 따른 가격 변동기능 <br> - 탭바를 클릭 할 경우 원하는 카테고리로 이동<br> - 로그인 하여야만 상품 후기 및 문의 작성 가능 |
+
+<br>
+
+| 제목         | 상세설명                                                                            |
+| ------------ | ----------------------------------------------------------------------------------- |
+| 주제         | [상품페이지-후기 및 문의사항]()                                                     |
+| 동작 화면    | <img src="./public/assets/md-qna.gif"  width="500">                                 |
+| 기능 및 구현 | - 로그인 후 상품 후기 및 문의 작성 가능 <br> - 문의글의 경우 비밀글로 작성 가능<br> |
+
+<br>
+
+| 제목         | 상세설명                                                     |
+| ------------ | ------------------------------------------------------------ |
+| 주제         | [로그인-성공결과창]()                                        |
+| 동작 화면    | <img src="./public/assets/md-loginsuccess.gif"  width="500"> |
+| 기능 및 구현 | - 로그인 성공 후 메인페이지로 이동 결과                      |
+
+<br>
+
+| 제목         | 상세설명                                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| 주제         | [로그인-실패창]()                                                                                                  |
+| 동작 화면    | <img src="./public/assets/md-loginfailed.gif"  width="500">                                                        |
+| 기능 및 구현 | - ID 및 PW 공란이거나 조건미달일 경우 경고문구 안내 <br> - 존재하지 않는 ID 및 PW 오류로 로그인시 실패 경고문 안내 |
+
+<br>
+
+| 제목         | 상세설명                                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------------------------- |
+| 주제         | [장바구니-토탈]()                                                                                             |
+| 동작 화면    | <img src="./public/assets/md-shoppingcart.gif"  width="500">                                                  |
+| 기능 및 구현 | - 장바구니 제품 삭제 및 수량 변경 기능 <br> - 제품 삭제 및 수량 변경에 따른 상품 총 금액 및 결제예정금액 변동 |
