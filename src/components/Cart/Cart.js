@@ -1,5 +1,5 @@
-import { createAriaText } from '@/utils/util.js';
 import '@/components/IncDecComponent/IncDecComponent.js';
+import { createAriaText } from '@/utils/utils.js';
 import '@/components/CheckBox/CheckBox.js';
 import '@/components/Spinner/Spinner.js';
 import resetCss from '@/styles/Reset.js';
