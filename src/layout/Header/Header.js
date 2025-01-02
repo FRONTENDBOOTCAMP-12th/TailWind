@@ -180,16 +180,16 @@ class Header extends LitElement {
 
                         <ul class="gnb-menu">
                             <li>
-                                <a href="">신상품</a>
+                                <a href="/src/pages/ProductList/">신상품</a>
                             </li>
                             <li>
-                                <a href="">베스트</a>
+                                <a href="/src/pages/ProductList/">베스트</a>
                             </li>
                             <li>
-                                <a href="">알뜰쇼핑</a>
+                                <a href="/src/pages/ProductList/">알뜰쇼핑</a>
                             </li>
                             <li>
-                                <a href="">특가/혜택</a>
+                                <a href="/src/pages/ProductList/">특가/혜택</a>
                             </li>
                         </ul>
                         <a href="/" class="delivery-info"><b>샛별·낮</b> 배송안내</a>
@@ -208,16 +208,16 @@ class Header extends LitElement {
 
                         <ul class="gnb-menu">
                             <li>
-                                <a href="">신상품</a>
+                                <a href="/src/pages/ProductList/">신상품</a>
                             </li>
                             <li>
-                                <a href="">베스트</a>
+                                <a href="/src/pages/ProductList/">베스트</a>
                             </li>
                             <li>
-                                <a href="">알뜰쇼핑</a>
+                                <a href="/src/pages/ProductList/">알뜰쇼핑</a>
                             </li>
                             <li>
-                                <a href="">특가/혜택</a>
+                                <a href="/src/pages/ProductList/">특가/혜택</a>
                             </li>
                         </ul>
                         <search-bar classType="sticky"></search-bar>
