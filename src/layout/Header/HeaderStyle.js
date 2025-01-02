@@ -6,6 +6,26 @@ export default css`
         background: var(--white);
         box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
 
+        .header-topbar {
+            font-size: var(--label---small);
+            height: 2.5rem;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            & button {
+                cursor: pointer;
+                position: absolute;
+                right: 300px;
+            }
+        }
+        .hidden {
+            display: none;
+        }
+
         .header-inner {
             margin: 0 auto;
             max-width: 71.875rem;
