@@ -3,7 +3,7 @@ import { css } from 'lit';
 export default css`
     /* 이미지와 버튼을 포함하는 스타일링 */
     body {
-        font-family: 'Pretendard Variable', sans-serif;
+        font-family: 'Pretendard', sans-serif;
     }
 
     /* 줄바꿈 허용을 위한 container설정 */
