@@ -4,20 +4,32 @@
         <title>네이처카트</title>
         <meta charset="UTF-8" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="/src/styles/Main.css" />
-        <link rel="stylesheet" href="/src/styles/Reset.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="태일윈드 네이처카트 메인 페이지입니다." />
+        <!-- 필수 Open Graph 태그 -->
+        <meta property="og:title" content="태일윈드 네이처카트" />
+        <meta property="og:description" content="태일윈드 네이처카트 메인 페이지입니다." />
+        <meta property="og:image" content="https://carly-tailwind.netlify.app/logo.svg" />
+        <meta property="og:url" content="https://carly-tailwind.netlify.app/index.html" />
+        <meta property="og:type" content="website" />
+
+        <!-- 트위터 카드 -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="태일윈드 네이처카트" />
+        <meta name="twitter:description" content="태일윈드 네이처카트 메인 페이지입니다." />
+        <meta name="twitter:image" content="https://carly-tailwind.netlify.app/logo.svg" />
+
+        <link rel="stylesheet" href="/src/styles/Reset.css" />
+        <link rel="stylesheet" href="/src/styles/Main.css" />
         <script type="module" src="/main.js"></script>
-        <script type="module" src="/src/components/PopUp/PopUp.js"></script>
-        <script type="module" src="/src/components/swiper/swiper.js"></script>
         <script type="module" src="/src/components/ProductSwiper/ProductSwiper.js"></script>
         <script type="module" src="/src/components/BannerMiddle/BannerMiddle.js"></script>
+        <script type="module" src="/src/components/swiper/swiper.js"></script>
+        <script type="module" src="/src/components/PopUp/PopUp.js"></script>
     </head>
     <body>
         <c-header></c-header>
         <div id="app"></div>
-
-        <hr />
 
         <pop-up></pop-up>
         <banner-swiper></banner-swiper>

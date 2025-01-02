@@ -1,11 +1,6 @@
 import { css } from 'lit';
 
 export default css`
-    /* 이미지와 버튼을 포함하는 스타일링 */
-    body {
-        font-family: 'Pretendard', sans-serif;
-    }
-
     /* 줄바꿈 허용을 위한 container설정 */
     .product-card-container {
         width: 15rem;
@@ -14,12 +9,11 @@ export default css`
 
     .img-container {
         position: relative;
-        display: inline-block;
+        width: 15.5626rem;
 
         .product-img {
             /* 해당 컴포넌트에 맞는 사이즈로 조정 */
-            width: 15.5625rem;
-            height: 20rem;
+            width: 100%;
         }
 
         /* 카트에 추가하는 버튼 스타일링 */

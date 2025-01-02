@@ -138,7 +138,7 @@ class Header extends LitElement {
                     <div class="header-middle">
                         <h1 class="header-logo">
                             <a href="/">
-                                <img src="/logo.svg" alt="Karly" />
+                                <img src="/logo.webp" alt="네이처카트" />
                             </a>
                         </h1>
                         <ul class="karly-menu">
