@@ -10,6 +10,7 @@ class Header extends LitElement {
         isAuth: { type: Boolean },
         user: { type: Object },
         cartItems: { type: Object },
+        isVisible: { type: Boolean },
     };
 
     static get styles() {
@@ -19,6 +20,7 @@ class Header extends LitElement {
     constructor() {
         super();
         this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?? {};
+        this.isVisible = localStorage.getItem('topbarVisible');
     }
 
     connectedCallback() {
@@ -114,21 +116,34 @@ class Header extends LitElement {
         }
     }
 
+    handleClose() {
+        this.isVisible = true;
+        localStorage.setItem('topbarVisible', this.isVisible);
+    }
+
     render() {
         return html`
             <header class="header default">
+                <div class="header-topbar  ${this.isVisible ? 'hidden' : ''}"">
+                    <p>지금 가입하고 인기상품 100원에 받아가세요!</p>
+                    <button @click="${this.handleClose}">
+                        <img src="/assets/Close.png" alt="닫기" />
+                    </button>
+                </div>
                 <div class="header-inner">
                     <ul class="header-top">
                         <li class="sign-up">
-                            ${!this.isAuth
-                                ? html`<a href="/src/pages/register/index.html">회원가입</a>`
-                                : html`<div class="user-menu" @click="${this.handleCategory}">
-                                      <button>${this.user.name} 님 ▼</button>
-                                      <ul class="user-list">
-                                          <li><button type="button" @click=${this.handleLogout}>로그아웃</button></li>
-                                          <li><button type="button" @click=${this.handleDelete}>회원탈퇴</button></li>
-                                      </ul>
-                                  </div>`}
+                            ${
+                                !this.isAuth
+                                    ? html`<a href="/src/pages/register/index.html">회원가입</a>`
+                                    : html`<div class="user-menu" @click="${this.handleCategory}">
+                                          <button>${this.user.name} 님 ▼</button>
+                                          <ul class="user-list">
+                                              <li><button type="button" @click=${this.handleLogout}>로그아웃</button></li>
+                                              <li><button type="button" @click=${this.handleDelete}>회원탈퇴</button></li>
+                                          </ul>
+                                      </div>`
+                            }
                         </li>
                         <li>${!this.isAuth ? html` <a href="/src/pages/login/index.html">로그인</a>` : html`<span>환영합니다 !</span>`}</li>
                         <li class="customer">

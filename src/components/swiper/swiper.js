@@ -20,9 +20,9 @@ class BannerSwiper extends LitElement {
             >
                 <swiper-slide><img class="banner-img" src="/assets/main-banner-1.webp" alt="이 주의 특가 한 눈에 보기" /></swiper-slide>
 
-                <swiper-slide
-                    ><img class="banner-img" src="/assets/main-banner-2.webp" alt="특가부터 인기 브랜드까지 최대 77% 할인 + 쿠폰팩"
-                /></swiper-slide>
+                <swiper-slide>
+                    <img class="banner-img" src="/assets/main-banner-2.webp" alt="특가부터 인기 브랜드까지 최대 77% 할인 + 쿠폰팩" />
+                </swiper-slide>
             </swiper-container>
         `;
     }
