@@ -26,6 +26,7 @@ export default css`
         }
 
         .error-message {
+            padding-top: 0.25rem;
             height: 1.5rem;
             display: flex;
             align-items: center;
