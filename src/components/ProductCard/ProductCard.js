@@ -41,7 +41,7 @@ class ProductCard extends LitElement {
                 <div class="img-container">
                     <img
                         src="${fileUrl + this.idx['id'] + '/' + this.idx['main_image']}"
-                        alt="${this.idx['name']} 이미지"
+                        alt="${createAriaText(this.idx['name'])} 이미지"
                         class="product-img"
                         @click=${this.handleClick}
                     />

@@ -1,3 +1,4 @@
+import createAriaText from '@/components/AriaText/AriaText.js';
 import '@/components/IncDecComponent/IncDecComponent.js';
 import '@/components/CheckBox/CheckBox.js';
 import '@/components/Spinner/Spinner.js';
@@ -346,7 +347,8 @@ class Cart extends LitElement {
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
@@ -397,7 +399,8 @@ class Cart extends LitElement {
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
@@ -446,7 +449,8 @@ class Cart extends LitElement {
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
                                                           alt=""
                                                       />
-                                                      <span class="cart-product-title">${idx['name']}</span>
+                                                      <span class="cart-product-title" aria-hidden="true">${idx['name']}</span>
+                                                      <p class="sr-only">${createAriaText(idx['name'])}</p>
                                                       <inc-dec-btn
                                                           .itemQuantity=${this.cartItems[idx['id']]}
                                                           @quantity-change=${this.storeCartItems}
