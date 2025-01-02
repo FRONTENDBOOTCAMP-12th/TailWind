@@ -84,4 +84,50 @@ export default css`
             right: -1rem;
         }
     }
+
+    .skeleton-container {
+        width: 65.625rem;
+        margin-inline: auto;
+        margin-top: 1.75rem;
+        margin-bottom: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+
+        .skeleton-item {
+            animation: skeleton-loading 1s infinite alternate;
+
+            .skeleton-image {
+                width: 100%;
+                height: 18rem;
+                background-color: var(--gray--100);
+                border-radius: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .skeleton-text {
+                height: 1rem;
+                background-color: var(--gray--100);
+                border-radius: 0.25rem;
+                margin-bottom: 0.5rem;
+                width: 80%;
+            }
+
+            .skeleton-price {
+                height: 1.25rem;
+                background-color: var(--gray--100);
+                border-radius: 0.25rem;
+                width: 60%;
+            }
+        }
+    }
+
+    @keyframes skeleton-loading {
+        from {
+            opacity: 0.7;
+        }
+        to {
+            opacity: 0.3;
+        }
+    }
 `;
