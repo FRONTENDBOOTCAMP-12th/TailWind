@@ -27,6 +27,7 @@ class ProductCard extends LitElement {
     // 모달을 열고 닫는 이벤트함수
     handleOpenCartModal() {
         this.isModalOpen = true;
+        console.log(console.log(this.idx));
     }
 
     closeModal(e) {
@@ -94,8 +95,8 @@ class ProductCard extends LitElement {
 
                     <!-- 각각의 요소들이 true인 상태일때만 보이게 설정 -->
                     <div class="product-tag">
-                        <span ?hidden=${this.idx['karlyOnly']}>NatureKart Only</span>
-                        <span ?hidden=${this.idx['limitedQuantity']}>한정 수량</span>
+                        <span ?hidden=${!this.idx['NatureKartOnly']}>NatureKart Only</span>
+                        <span ?hidden=${!this.idx['limitedQuantity']}>한정 수량</span>
                     </div>
                 </a>
             </section>

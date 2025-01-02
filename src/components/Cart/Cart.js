@@ -340,7 +340,8 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideChilled}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
@@ -392,7 +393,8 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideFrozen}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
@@ -442,7 +444,8 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideTemperature}
-                                                      ></c-checkbox>
+                                                          ><p class="sr-only">품목 선택 및 해제</p></c-checkbox
+                                                      >
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
