@@ -1,5 +1,6 @@
 import '@/components/IncDecComponent/IncDecComponent.js';
 import '@/components/CheckBox/CheckBox.js';
+import '@/components/Spinner/Spinner.js';
 import resetCss from '@/styles/Reset.js';
 import { pb } from '@/api/PocketHost.js';
 import '@/components/Button/Button.js';
@@ -7,7 +8,6 @@ import cartStyle from './CartStyle.js';
 import { LitElement, html } from 'lit';
 import Swal from 'sweetalert2';
 import { gsap } from 'gsap';
-import '@/components/Spinner/Spinner.js';
 
 // 이후 컴포넌트 분리를 위한 외부로 보내는 객체(모든 품목의 체크 상태를 저장)
 const itemCounter = {};
@@ -236,7 +236,7 @@ class Cart extends LitElement {
                 cancelButtonText: '취소하기',
                 confirmButtonColor: 'var(--primary)',
                 cancelButtonColor: 'var(--gray--500)',
-                imageUrl: `/public/logo.svg`,
+                imageUrl: `/logo.svg`,
                 imageHeight: 200,
                 imageWidth: 200,
             }).then(async (result) => {
@@ -283,6 +283,10 @@ class Cart extends LitElement {
         }
     }
 
+    openAddAddress() {
+        window.open('/src/pages/AddAddress/index.html', 'delivery-popup', 'width=550,height=550,left=200,top=200, scrollbar=yes', false);
+    }
+
     render() {
         // 데이터 불러오는 중 스피너 렌더링
         if (this.loading) {
@@ -315,12 +319,12 @@ class Cart extends LitElement {
                             <li class="chilled-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/chilled.svg" />
+                                        <img src="/assets/chilled.svg" alt="" />
                                         <span class="category-text">냉장 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideChilled}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideChilled} />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!-- 아까 분류했던 냉장 식품을 불러와 렌더링 -->
@@ -335,12 +339,12 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideChilled}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -356,7 +360,7 @@ class Cart extends LitElement {
                                                       >
                                                       <!-- 품목 삭제 버튼 -->
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>
                                               `
@@ -367,12 +371,12 @@ class Cart extends LitElement {
                             <li class="frozen-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/frozen.svg" />
+                                        <img src="/assets/frozen.svg" alt="" />
                                         <span class="category-text">냉동 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideFrozen}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideFrozen} />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 냉동 타입 렌더링-->
@@ -386,12 +390,12 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideFrozen}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -406,7 +410,7 @@ class Cart extends LitElement {
                                                           ).toLocaleString()}원</span
                                                       >
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>`
                                           )
@@ -416,12 +420,12 @@ class Cart extends LitElement {
                             <li class="temperature-container">
                                 <div class="category-bar">
                                     <div class="food-category-container">
-                                        <img src="/assets/temperature.svg" />
+                                        <img src="/assets/temperature.svg" alt="" />
                                         <span class="category-text">상온 식품</span>
                                     </div>
-                                    <button class="dropdown-btn" type="button">
+                                    <button class="dropdown-btn" type="button" @click=${this.handleShowHideTemperautre}>
                                         <!-- 품목 숨김 버튼 -->
-                                        <img src="/assets/dropdown-arrow.svg" @click=${this.handleShowHideTemperautre} />
+                                        <img src="/assets/dropdown-arrow.svg" alt="품목 숨기기" />
                                     </button>
                                 </div>
                                 <!--분류해뒀던 상온 타입 렌더링-->
@@ -435,12 +439,12 @@ class Cart extends LitElement {
                                                           ?checked=${itemCounter[idx['id']]}
                                                           @checkbox-change=${this.handleChangeCount}
                                                           ?hidden=${this.hideTemperature}
-                                                          >ff</c-checkbox
-                                                      >
+                                                      ></c-checkbox>
                                                       <!-- 이미지는 다음과 같이 불러와야함-->
                                                       <img
                                                           class="cart-product-image"
                                                           src="${import.meta.env.VITE_API_URL}/api/files/product/${idx['id']}/${idx['main_image']}"
+                                                          alt=""
                                                       />
                                                       <span class="cart-product-title">${idx['name']}</span>
                                                       <inc-dec-btn
@@ -455,7 +459,7 @@ class Cart extends LitElement {
                                                           ).toLocaleString()}원</span
                                                       >
                                                       <button class="product-delete-btn" type="button" @click=${this.deleteList}>
-                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" />
+                                                          <img class="cart-product-delete" src="/assets/product-cancel.svg" alt="품목 삭제하기" />
                                                       </button>
                                                   </div>`
                                           )
@@ -481,12 +485,19 @@ class Cart extends LitElement {
                         <div class="purchase-container">
                             <section class="purchase-address">
                                 <h2 class="address-title">
-                                    <img src="/assets/place-pin.svg" />
+                                    <img src="/assets/place-pin.svg" alt="" />
                                     <span>배송지</span>
                                 </h2>
                                 <p class="address-info">${this.user.user.address ?? ''}</p>
                                 <p class="delivery-text">샛별배송</p>
-                                <c-button type="button" mode="outline" size="btn-sm">배송지 변경</c-button>
+                                <c-button
+                                    type="button"
+                                    mode="outline"
+                                    size="btn-sm"
+                                    @click=${this.openAddAddress}
+                                    ?hidden=${localStorage.getItem('auth') ? false : true}
+                                    >배송지 변경</c-button
+                                >
                             </section>
                             <div class="purchase-price">
                                 <div class="purchase-price-detail">

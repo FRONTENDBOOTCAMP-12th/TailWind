@@ -275,6 +275,7 @@ class Register extends LitElement {
                         <c-label required>비밀번호</c-label>
                         <c-input
                             placeholder="비밀번호를 입력해주세요"
+                            inputType="password"
                             classType="register"
                             id="pwField"
                             @input="${this.handleInput}"
@@ -287,6 +288,7 @@ class Register extends LitElement {
                         <c-label required>비밀번호 확인</c-label>
                         <c-input
                             placeholder="비밀번호를 한번 더 입력해주세요"
+                            inputType="password"
                             classType="register"
                             id="pwCheckField"
                             @input="${this.handlePwCheck}"
@@ -389,8 +391,7 @@ class Register extends LitElement {
                         >
                     </div>
                 </div>
-
-                <c-button type="submit" mode="fill" size="btn-md" @click=${this.handleRegister}>가입하기</c-button>
+                <c-button type="submit" mode="fill" size="btn-md" @click=${this.handleRegister} class="register-button">가입하기</c-button>
             </div>
         `;
     }

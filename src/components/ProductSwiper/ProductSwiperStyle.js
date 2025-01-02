@@ -9,9 +9,7 @@ export default css`
     }
 
     swiper-container {
-        width: 65vw;
-        margin-top: 1.75rem;
-        margin-bottom: 2.5rem;
+        width: 100%;
     }
 
     swiper-slide {
@@ -50,11 +48,15 @@ export default css`
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 65.625rem;
+        margin-top: 1.75rem;
+        margin-bottom: 2.5rem;
+        margin-inline: auto;
 
         .prev-btn,
         .next-btn {
             position: absolute;
-            top: 12rem;
+            top: 8rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -75,11 +77,11 @@ export default css`
 
         .prev-btn {
             display: none;
-            left: 15vw;
+            left: -2rem;
         }
 
         .next-btn {
-            right: 16.5vw;
+            right: -1rem;
         }
     }
 `;
