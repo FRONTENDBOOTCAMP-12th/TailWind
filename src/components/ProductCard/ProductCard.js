@@ -59,12 +59,14 @@ class ProductCard extends LitElement {
                     ${!this.imageLoaded
                         ? html`<div class="image-skeleton"></div>`
                         : html`
-                              <img
-                                  src="${fileUrl + this.idx['id'] + '/' + this.idx['main_image']}"
-                                  alt="${createAriaText(this.idx['name'])} 이미지"
-                                  class="product-img"
-                                  @click=${this.handleClick}
-                              />
+                              <a href="/src/pages/ProductDetail/index.html?id=${this.idx['id']}" class="product-detail-link">
+                                  <img
+                                      src="${fileUrl + this.idx['id'] + '/' + this.idx['main_image']}"
+                                      alt="${createAriaText(this.idx['name'])} 이미지"
+                                      class="product-img"
+                                      @click=${this.handleClick}
+                                  />
+                              </a>
                               <!-- 모달 오픈을 위한 버튼 -->
                               <button
                                   type="button"

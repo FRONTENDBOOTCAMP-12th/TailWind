@@ -22,10 +22,19 @@ export default css`
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
-
-        .product-img {
-            /* 해당 컴포넌트에 맞는 사이즈로 조정 */
+        .product-detail-link {
             width: 100%;
+            overflow: hidden;
+            display: block;
+
+            .product-img {
+                /* 해당 컴포넌트에 맞는 사이즈로 조정 */
+                width: 100%;
+                transition: all 0.2s linear;
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
         }
 
         /* 카트에 추가하는 버튼 스타일링 */

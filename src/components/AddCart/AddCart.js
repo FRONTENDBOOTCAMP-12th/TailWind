@@ -66,7 +66,7 @@ class AddCart extends LitElement {
             <div class="add-cart  ${this.isModalOpen ? 'visible' : ''}">
                 <div class="add-cart-container">
                     <section>
-                        <h2 class="item-title">${this.idx['name']}</h2>
+                        <h3 class="item-title">${this.idx['name']}</h3>
                         <div class="total-price-container">
                             <!-- 할인된 가격을 계산 -->
                             <span class="item-price"
@@ -78,7 +78,7 @@ class AddCart extends LitElement {
                     </section>
                     <section>
                         <div class="sum-container">
-                            <h1 class="sum">합계</h1>
+                            <h4 class="sum">합계</h4>
                             <!-- 제품 수량 * 제품 가격을 표시 -->
                             <div class="total-price">
                                 <!-- 수량에 대한 가격을 계산 -->
@@ -90,7 +90,11 @@ class AddCart extends LitElement {
                         </div>
                         <div class="saving-container">
                             <span class="saving">적립</span>
-                            <span class="saving-info">구매시 5원 적립</span>
+                            <span class="saving-info"
+                                >구매시
+                                ${Math.floor((this.idx['price'] - this.idx['price'] * this.idx['discount'] * 0.01) * this.itemQuantity * 0.001)}원
+                                적립</span
+                            >
                         </div>
                     </section>
                     <div class="add-confirm-container">
