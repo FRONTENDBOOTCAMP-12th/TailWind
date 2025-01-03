@@ -266,7 +266,7 @@ class Header extends LitElement {
                                 </a>
                             </li>
                             <li>
-                                <a href="/">
+                                <a href="/src/pages/cart/index.html">
                                     <picture>
                                         <source srcset="/assets/ico-header-cart1x.webp 1x, /assets/ico-header-cart2x.webp 2x" />
                                         <img src="/assets/ico-header-cart.png" alt="장바구니" />
